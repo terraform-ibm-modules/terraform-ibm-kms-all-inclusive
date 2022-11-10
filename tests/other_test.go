@@ -8,7 +8,6 @@ import (
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testhelper"
 )
 
-// Resource groups are maintained https://github.ibm.com/GoldenEye/ge-dev-account-management
 const resourceGroup = "geretain-test-key-protect-all-inclusive"
 const existingResourcesExampleTerraformDir = "examples/existing-resources"
 
