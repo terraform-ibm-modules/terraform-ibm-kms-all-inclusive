@@ -35,8 +35,28 @@
       "default": {},
       "pos": {
         "filename": "variables.tf",
-        "line": 49
+        "line": 79
       }
+    },
+    "key_endpoint_type": {
+      "name": "key_endpoint_type",
+      "type": "string",
+      "description": "The type of endpoint to be used for keys, accepts 'public' or 'private'",
+      "default": "public",
+      "source": [
+        "module.existing_key_ring_keys.ibm_kms_key.key.endpoint_type",
+        "module.existing_key_ring_keys.ibm_kms_key_policies.root_key_policy.endpoint_type",
+        "module.existing_key_ring_keys.ibm_kms_key_policies.standard_key_policy.endpoint_type",
+        "module.key_protect_keys.ibm_kms_key.key.endpoint_type",
+        "module.key_protect_keys.ibm_kms_key_policies.root_key_policy.endpoint_type",
+        "module.key_protect_keys.ibm_kms_key_policies.standard_key_policy.endpoint_type"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 69
+      },
+      "immutable": true,
+      "computed": true
     },
     "key_map": {
       "name": "key_map",
@@ -48,8 +68,22 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 44
+        "line": 64
       }
+    },
+    "key_protect_endpoint_type": {
+      "name": "key_protect_endpoint_type",
+      "type": "string",
+      "description": "The type of endpoint to be used, if creating instances for keys and key rings, accepts 'public' or 'private'",
+      "default": "public-and-private",
+      "source": [
+        "module.key_protect.ibm_resource_instance.key_protect_instance.service_endpoints"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 38
+      },
+      "computed": true
     },
     "key_protect_instance_name": {
       "name": "key_protect_instance_name",
@@ -64,6 +98,21 @@
         "filename": "variables.tf",
         "line": 26
       }
+    },
+    "key_ring_endpoint_type": {
+      "name": "key_ring_endpoint_type",
+      "type": "string",
+      "description": "The type of endpoint to be used, if creating instances for key rings, accepts 'public' or 'private'",
+      "default": "public",
+      "source": [
+        "module.key_protect_key_rings.ibm_kms_key_rings.key_ring.endpoint_type"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 54
+      },
+      "immutable": true,
+      "computed": true
     },
     "prefix": {
       "name": "prefix",
@@ -127,7 +176,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 55
+        "line": 85
       },
       "min_length": 1,
       "max_length": 128,
@@ -147,7 +196,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 38
+        "line": 48
       }
     }
   },
@@ -220,7 +269,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 39
+        "line": 41
       }
     },
     "data.ibm_resource_instance.existing_key_protect": {
@@ -238,7 +287,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 20
+        "line": 21
       }
     }
   },
@@ -246,6 +295,9 @@
     "existing_key_ring_keys": {
       "name": "existing_key_ring_keys",
       "source": "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key.git?ref=v1.0.0",
+      "attributes": {
+        "endpoint_type": "key_endpoint_type"
+      },
       "managed_resources": {
         "ibm_kms_key.key": {
           "mode": "managed",
@@ -344,7 +396,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 87
+        "line": 90
       }
     },
     "key_protect": {
@@ -356,6 +408,7 @@
         "metrics_enabled": "enable_metrics",
         "region": "region",
         "resource_group_id": "resource_group_id",
+        "service_endpoints": "key_protect_endpoint_type",
         "tags": "resource_tags"
       },
       "managed_resources": {
@@ -422,6 +475,7 @@
       "name": "key_protect_key_rings",
       "source": "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key-ring.git?ref=v1.0.0",
       "attributes": {
+        "endpoint_type": "key_ring_endpoint_type",
         "for_each": "key_map"
       },
       "managed_resources": {
@@ -458,12 +512,15 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 32
+        "line": 33
       }
     },
     "key_protect_keys": {
       "name": "key_protect_keys",
       "source": "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key.git?ref=v1.0.0",
+      "attributes": {
+        "endpoint_type": "key_endpoint_type"
+      },
       "managed_resources": {
         "ibm_kms_key.key": {
           "mode": "managed",
@@ -562,7 +619,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 73
+        "line": 75
       }
     }
   }
