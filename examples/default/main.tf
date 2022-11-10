@@ -3,18 +3,23 @@
 ##############################################################################
 
 module "resource_group" {
-  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-resource-group.git?ref=v1.0.1"
+  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-resource-group.git?ref=v1.0.2"
   # if an existing resource group is not set (null) create a new one using prefix
   resource_group_name          = var.resource_group == null ? "${var.prefix}-resource-group" : null
   existing_resource_group_name = var.resource_group
 }
 
 ##############################################################################
-# VPC
+# Key Protect All Inclusive
 ##############################################################################
 
-resource "ibm_is_vpc" "vpc" {
-  name           = "${var.prefix}-vpc"
-  resource_group = module.resource_group.resource_group_id
-  tags           = var.resource_tags
+module "key_protect_all_inclusive" {
+  source            = "../.."
+  resource_group_id = module.resource_group.resource_group_id
+  region            = var.region
+  prefix            = var.prefix
+  resource_tags     = var.resource_tags
+  # Following topology groups all root keys related to a given service type (eg: ocp, cos) in the same key ring.
+  # This facilitates access assignment, which meeting least privilege controls
+  key_map = { "ocp" = ["ocp-cluster-1"], "cos" = ["cos-bucket-1"] }
 }

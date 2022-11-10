@@ -1,3 +1,7 @@
-# Example that uses existing resources
+# Existing resources example
 
-<!-- Add an example that shows how to pass existing resources as variables to support local testing (not for use with tests).  -->
+An example using the default Key Ring to test using existing resources.
+This example uses the IBM Cloud terraform provider to:
+ - Create a new resource group if one is not passed in.
+ - Create a Key Protect instance
+ - Create a Key Protect Key in the Default Key Ring

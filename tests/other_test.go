@@ -1,4 +1,4 @@
-// Tests in this file are NOT run in the PR pipeline. They are run in the continuous testing pipeline along with the ones in pr_test.go
+// Tests in this file are run in the PR pipeline
 package test
 
 import (
@@ -8,15 +8,17 @@ import (
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testhelper"
 )
 
-const nonDefaultExampleTerraformDir = "examples/non-default"
+// Resource groups are maintained https://github.ibm.com/GoldenEye/ge-dev-account-management
+const resourceGroup = "geretain-test-key-protect-all-inclusive"
+const existingResourcesExampleTerraformDir = "examples/existing-resources"
 
-func TestRunNonDefaultExample(t *testing.T) {
+func TestRunExistingExample(t *testing.T) {
 	t.Parallel()
 
 	options := testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
 		Testing:       t,
-		TerraformDir:  nonDefaultExampleTerraformDir,
-		Prefix:        "non-default-tmp",
+		TerraformDir:  existingResourcesExampleTerraformDir,
+		Prefix:        "exist-kp-all-inc",
 		ResourceGroup: resourceGroup,
 	})
 
