@@ -1,7 +1,7 @@
 <!-- BEGIN MODULE HOOK -->
 
 <!-- Update the title to match the module name and add a description -->
-# Terraform Modules Template Project
+# Terraform IBM Key Protect All Inclusive Module
 <!-- UPDATE BADGE: Update the link for the following badge-->
 [![Stable (With quality checks)](https://img.shields.io/badge/Status-Stable%20(With%20quality%20checks)-green?style=plastic)](https://terraform-ibm-modules.github.io/documentation/#/badge-status)
 [![Build status](https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive/actions/workflows/ci.yml/badge.svg)](https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive/actions/workflows/ci.yml)
@@ -9,32 +9,13 @@
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 [![latest release](https://img.shields.io/github/v/release/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive?logo=GitHub&sort=semver)](https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive/releases/latest)
 
-This module 'glues' the different modules pertaining to Key Protect to create a full end-to-end key infrastructure. The following modules are used:
+This module combines the following Key Protect modules to create a full end-to-end key infrastructure:
 - [Key Protect Instance Module](https://github.com/terraform-ibm-modules/terraform-ibm-key-protect)
 - [Key Module](https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key)
 - [Key Ring Module](https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key-ring)
 
-This module takes a map `key_map` allowing to 'easily' create hierarchical key topology as follows, in a given Key Protect instance:
-
-```
-├── key-ring-1
-│   ├── root-key-1
-│   ├── root-key-2
-│   ├── root-key-...
-├── key-ring-2
-│   ├── root-key-3
-│   ├── root-key-4
-│   ├── root-key-...
-```
-
-## Design intent
-
-The intent is to facilitate creating key topologies grouping root keys per service type through the use of [key rings](https://cloud.ibm.com/docs/key-protect?topic=key-protect-grouping-keys).
-
-Given that access is managed at the key ring level in Key Protect, this enables meeting least-privilege controls (NIST AC-6) while reducing the number of access groups to assign. Note that in the current version of this module, access controls are not assigned to key rings.
-
-Example of typical topology per key protect instance:
-
+The module takes a map, called `key_map`, that supports hierarchical "key rings" for a single Key Protect instance. Because access to key rings is managed in Key Protect, you can comply with controls around least privilege (for example, [NIST AC-6](https://csrc.nist.gov/Projects/risk-management/sp800-53-controls/release-search#/control?version=4.0&number=AC-6)) and can reduce the number of access groups you need to assign. For more information about key rings, see [Grouping keys together using key rings](https://cloud.ibm.com/docs/key-protect?topic=key-protect-grouping-keys).
+The following example shows a typical topology for a Key Protect instance:
 ```
 ├── cos-key-ring
 │   ├── root-key-cos-bucket-1
@@ -46,23 +27,16 @@ Example of typical topology per key protect instance:
 │   ├── root-key-ocp-cluster-...
 ```
 
-with the strings `cos-bucket` and `ocp-cluster` being the cos/ocp cluster ids.
-
-
 ## Multiple Key Protect instances, and potential future directions for this module
+The strings `cos-bucket` and `ocp-cluster` are the cluster IDs for Cloud Object Storage and for the OpenShift Container Platform.
 
-As described above, this module creates or take one existing key protect instance, and creates the described key topology in that instance.
+The module supports only a single Key Protect instance and creates the key topology in that instance. It doesn't create multiple Key Protect instances. However, in a typical production environment, services might need multiple Key Protect instances for compliance reasons.
 
-This module does NOT create multiple key protect instances. This may be a future addition depending on consumer needs.
+For example, you might need isolation between regulatory boundaries (for example, between FedRamp and everything else). Or you might be required to isolate keys that are used by a service's control plane from the data plane (for example, with IBM Cloud Databases (ICD) services).
 
-However, note that in a typical production environment, services would typically need multiple key protect instance to achieve required isolation:
-- At minimum, isolation between regulatory boundaries (eg: FedRamp, Rest of World)
-- Isolation between keys used by service's control plane, and service's data plane (ICD services)
+To achieve compliance, you can write logic to call the module multiple times to create multiple Key Protect instances (for example, in your scaffolding).
 
-In the current version of the module, it is expected that the consumer would write logic (eg: in their scaffold) that invoke this module multiple times to create the corresponding key protect instances.
-
-One simple pattern that is emerging, is to create one key protect instance per VPC. All workload in the VPC access the key protect instance via a VPE binding. This simple approach ensures there is actual network segmentation. A drawback is that this approach creates more key protect instances that necessary in some case.
-
+One emerging pattern is to create one Key Protect instance per VPC. All workloads in the VPC access the Key Protect instance through a VPE binding. This simple approach ensures network segmentation. A drawback is that this approach creates more Key Protect instances than necessary, in some case.
 
 
 ## Usage
