@@ -1,12 +1,626 @@
 {
   "path": ".",
-  "variables": {},
-  "outputs": {},
+  "variables": {
+    "create_key_protect_instance": {
+      "name": "create_key_protect_instance",
+      "type": "bool",
+      "description": "A flag to control whether a Key Protect instance is created, defaults to true.",
+      "default": true,
+      "source": [
+        "data.ibm_resource_instance.existing_key_protect.count",
+        "module.key_protect"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 32
+      }
+    },
+    "enable_metrics": {
+      "name": "enable_metrics",
+      "type": "bool",
+      "description": "Set as true to enable metrics on the Key Protect instance.",
+      "default": true,
+      "source": [
+        "module.key_protect.restapi_object.enable_metrics.count"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 20
+      }
+    },
+    "existing_key_map": {
+      "name": "existing_key_map",
+      "type": "map(list(string))",
+      "description": "A Map containing existing Key Ring names as the keys of the map and a list of desired Key Protect Key names as the values for each existing Key Ring, these keys will only be created if `create_key_protect_instance' is false.",
+      "default": {},
+      "pos": {
+        "filename": "variables.tf",
+        "line": 79
+      }
+    },
+    "key_endpoint_type": {
+      "name": "key_endpoint_type",
+      "type": "string",
+      "description": "The type of endpoint to be used for keys, accepts 'public' or 'private'",
+      "default": "public",
+      "source": [
+        "module.existing_key_ring_keys.ibm_kms_key.key.endpoint_type",
+        "module.existing_key_ring_keys.ibm_kms_key_policies.root_key_policy.endpoint_type",
+        "module.existing_key_ring_keys.ibm_kms_key_policies.standard_key_policy.endpoint_type",
+        "module.key_protect_keys.ibm_kms_key.key.endpoint_type",
+        "module.key_protect_keys.ibm_kms_key_policies.root_key_policy.endpoint_type",
+        "module.key_protect_keys.ibm_kms_key_policies.standard_key_policy.endpoint_type"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 69
+      },
+      "immutable": true,
+      "computed": true
+    },
+    "key_map": {
+      "name": "key_map",
+      "type": "map(list(string))",
+      "description": "A Map containing the desired Key Ring Names as the keys of the map and a list of desired Key Protect Key names as the values for each Key Ring.",
+      "required": true,
+      "source": [
+        "module.key_protect_key_rings"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 64
+      }
+    },
+    "key_protect_endpoint_type": {
+      "name": "key_protect_endpoint_type",
+      "type": "string",
+      "description": "The type of endpoint to be used, if creating instances for keys and key rings, accepts 'public' or 'private'",
+      "default": "public-and-private",
+      "source": [
+        "module.key_protect.ibm_resource_instance.key_protect_instance.service_endpoints"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 38
+      },
+      "computed": true
+    },
+    "key_protect_instance_name": {
+      "name": "key_protect_instance_name",
+      "type": "string",
+      "description": "The name of the existing Key Protect instance, if 'create_key_protect_instance' is true a new instance will be created with this name.",
+      "required": true,
+      "source": [
+        "data.ibm_resource_instance.existing_key_protect.name",
+        "module.key_protect.ibm_resource_instance.key_protect_instance.name"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 26
+      }
+    },
+    "key_ring_endpoint_type": {
+      "name": "key_ring_endpoint_type",
+      "type": "string",
+      "description": "The type of endpoint to be used, if creating instances for key rings, accepts 'public' or 'private'",
+      "default": "public",
+      "source": [
+        "module.key_protect_key_rings.ibm_kms_key_rings.key_ring.endpoint_type"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 54
+      },
+      "immutable": true,
+      "computed": true
+    },
+    "prefix": {
+      "name": "prefix",
+      "type": "string",
+      "description": "The prefix to use for naming all of the provisioned resources.",
+      "required": true,
+      "pos": {
+        "filename": "variables.tf",
+        "line": 15
+      }
+    },
+    "region": {
+      "name": "region",
+      "type": "string",
+      "description": "The IBM Cloud region where all resources will be provisioned.",
+      "required": true,
+      "source": [
+        "data.ibm_resource_instance.existing_key_protect.location",
+        "module.key_protect.ibm_resource_instance.key_protect_instance.location",
+        "module.key_protect.restapi_object.enable_metrics.create_path",
+        "module.key_protect.restapi_object.enable_metrics.destroy_path",
+        "module.key_protect.restapi_object.enable_metrics.path",
+        "module.key_protect.restapi_object.enable_metrics.read_path",
+        "module.key_protect.restapi_object.enable_metrics.update_path"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 10
+      },
+      "cloud_data_type": "region",
+      "immutable": true,
+      "computed": true
+    },
+    "resource_group_id": {
+      "name": "resource_group_id",
+      "type": "string",
+      "description": "The name of the Resource Group to provision all resources in.",
+      "required": true,
+      "source": [
+        "data.ibm_resource_instance.existing_key_protect.resource_group_id",
+        "module.key_protect.ibm_resource_instance.key_protect_instance.resource_group_id"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 5
+      },
+      "cloud_data_type": "resource_group",
+      "immutable": true,
+      "computed": true,
+      "cloud_data_range": [
+        "resolved_to:id"
+      ]
+    },
+    "resource_tags": {
+      "name": "resource_tags",
+      "type": "list(string)",
+      "description": "Optional list of tags to be added to created resources.",
+      "default": [],
+      "source": [
+        "module.key_protect.ibm_resource_instance.key_protect_instance.tags"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 85
+      },
+      "min_length": 1,
+      "max_length": 128,
+      "matches": "^[A-Za-z0-9:_ .-]+$",
+      "computed": true,
+      "elem": {
+        "type": "TypeString"
+      }
+    },
+    "use_existing_key_rings": {
+      "name": "use_existing_key_rings",
+      "type": "bool",
+      "description": "A flag to control whether the 'existing_key_map' variable is used, defaults to false.",
+      "default": false,
+      "source": [
+        "data.ibm_kms_key_rings.existing_key_rings.count"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 48
+      }
+    }
+  },
+  "outputs": {
+    "existing_key_ring_keys": {
+      "name": "existing_key_ring_keys",
+      "description": "IDs of Keys created by the module in existing Key Rings",
+      "value": "module.existing_key_ring_keys",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 24
+      }
+    },
+    "key_protect_guid": {
+      "name": "key_protect_guid",
+      "description": "Key Protect GUID",
+      "value": "local.key_protect_guid",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 5
+      }
+    },
+    "key_rings": {
+      "name": "key_rings",
+      "description": "IDs of Key Rings created by the module",
+      "value": "module.key_protect_key_rings",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 12
+      }
+    },
+    "keys": {
+      "name": "keys",
+      "description": "IDs of Keys created by the module",
+      "value": "module.key_protect_keys",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 19
+      }
+    }
+  },
   "required_core": [
     "\u003e= 1.0.0"
   ],
-  "required_providers": {},
+  "required_providers": {
+    "ibm": {
+      "source": "IBM-Cloud/ibm",
+      "version_constraints": [
+        "\u003e= 1.45.0"
+      ]
+    },
+    "restapi": {
+      "source": "Mastercard/restapi",
+      "version_constraints": [
+        "\u003e= 1.17.0"
+      ]
+    }
+  },
   "managed_resources": {},
-  "data_resources": {},
-  "module_calls": {}
+  "data_resources": {
+    "data.ibm_kms_key_rings.existing_key_rings": {
+      "mode": "data",
+      "type": "ibm_kms_key_rings",
+      "name": "existing_key_rings",
+      "attributes": {
+        "count": "use_existing_key_rings"
+      },
+      "provider": {
+        "name": "ibm"
+      },
+      "pos": {
+        "filename": "main.tf",
+        "line": 41
+      }
+    },
+    "data.ibm_resource_instance.existing_key_protect": {
+      "mode": "data",
+      "type": "ibm_resource_instance",
+      "name": "existing_key_protect",
+      "attributes": {
+        "count": "create_key_protect_instance",
+        "location": "region",
+        "name": "key_protect_instance_name",
+        "resource_group_id": "resource_group_id"
+      },
+      "provider": {
+        "name": "ibm"
+      },
+      "pos": {
+        "filename": "main.tf",
+        "line": 21
+      }
+    }
+  },
+  "module_calls": {
+    "existing_key_ring_keys": {
+      "name": "existing_key_ring_keys",
+      "source": "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key.git?ref=v1.0.0",
+      "attributes": {
+        "endpoint_type": "key_endpoint_type"
+      },
+      "managed_resources": {
+        "ibm_kms_key.key": {
+          "mode": "managed",
+          "type": "ibm_kms_key",
+          "name": "key",
+          "attributes": {
+            "endpoint_type": "endpoint_type",
+            "force_delete": "force_delete",
+            "instance_id": "key_protect_instance_id",
+            "key_name": "key_name",
+            "key_ring_id": "key_protect_key_ring_id",
+            "standard_key": "standard_key"
+          },
+          "provider": {
+            "name": "ibm"
+          },
+          "pos": {
+            "filename": ".terraform/modules/existing_key_ring_keys/main.tf",
+            "line": 5
+          }
+        },
+        "ibm_kms_key_policies.root_key_policy": {
+          "mode": "managed",
+          "type": "ibm_kms_key_policies",
+          "name": "root_key_policy",
+          "attributes": {
+            "count": "standard_key",
+            "endpoint_type": "endpoint_type",
+            "instance_id": "key_protect_instance_id"
+          },
+          "provider": {
+            "name": "ibm"
+          },
+          "pos": {
+            "filename": ".terraform/modules/existing_key_ring_keys/main.tf",
+            "line": 14
+          }
+        },
+        "ibm_kms_key_policies.standard_key_policy": {
+          "mode": "managed",
+          "type": "ibm_kms_key_policies",
+          "name": "standard_key_policy",
+          "attributes": {
+            "count": "standard_key",
+            "endpoint_type": "endpoint_type",
+            "instance_id": "key_protect_instance_id"
+          },
+          "provider": {
+            "name": "ibm"
+          },
+          "pos": {
+            "filename": ".terraform/modules/existing_key_ring_keys/main.tf",
+            "line": 27
+          }
+        }
+      },
+      "data_resources": {},
+      "outputs": {
+        "crn": {
+          "name": "crn",
+          "description": "Key CRN",
+          "value": "ibm_kms_key.key.crn",
+          "pos": {
+            "filename": ".terraform/modules/existing_key_ring_keys/outputs.tf",
+            "line": 10
+          },
+          "type": "TypeString",
+          "cloud_data_type": "crn"
+        },
+        "dual_auth_delete": {
+          "name": "dual_auth_delete",
+          "description": "Is Dual Auth Delete Enabled",
+          "pos": {
+            "filename": ".terraform/modules/existing_key_ring_keys/outputs.tf",
+            "line": 20
+          }
+        },
+        "key_id": {
+          "name": "key_id",
+          "description": "Key ID",
+          "value": "ibm_kms_key.key.key_id",
+          "pos": {
+            "filename": ".terraform/modules/existing_key_ring_keys/outputs.tf",
+            "line": 5
+          },
+          "type": "TypeString"
+        },
+        "rotation_interval_month": {
+          "name": "rotation_interval_month",
+          "description": "Month Interval for Rotation",
+          "pos": {
+            "filename": ".terraform/modules/existing_key_ring_keys/outputs.tf",
+            "line": 15
+          }
+        }
+      },
+      "pos": {
+        "filename": "main.tf",
+        "line": 90
+      }
+    },
+    "key_protect": {
+      "name": "key_protect",
+      "source": "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect.git?ref=v1.0.0",
+      "attributes": {
+        "count": "create_key_protect_instance",
+        "key_protect_name": "key_protect_instance_name",
+        "metrics_enabled": "enable_metrics",
+        "region": "region",
+        "resource_group_id": "resource_group_id",
+        "service_endpoints": "key_protect_endpoint_type",
+        "tags": "resource_tags"
+      },
+      "managed_resources": {
+        "ibm_resource_instance.key_protect_instance": {
+          "mode": "managed",
+          "type": "ibm_resource_instance",
+          "name": "key_protect_instance",
+          "attributes": {
+            "location": "region",
+            "name": "key_protect_name",
+            "plan": "plan",
+            "resource_group_id": "resource_group_id",
+            "service_endpoints": "service_endpoints",
+            "tags": "tags"
+          },
+          "provider": {
+            "name": "ibm"
+          },
+          "pos": {
+            "filename": ".terraform/modules/key_protect/main.tf",
+            "line": 5
+          }
+        },
+        "restapi_object.enable_metrics": {
+          "mode": "managed",
+          "type": "restapi_object",
+          "name": "enable_metrics",
+          "attributes": {
+            "count": "metrics_enabled",
+            "create_path": "region",
+            "destroy_path": "region",
+            "path": "region",
+            "read_path": "region",
+            "update_path": "region"
+          },
+          "provider": {
+            "name": "restapi"
+          },
+          "pos": {
+            "filename": ".terraform/modules/key_protect/main.tf",
+            "line": 15
+          }
+        }
+      },
+      "data_resources": {},
+      "outputs": {
+        "key_protect_guid": {
+          "name": "key_protect_guid",
+          "description": "GUID of the Key Protect instance",
+          "value": "ibm_resource_instance.key_protect_instance.guid",
+          "pos": {
+            "filename": ".terraform/modules/key_protect/outputs.tf",
+            "line": 5
+          },
+          "type": "TypeString"
+        }
+      },
+      "pos": {
+        "filename": "main.tf",
+        "line": 10
+      }
+    },
+    "key_protect_key_rings": {
+      "name": "key_protect_key_rings",
+      "source": "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key-ring.git?ref=v1.0.0",
+      "attributes": {
+        "endpoint_type": "key_ring_endpoint_type",
+        "for_each": "key_map"
+      },
+      "managed_resources": {
+        "ibm_kms_key_rings.key_ring": {
+          "mode": "managed",
+          "type": "ibm_kms_key_rings",
+          "name": "key_ring",
+          "attributes": {
+            "endpoint_type": "endpoint_type",
+            "instance_id": "instance_id",
+            "key_ring_id": "key_ring_id"
+          },
+          "provider": {
+            "name": "ibm"
+          },
+          "pos": {
+            "filename": ".terraform/modules/key_protect_key_rings/main.tf",
+            "line": 5
+          }
+        }
+      },
+      "data_resources": {},
+      "outputs": {
+        "key_ring_id": {
+          "name": "key_ring_id",
+          "description": "ID of the Key Ring",
+          "value": "ibm_kms_key_rings.key_ring.key_ring_id",
+          "pos": {
+            "filename": ".terraform/modules/key_protect_key_rings/outputs.tf",
+            "line": 5
+          },
+          "type": "TypeString"
+        }
+      },
+      "pos": {
+        "filename": "main.tf",
+        "line": 33
+      }
+    },
+    "key_protect_keys": {
+      "name": "key_protect_keys",
+      "source": "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key.git?ref=v1.0.0",
+      "attributes": {
+        "endpoint_type": "key_endpoint_type"
+      },
+      "managed_resources": {
+        "ibm_kms_key.key": {
+          "mode": "managed",
+          "type": "ibm_kms_key",
+          "name": "key",
+          "attributes": {
+            "endpoint_type": "endpoint_type",
+            "force_delete": "force_delete",
+            "instance_id": "key_protect_instance_id",
+            "key_name": "key_name",
+            "key_ring_id": "key_protect_key_ring_id",
+            "standard_key": "standard_key"
+          },
+          "provider": {
+            "name": "ibm"
+          },
+          "pos": {
+            "filename": ".terraform/modules/key_protect_keys/main.tf",
+            "line": 5
+          }
+        },
+        "ibm_kms_key_policies.root_key_policy": {
+          "mode": "managed",
+          "type": "ibm_kms_key_policies",
+          "name": "root_key_policy",
+          "attributes": {
+            "count": "standard_key",
+            "endpoint_type": "endpoint_type",
+            "instance_id": "key_protect_instance_id"
+          },
+          "provider": {
+            "name": "ibm"
+          },
+          "pos": {
+            "filename": ".terraform/modules/key_protect_keys/main.tf",
+            "line": 14
+          }
+        },
+        "ibm_kms_key_policies.standard_key_policy": {
+          "mode": "managed",
+          "type": "ibm_kms_key_policies",
+          "name": "standard_key_policy",
+          "attributes": {
+            "count": "standard_key",
+            "endpoint_type": "endpoint_type",
+            "instance_id": "key_protect_instance_id"
+          },
+          "provider": {
+            "name": "ibm"
+          },
+          "pos": {
+            "filename": ".terraform/modules/key_protect_keys/main.tf",
+            "line": 27
+          }
+        }
+      },
+      "data_resources": {},
+      "outputs": {
+        "crn": {
+          "name": "crn",
+          "description": "Key CRN",
+          "value": "ibm_kms_key.key.crn",
+          "pos": {
+            "filename": ".terraform/modules/key_protect_keys/outputs.tf",
+            "line": 10
+          },
+          "type": "TypeString",
+          "cloud_data_type": "crn"
+        },
+        "dual_auth_delete": {
+          "name": "dual_auth_delete",
+          "description": "Is Dual Auth Delete Enabled",
+          "pos": {
+            "filename": ".terraform/modules/key_protect_keys/outputs.tf",
+            "line": 20
+          }
+        },
+        "key_id": {
+          "name": "key_id",
+          "description": "Key ID",
+          "value": "ibm_kms_key.key.key_id",
+          "pos": {
+            "filename": ".terraform/modules/key_protect_keys/outputs.tf",
+            "line": 5
+          },
+          "type": "TypeString"
+        },
+        "rotation_interval_month": {
+          "name": "rotation_interval_month",
+          "description": "Month Interval for Rotation",
+          "pos": {
+            "filename": ".terraform/modules/key_protect_keys/outputs.tf",
+            "line": 15
+          }
+        }
+      },
+      "pos": {
+        "filename": "main.tf",
+        "line": 75
+      }
+    }
+  }
 }

@@ -10,11 +10,16 @@ module "resource_group" {
 }
 
 ##############################################################################
-# VPC
+# Key Protect All Inclusive
 ##############################################################################
 
-resource "ibm_is_vpc" "vpc" {
-  name           = "${var.prefix}-vpc"
-  resource_group = module.resource_group.resource_group_id
-  tags           = var.resource_tags
+module "key_protect_all_inclusive" {
+  source            = "../.."
+  resource_group_id = module.resource_group.resource_group_id
+  region            = var.region
+  prefix            = var.prefix
+  resource_tags     = var.resource_tags
+  # Following topology groups all root keys related to a given service type (eg: ocp, cos) in the same key ring.
+  # This facilitates access assignment, which meeting least privilege controls
+  key_map = { "ocp" = ["ocp-cluster-1"], "cos" = ["cos-bucket-1"] }
 }
