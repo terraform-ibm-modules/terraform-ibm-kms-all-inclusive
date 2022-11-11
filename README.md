@@ -60,7 +60,7 @@ module "key_protect_all_inclusive" {
 ```
 
 ### Note:
-The RestAPI provider configuration that is needed for enabling metrics in the key-protect-module needs to be configured with specific headers that differ from other modules in GoldenEye, please use a configuration containing the following headers. You may need to set this provider as an alias if using other modules which require the RestAPI provider
+The RestAPI provider configuration that is needed for enabling metrics in the key-protect-module needs to be configured with specific headers that differ from the other modules, please use a configuration containing the following headers. You may need to set this provider as an alias if using other modules which require the RestAPI provider
 ```
 data "ibm_iam_auth_token" "token_data" {
 }
