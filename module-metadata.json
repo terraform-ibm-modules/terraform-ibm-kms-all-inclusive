@@ -207,7 +207,7 @@
       "value": "module.existing_key_ring_keys",
       "pos": {
         "filename": "outputs.tf",
-        "line": 24
+        "line": 29
       }
     },
     "key_protect_guid": {
@@ -219,13 +219,22 @@
         "line": 5
       }
     },
+    "key_protect_name": {
+      "name": "key_protect_name",
+      "description": "Name of the Key Protect instance",
+      "value": "local.key_protect_name",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 10
+      }
+    },
     "key_rings": {
       "name": "key_rings",
       "description": "IDs of Key Rings created by the module",
       "value": "module.key_protect_key_rings",
       "pos": {
         "filename": "outputs.tf",
-        "line": 12
+        "line": 17
       }
     },
     "keys": {
@@ -234,7 +243,7 @@
       "value": "module.key_protect_keys",
       "pos": {
         "filename": "outputs.tf",
-        "line": 19
+        "line": 24
       }
     }
   },
@@ -269,7 +278,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 41
+        "line": 42
       }
     },
     "data.ibm_resource_instance.existing_key_protect": {
@@ -287,7 +296,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 21
+        "line": 22
       }
     }
   },
@@ -396,12 +405,12 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 90
+        "line": 91
       }
     },
     "key_protect": {
       "name": "key_protect",
-      "source": "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect.git?ref=v1.0.0",
+      "source": "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect.git?ref=v1.1.0",
       "attributes": {
         "count": "create_key_protect_instance",
         "key_protect_name": "key_protect_instance_name",
@@ -464,11 +473,21 @@
             "line": 5
           },
           "type": "TypeString"
+        },
+        "key_protect_name": {
+          "name": "key_protect_name",
+          "description": "Name of the Key Protect instance",
+          "value": "ibm_resource_instance.key_protect_instance.name",
+          "pos": {
+            "filename": ".terraform/modules/key_protect/outputs.tf",
+            "line": 10
+          },
+          "type": "TypeString"
         }
       },
       "pos": {
         "filename": "main.tf",
-        "line": 10
+        "line": 11
       }
     },
     "key_protect_key_rings": {
@@ -512,7 +531,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 33
+        "line": 34
       }
     },
     "key_protect_keys": {
@@ -619,7 +638,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 75
+        "line": 76
       }
     }
   }
