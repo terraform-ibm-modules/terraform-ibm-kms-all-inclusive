@@ -5,11 +5,12 @@
 locals {
   # set key_protect_guid as either the ID of the passed in name of instance or the one created here
   key_protect_guid = var.create_key_protect_instance ? module.key_protect[0].key_protect_guid : data.ibm_resource_instance.existing_key_protect[0].guid
+  key_protect_name = var.create_key_protect_instance ? module.key_protect[0].key_protect_name : data.ibm_resource_instance.existing_key_protect[0].name
 }
 
 module "key_protect" {
   count             = var.create_key_protect_instance ? 1 : 0
-  source            = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect.git?ref=v1.0.0"
+  source            = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect.git?ref=v1.1.0"
   key_protect_name  = var.key_protect_instance_name != null ? var.key_protect_instance_name : "${var.prefix}-kp"
   region            = var.region
   service_endpoints = var.key_protect_endpoint_type
