@@ -8,7 +8,6 @@ import (
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testhelper"
 )
 
-const resourceGroup = "geretain-test-key-protect-all-inclusive"
 const existingResourcesExampleTerraformDir = "examples/existing-resources"
 
 func TestRunExistingExample(t *testing.T) {
