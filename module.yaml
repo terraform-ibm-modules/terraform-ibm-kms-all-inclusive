@@ -13,17 +13,5 @@ versions:
         source: "ibm-cloud/ibm"
       - name: restapi
         source: "Mastercard/restapi"
-    dependencies:
-      - id: terraform_ibm_key_protect
-        refs:
-          - source: github.com/terraform-ibm-modules/terraform-ibm-key-protect
-            version: ">= v1.1.0"
-      - id: terraform_ibm_key_protect_key_rings
-        refs:
-          - source: github.com/terraform-ibm-modules/terraform-ibm-key-protect-key-ring
-            version: ">= v1.0.0"
-      - id: terraform_ibm_key_protect_keys
-        refs:
-          - source: github.com/terraform-ibm-modules/terraform-ibm-key-protect-key
-            version: ">= v1.0.0"
+    dependencies: []
     variables: []
