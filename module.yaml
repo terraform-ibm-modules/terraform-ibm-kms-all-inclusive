@@ -1,0 +1,55 @@
+# required for Techzone catalog
+name: terraform-ibm-key-protect-all-inclusive
+type: terraform
+description: Creates a Key Protect instance, key rings for different services, and a key for each instance of the service
+tags:
+  - tools
+  - infrastructure
+  - saas
+versions:
+  - platforms: []
+    providers:
+      - name: ibm
+        source: "ibm-cloud/ibm"
+      - name: restapi
+        source: "Mastercard/restapi"
+    dependencies:
+      - id: terraform_ibm_key_protect
+        refs:
+          - source: github.com/terraform-ibm-modules/terraform-ibm-key-protect
+            version: ">= v1.1.0"
+      - id: terraform_ibm_key_protect_key_rings
+        refs:
+          - source: github.com/terraform-ibm-modules/terraform-ibm-key-protect-key-ring
+            version: ">= v1.0.0"
+      - id: terraform_ibm_key_protect_keys
+        refs:
+          - source: github.com/terraform-ibm-modules/terraform-ibm-key-protect-key
+            version: ">= v1.0.0"
+    variables:
+      - name: resource_group_id
+        scope: global
+      - name: region
+        scope: global
+      - name: prefix
+        scope: global
+      - name: enable_metrics
+        scope: global
+      - name: key_protect_instance_name
+        scope: global
+      - name: create_key_protect_instance
+        scope: global
+      - name: key_protect_endpoint_type
+        scope: global
+      - name: use_existing_key_rings
+        scope: global
+      - name: key_ring_endpoint_type
+        scope: global
+      - name: key_map
+        scope: global
+      - name: key_endpoint_type
+        scope: global
+      - name: existing_key_map
+        scope: global
+      - name: resource_tags
+        scope: global
