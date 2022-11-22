@@ -1,7 +1,7 @@
 <!-- BEGIN MODULE HOOK -->
 
 <!-- Update the title to match the module name and add a description -->
-# Terraform IBM Key Protect All Inclusive Module
+# Key Protect all inclusive module
 <!-- UPDATE BADGE: Update the link for the following badge-->
 [![Stable (With quality checks)](https://img.shields.io/badge/Status-Stable%20(With%20quality%20checks)-green?style=plastic)](https://terraform-ibm-modules.github.io/documentation/#/badge-status)
 [![Build status](https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive/actions/workflows/ci.yml/badge.svg)](https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive/actions/workflows/ci.yml)
@@ -10,9 +10,9 @@
 [![latest release](https://img.shields.io/github/v/release/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive?logo=GitHub&sort=semver)](https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive/releases/latest)
 
 This module combines the following Key Protect modules to create a full end-to-end key infrastructure:
-- [Key Protect Instance Module](https://github.com/terraform-ibm-modules/terraform-ibm-key-protect)
-- [Key Module](https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key)
-- [Key Ring Module](https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key-ring)
+- [Key Protect module](https://github.com/terraform-ibm-modules/terraform-ibm-key-protect)
+- [Key Protect key module](https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key)
+- [Key Protect key ring module](https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key-ring)
 
 The module takes a map, called `key_map`, that supports hierarchical "key rings" for a single Key Protect instance. Because access to key rings is managed in Key Protect, you can comply with controls around least privilege (for example, [NIST AC-6](https://csrc.nist.gov/Projects/risk-management/sp800-53-controls/release-search#/control?version=4.0&number=AC-6)) and can reduce the number of access groups you need to assign. For more information about key rings, see [Grouping keys together using key rings](https://cloud.ibm.com/docs/key-protect?topic=key-protect-grouping-keys).
 The following example shows a typical topology for a Key Protect instance:
