@@ -34,7 +34,7 @@ The module supports only a single Key Protect instance and creates the key topol
 
 For example, you might need isolation between regulatory boundaries (for example, between FedRamp and everything else). Or you might be required to isolate keys that are used by a service's control plane from the data plane (for example, with IBM Cloud Databases (ICD) services).
 
-To achieve compliance, you can write logic to call the module multiple times to create multiple Key Protect instances (for example, in your scaffolding).
+To achieve compliance, you can write logic to call the module multiple times to create multiple Key Protect instances.
 
 One emerging pattern is to create one Key Protect instance per VPC. All workloads in the VPC access the Key Protect instance through a VPE binding. This simple approach ensures network segmentation. A drawback is that this approach creates more Key Protect instances than necessary, in some case.
 
