@@ -21,7 +21,7 @@ module "key_protect" {
 
 data "ibm_resource_instance" "existing_key_protect" {
   count             = var.create_key_protect_instance ? 0 : 1
-  name              = var.key_protect_instance_name
+  name              = var.existing_key_protect_instance_name
   location          = var.region
   resource_group_id = var.resource_group_id
   service           = "kms"
