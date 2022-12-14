@@ -119,7 +119,6 @@ You need the following permissions to run this module.
 | Name | Type |
 |------|------|
 | [ibm_kms_key_rings.existing_key_rings](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/data-sources/kms_key_rings) | data source |
-| [ibm_resource_instance.existing_key_protect](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/data-sources/resource_instance) | data source |
 
 ## Inputs
 
@@ -128,7 +127,7 @@ You need the following permissions to run this module.
 | <a name="input_create_key_protect_instance"></a> [create\_key\_protect\_instance](#input\_create\_key\_protect\_instance) | A flag to control whether a Key Protect instance is created, defaults to true. | `bool` | `true` | no |
 | <a name="input_enable_metrics"></a> [enable\_metrics](#input\_enable\_metrics) | Set as true to enable metrics on the Key Protect instance. | `bool` | `true` | no |
 | <a name="input_existing_key_map"></a> [existing\_key\_map](#input\_existing\_key\_map) | A Map containing existing Key Ring names as the keys of the map and a list of desired Key Protect Key names as the values for each existing Key Ring, these keys will only be created if `create_key_protect_instance' is false.` | `map(list(string))` | `{}` | no |
-| <a name="input_existing_key_protect_instance_name"></a> [existing\_key\_protect\_instance\_name](#input\_existing\_key\_protect\_instance\_name) | The name of an existing Key Protect instance, required if 'var.create\_key\_protect\_instance' is false. | `string` | `null` | no |
+| <a name="input_existing_key_protect_instance_guid"></a> [existing\_key\_protect\_instance\_guid](#input\_existing\_key\_protect\_instance\_guid) | The GUID of an existing Key Protect instance, required if 'var.create\_key\_protect\_instance' is false. | `string` | `null` | no |
 | <a name="input_key_endpoint_type"></a> [key\_endpoint\_type](#input\_key\_endpoint\_type) | The type of endpoint to be used for keys, accepts 'public' or 'private' | `string` | `"public"` | no |
 | <a name="input_key_map"></a> [key\_map](#input\_key\_map) | A Map containing the desired Key Ring Names as the keys of the map and a list of desired Key Protect Key names as the values for each Key Ring. | `map(list(string))` | n/a | yes |
 | <a name="input_key_protect_endpoint_type"></a> [key\_protect\_endpoint\_type](#input\_key\_protect\_endpoint\_type) | The type of endpoint to be used, if creating instances for keys and key rings, accepts 'public' or 'private' | `string` | `"public-and-private"` | no |
@@ -146,7 +145,6 @@ You need the following permissions to run this module.
 |------|-------------|
 | <a name="output_existing_key_ring_keys"></a> [existing\_key\_ring\_keys](#output\_existing\_key\_ring\_keys) | IDs of Keys created by the module in existing Key Rings |
 | <a name="output_key_protect_guid"></a> [key\_protect\_guid](#output\_key\_protect\_guid) | Key Protect GUID |
-| <a name="output_key_protect_name"></a> [key\_protect\_name](#output\_key\_protect\_name) | Name of the Key Protect instance |
 | <a name="output_key_rings"></a> [key\_rings](#output\_key\_rings) | IDs of Key Rings created by the module |
 | <a name="output_keys"></a> [keys](#output\_keys) | IDs of Keys created by the module |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

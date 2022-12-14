@@ -31,7 +31,7 @@ module "key_protect_all_inclusive" {
   prefix                             = var.prefix
   resource_tags                      = var.resource_tags
   create_key_protect_instance        = false
-  existing_key_protect_instance_name = module.existing_key_protect.key_protect_name
+  existing_key_protect_instance_guid = module.existing_key_protect.key_protect_guid
   use_existing_key_rings             = true
   # Following topology groups all root keys related to a given service type (eg: ocp, cos) in the same key ring.
   # This facilitates access assignment, which meeting least privilege controls

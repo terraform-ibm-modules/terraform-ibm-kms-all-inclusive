@@ -7,7 +7,6 @@
       "description": "A flag to control whether a Key Protect instance is created, defaults to true.",
       "default": true,
       "source": [
-        "data.ibm_resource_instance.existing_key_protect.count",
         "module.key_protect"
       ],
       "pos": {
@@ -38,14 +37,10 @@
         "line": 85
       }
     },
-    "existing_key_protect_instance_name": {
-      "name": "existing_key_protect_instance_name",
+    "existing_key_protect_instance_guid": {
+      "name": "existing_key_protect_instance_guid",
       "type": "string",
-      "description": "The name of an existing Key Protect instance, required if 'var.create_key_protect_instance' is false.",
-      "required": true,
-      "source": [
-        "data.ibm_resource_instance.existing_key_protect.name"
-      ],
+      "description": "The GUID of an existing Key Protect instance, required if 'var.create_key_protect_instance' is false.",
       "pos": {
         "filename": "variables.tf",
         "line": 32
@@ -142,7 +137,6 @@
       "description": "The IBM Cloud region where all resources will be provisioned.",
       "required": true,
       "source": [
-        "data.ibm_resource_instance.existing_key_protect.location",
         "module.key_protect.ibm_resource_instance.key_protect_instance.location",
         "module.key_protect.restapi_object.enable_metrics.create_path",
         "module.key_protect.restapi_object.enable_metrics.destroy_path",
@@ -155,8 +149,7 @@
         "line": 10
       },
       "cloud_data_type": "region",
-      "immutable": true,
-      "computed": true
+      "immutable": true
     },
     "resource_group_id": {
       "name": "resource_group_id",
@@ -164,7 +157,6 @@
       "description": "The name of the Resource Group to provision all resources in.",
       "required": true,
       "source": [
-        "data.ibm_resource_instance.existing_key_protect.resource_group_id",
         "module.key_protect.ibm_resource_instance.key_protect_instance.resource_group_id"
       ],
       "pos": {
@@ -219,7 +211,7 @@
       "value": "module.existing_key_ring_keys",
       "pos": {
         "filename": "outputs.tf",
-        "line": 29
+        "line": 24
       }
     },
     "key_protect_guid": {
@@ -231,22 +223,13 @@
         "line": 5
       }
     },
-    "key_protect_name": {
-      "name": "key_protect_name",
-      "description": "Name of the Key Protect instance",
-      "value": "local.key_protect_name",
-      "pos": {
-        "filename": "outputs.tf",
-        "line": 10
-      }
-    },
     "key_rings": {
       "name": "key_rings",
       "description": "IDs of Key Rings created by the module",
       "value": "module.key_protect_key_rings",
       "pos": {
         "filename": "outputs.tf",
-        "line": 17
+        "line": 12
       }
     },
     "keys": {
@@ -255,7 +238,7 @@
       "value": "module.key_protect_keys",
       "pos": {
         "filename": "outputs.tf",
-        "line": 24
+        "line": 19
       }
     }
   },
@@ -290,25 +273,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 42
-      }
-    },
-    "data.ibm_resource_instance.existing_key_protect": {
-      "mode": "data",
-      "type": "ibm_resource_instance",
-      "name": "existing_key_protect",
-      "attributes": {
-        "count": "create_key_protect_instance",
-        "location": "region",
-        "name": "existing_key_protect_instance_name",
-        "resource_group_id": "resource_group_id"
-      },
-      "provider": {
-        "name": "ibm"
-      },
-      "pos": {
-        "filename": "main.tf",
-        "line": 22
+        "line": 33
       }
     }
   },
@@ -417,7 +382,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 91
+        "line": 82
       }
     },
     "key_protect": {
@@ -499,7 +464,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 11
+        "line": 10
       }
     },
     "key_protect_key_rings": {
@@ -543,7 +508,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 34
+        "line": 25
       }
     },
     "key_protect_keys": {
@@ -650,7 +615,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 76
+        "line": 67
       }
     }
   }

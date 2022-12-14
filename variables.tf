@@ -29,9 +29,9 @@ variable "key_protect_instance_name" {
   default     = null
 }
 
-variable "existing_key_protect_instance_name" {
+variable "existing_key_protect_instance_guid" {
   type        = string
-  description = "The name of an existing Key Protect instance, required if 'var.create_key_protect_instance' is false."
+  description = "The GUID of an existing Key Protect instance, required if 'var.create_key_protect_instance' is false."
   default     = null
 }
 

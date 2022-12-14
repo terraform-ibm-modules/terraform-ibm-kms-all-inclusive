@@ -4,8 +4,7 @@
 
 locals {
   # set key_protect_guid as either the ID of the passed in name of instance or the one created here
-  key_protect_guid = var.create_key_protect_instance ? module.key_protect[0].key_protect_guid : data.ibm_resource_instance.existing_key_protect[0].guid
-  key_protect_name = var.create_key_protect_instance ? module.key_protect[0].key_protect_name : data.ibm_resource_instance.existing_key_protect[0].name
+  key_protect_guid = var.create_key_protect_instance ? module.key_protect[0].key_protect_guid : var.existing_key_protect_instance_guid
 }
 
 module "key_protect" {
@@ -17,14 +16,6 @@ module "key_protect" {
   resource_group_id = var.resource_group_id
   tags              = var.resource_tags
   metrics_enabled   = var.enable_metrics
-}
-
-data "ibm_resource_instance" "existing_key_protect" {
-  count             = var.create_key_protect_instance ? 0 : 1
-  name              = var.existing_key_protect_instance_name
-  location          = var.region
-  resource_group_id = var.resource_group_id
-  service           = "kms"
 }
 
 ##############################################################################
