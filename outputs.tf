@@ -7,6 +7,14 @@ output "key_protect_guid" {
   value       = local.key_protect_guid
 }
 
+
+##############################################################################
+
+output "key_protect_name" {
+  description = "Key Protect Name"
+  value       = var.key_protect_instance_name
+}
+
 ##############################################################################
 
 output "key_rings" {

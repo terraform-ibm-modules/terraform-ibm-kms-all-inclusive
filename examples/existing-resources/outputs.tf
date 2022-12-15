@@ -23,6 +23,13 @@ output "key_protect_guid" {
 
 ##############################################################################
 
+output "key_protect_name" {
+  description = "Key Protect Name"
+  value       = module.key_protect_all_inclusive.key_protect_name
+}
+
+##############################################################################
+
 output "key_rings" {
   description = "IDs of Key Rings created by the module"
   value       = module.key_protect_all_inclusive.key_rings
