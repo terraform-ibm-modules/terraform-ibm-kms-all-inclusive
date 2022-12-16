@@ -25,7 +25,7 @@ variable "enable_metrics" {
 
 variable "key_protect_instance_name" {
   type        = string
-  description = "The name of the Key Protect instance to provision."
+  description = "The name to give the Key Protect instance that will be provisioned by this module, this variable will be ignored if a value is passed for 'var.existing_key_protect_instance_guid."
   default     = null
 }
 
