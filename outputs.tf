@@ -12,7 +12,7 @@ output "key_protect_guid" {
 
 output "key_protect_name" {
   description = "Key Protect Name"
-  value       = var.key_protect_instance_name
+  value       = length(module.key_protect) > 0 ? module.key_protect[0].key_protect_name : null
 }
 
 ##############################################################################
