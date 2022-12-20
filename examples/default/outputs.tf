@@ -24,7 +24,7 @@ output "key_protect_guid" {
 ##############################################################################
 
 output "key_protect_name" {
-  description = "Name of the Key Protect instance"
+  description = "Key Protect Name"
   value       = module.key_protect_all_inclusive.key_protect_name
 }
 

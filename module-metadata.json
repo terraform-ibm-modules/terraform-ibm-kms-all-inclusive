@@ -7,12 +7,11 @@
       "description": "A flag to control whether a Key Protect instance is created, defaults to true.",
       "default": true,
       "source": [
-        "data.ibm_resource_instance.existing_key_protect.count",
         "module.key_protect"
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 32
+        "line": 38
       }
     },
     "enable_metrics": {
@@ -35,7 +34,16 @@
       "default": {},
       "pos": {
         "filename": "variables.tf",
-        "line": 79
+        "line": 85
+      }
+    },
+    "existing_key_protect_instance_guid": {
+      "name": "existing_key_protect_instance_guid",
+      "type": "string",
+      "description": "The GUID of an existing Key Protect instance, required if 'var.create_key_protect_instance' is false.",
+      "pos": {
+        "filename": "variables.tf",
+        "line": 32
       }
     },
     "key_endpoint_type": {
@@ -53,7 +61,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 69
+        "line": 75
       },
       "immutable": true,
       "computed": true
@@ -68,7 +76,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 64
+        "line": 70
       }
     },
     "key_protect_endpoint_type": {
@@ -81,17 +89,16 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 38
+        "line": 44
       },
       "computed": true
     },
     "key_protect_instance_name": {
       "name": "key_protect_instance_name",
       "type": "string",
-      "description": "The name of the existing Key Protect instance, if 'create_key_protect_instance' is true a new instance will be created with this name.",
+      "description": "The name to give the Key Protect instance that will be provisioned by this module, this variable will be ignored if a value is passed for 'var.existing_key_protect_instance_guid.",
       "required": true,
       "source": [
-        "data.ibm_resource_instance.existing_key_protect.name",
         "module.key_protect.ibm_resource_instance.key_protect_instance.name"
       ],
       "pos": {
@@ -109,7 +116,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 54
+        "line": 60
       },
       "immutable": true,
       "computed": true
@@ -130,7 +137,6 @@
       "description": "The IBM Cloud region where all resources will be provisioned.",
       "required": true,
       "source": [
-        "data.ibm_resource_instance.existing_key_protect.location",
         "module.key_protect.ibm_resource_instance.key_protect_instance.location",
         "module.key_protect.restapi_object.enable_metrics.create_path",
         "module.key_protect.restapi_object.enable_metrics.destroy_path",
@@ -143,8 +149,7 @@
         "line": 10
       },
       "cloud_data_type": "region",
-      "immutable": true,
-      "computed": true
+      "immutable": true
     },
     "resource_group_id": {
       "name": "resource_group_id",
@@ -152,7 +157,6 @@
       "description": "The name of the Resource Group to provision all resources in.",
       "required": true,
       "source": [
-        "data.ibm_resource_instance.existing_key_protect.resource_group_id",
         "module.key_protect.ibm_resource_instance.key_protect_instance.resource_group_id"
       ],
       "pos": {
@@ -176,7 +180,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 85
+        "line": 91
       },
       "min_length": 1,
       "max_length": 128,
@@ -196,7 +200,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 48
+        "line": 54
       }
     }
   },
@@ -207,7 +211,7 @@
       "value": "module.existing_key_ring_keys",
       "pos": {
         "filename": "outputs.tf",
-        "line": 29
+        "line": 32
       }
     },
     "key_protect_guid": {
@@ -221,11 +225,10 @@
     },
     "key_protect_name": {
       "name": "key_protect_name",
-      "description": "Name of the Key Protect instance",
-      "value": "local.key_protect_name",
+      "description": "Key Protect Name",
       "pos": {
         "filename": "outputs.tf",
-        "line": 10
+        "line": 13
       }
     },
     "key_rings": {
@@ -234,7 +237,7 @@
       "value": "module.key_protect_key_rings",
       "pos": {
         "filename": "outputs.tf",
-        "line": 17
+        "line": 20
       }
     },
     "keys": {
@@ -243,7 +246,7 @@
       "value": "module.key_protect_keys",
       "pos": {
         "filename": "outputs.tf",
-        "line": 24
+        "line": 27
       }
     }
   },
@@ -278,25 +281,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 42
-      }
-    },
-    "data.ibm_resource_instance.existing_key_protect": {
-      "mode": "data",
-      "type": "ibm_resource_instance",
-      "name": "existing_key_protect",
-      "attributes": {
-        "count": "create_key_protect_instance",
-        "location": "region",
-        "name": "key_protect_instance_name",
-        "resource_group_id": "resource_group_id"
-      },
-      "provider": {
-        "name": "ibm"
-      },
-      "pos": {
-        "filename": "main.tf",
-        "line": 22
+        "line": 38
       }
     }
   },
@@ -405,7 +390,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 91
+        "line": 87
       }
     },
     "key_protect": {
@@ -487,7 +472,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 11
+        "line": 15
       }
     },
     "key_protect_key_rings": {
@@ -531,7 +516,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 34
+        "line": 30
       }
     },
     "key_protect_keys": {
@@ -638,7 +623,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 76
+        "line": 72
       }
     }
   }

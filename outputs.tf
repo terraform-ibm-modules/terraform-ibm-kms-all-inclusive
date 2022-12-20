@@ -7,9 +7,12 @@ output "key_protect_guid" {
   value       = local.key_protect_guid
 }
 
+
+##############################################################################
+
 output "key_protect_name" {
-  description = "Name of the Key Protect instance"
-  value       = local.key_protect_name
+  description = "Key Protect Name"
+  value       = length(module.key_protect) > 0 ? module.key_protect[0].key_protect_name : null
 }
 
 ##############################################################################

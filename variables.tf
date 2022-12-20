@@ -25,7 +25,13 @@ variable "enable_metrics" {
 
 variable "key_protect_instance_name" {
   type        = string
-  description = "The name of the existing Key Protect instance, if 'create_key_protect_instance' is true a new instance will be created with this name."
+  description = "The name to give the Key Protect instance that will be provisioned by this module, this variable will be ignored if a value is passed for 'var.existing_key_protect_instance_guid."
+  default     = null
+}
+
+variable "existing_key_protect_instance_guid" {
+  type        = string
+  description = "The GUID of an existing Key Protect instance, required if 'var.create_key_protect_instance' is false."
   default     = null
 }
 
