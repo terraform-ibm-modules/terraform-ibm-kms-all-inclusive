@@ -395,7 +395,7 @@
     },
     "key_protect": {
       "name": "key_protect",
-      "source": "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect.git?ref=v1.1.1",
+      "source": "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect.git?ref=v1.2.0",
       "attributes": {
         "count": "create_key_protect_instance",
         "key_protect_name": "key_protect_instance_name",
@@ -443,7 +443,7 @@
           },
           "pos": {
             "filename": ".terraform/modules/key_protect/main.tf",
-            "line": 15
+            "line": 20
           }
         }
       },
@@ -459,13 +459,22 @@
           },
           "type": "TypeString"
         },
+        "key_protect_id": {
+          "name": "key_protect_id",
+          "description": "ID of the Key Protect instance",
+          "value": "ibm_resource_instance.key_protect_instance.id",
+          "pos": {
+            "filename": ".terraform/modules/key_protect/outputs.tf",
+            "line": 10
+          }
+        },
         "key_protect_name": {
           "name": "key_protect_name",
           "description": "Name of the Key Protect instance",
           "value": "ibm_resource_instance.key_protect_instance.name",
           "pos": {
             "filename": ".terraform/modules/key_protect/outputs.tf",
-            "line": 10
+            "line": 15
           },
           "type": "TypeString"
         }
