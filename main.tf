@@ -28,7 +28,7 @@ module "key_protect" {
 ##############################################################################
 
 module "key_protect_key_rings" {
-  source        = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key-ring.git?ref=v1.0.1"
+  source        = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key-ring.git?ref=v2.0.0"
   for_each      = var.key_map
   instance_id   = local.key_protect_guid
   endpoint_type = var.key_ring_endpoint_type
