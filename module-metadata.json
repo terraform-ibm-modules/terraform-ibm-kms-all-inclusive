@@ -27,6 +27,16 @@
         "line": 38
       }
     },
+    "existing_key_map": {
+      "name": "existing_key_map",
+      "type": "map(list(string))",
+      "description": "Use this variable if you wish to create new keys inside already existing Key Ring(s). The map should contain the existing Key Ring name as the keys of the map, and a list of desired Key Protect Key names to create as the values for each existing Key Ring.",
+      "default": {},
+      "pos": {
+        "filename": "variables.tf",
+        "line": 66
+      }
+    },
     "existing_key_protect_instance_guid": {
       "name": "existing_key_protect_instance_guid",
       "type": "string",
@@ -34,16 +44,6 @@
       "pos": {
         "filename": "variables.tf",
         "line": 54
-      }
-    },
-    "existing_key_ring_key_map": {
-      "name": "existing_key_ring_key_map",
-      "type": "map(list(string))",
-      "description": "Use this variable if you wish to create new keys inside already existing Key Ring(s). The map should contain the existing Key Ring name as the keys of the map, and a list of desired Key Protect Key names to create as the values for each existing Key Ring.",
-      "default": {},
-      "pos": {
-        "filename": "variables.tf",
-        "line": 66
       }
     },
     "force_delete": {
@@ -209,6 +209,15 @@
     }
   },
   "outputs": {
+    "existing_key_ring_keys": {
+      "name": "existing_key_ring_keys",
+      "description": "IDs of Keys created by the module in existing Key Rings",
+      "value": "module.existing_key_ring_keys",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 25
+      }
+    },
     "key_protect_guid": {
       "name": "key_protect_guid",
       "description": "Key Protect GUID",

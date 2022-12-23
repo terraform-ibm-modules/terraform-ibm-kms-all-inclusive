@@ -63,7 +63,7 @@ variable "key_map" {
   default     = {}
 }
 
-variable "existing_key_ring_key_map" {
+variable "existing_key_map" {
   type        = map(list(string))
   description = "Use this variable if you wish to create new keys inside already existing Key Ring(s). The map should contain the existing Key Ring name as the keys of the map, and a list of desired Key Protect Key names to create as the values for each existing Key Ring."
   default     = {}

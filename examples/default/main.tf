@@ -19,7 +19,7 @@ module "key_protect_all_inclusive" {
   key_protect_instance_name = "${var.prefix}-kp"
   region                    = var.region
   resource_tags             = var.resource_tags
-  existing_key_ring_key_map = {
+  existing_key_map = {
     # "default" king ring already exists out of the box with Key Protect, so just the key will be created here
     "default" = [
       "default-key"

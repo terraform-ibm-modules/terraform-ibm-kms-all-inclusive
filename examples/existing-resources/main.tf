@@ -46,7 +46,7 @@ module "key_protect_all_inclusive" {
   resource_tags                      = var.resource_tags
   create_key_protect_instance        = false
   existing_key_protect_instance_guid = module.existing_key_protect.key_protect_guid
-  existing_key_ring_key_map = {
+  existing_key_map = {
     # create a new key in an existing key ring
     (local.key_ring_id) = [
       "test-key"

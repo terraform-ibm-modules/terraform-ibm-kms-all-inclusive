@@ -121,8 +121,8 @@ No resources.
 |------|-------------|------|---------|:--------:|
 | <a name="input_create_key_protect_instance"></a> [create\_key\_protect\_instance](#input\_create\_key\_protect\_instance) | A flag to control whether a Key Protect instance is created, defaults to true. | `bool` | `true` | no |
 | <a name="input_enable_metrics"></a> [enable\_metrics](#input\_enable\_metrics) | Set to true to enable metrics on the Key Protect instance (ignored is value for 'existing\_key\_protect\_instance\_guid' is passed). In order to view metrics, you will need a Monitoring (Sysdig) instance that is located in the same region as the Key Protect instance. Once you provision the Monitoring instance, you will need to enable platform metrics. | `bool` | `true` | no |
+| <a name="input_existing_key_map"></a> [existing\_key\_map](#input\_existing\_key\_map) | Use this variable if you wish to create new keys inside already existing Key Ring(s). The map should contain the existing Key Ring name as the keys of the map, and a list of desired Key Protect Key names to create as the values for each existing Key Ring. | `map(list(string))` | `{}` | no |
 | <a name="input_existing_key_protect_instance_guid"></a> [existing\_key\_protect\_instance\_guid](#input\_existing\_key\_protect\_instance\_guid) | The GUID of an existing Key Protect instance, required if 'var.create\_key\_protect\_instance' is false. | `string` | `null` | no |
-| <a name="input_existing_key_ring_key_map"></a> [existing\_key\_ring\_key\_map](#input\_existing\_key\_ring\_key\_map) | Use this variable if you wish to create new keys inside already existing Key Ring(s). The map should contain the existing Key Ring name as the keys of the map, and a list of desired Key Protect Key names to create as the values for each existing Key Ring. | `map(list(string))` | `{}` | no |
 | <a name="input_force_delete"></a> [force\_delete](#input\_force\_delete) | Allow keys to be force deleted, even if key is in use | `bool` | `true` | no |
 | <a name="input_key_endpoint_type"></a> [key\_endpoint\_type](#input\_key\_endpoint\_type) | The type of endpoint to be used for creating keys. Accepts 'public' or 'private' | `string` | `"public"` | no |
 | <a name="input_key_map"></a> [key\_map](#input\_key\_map) | Use this variable if you wish to create both a new key ring and new key. The map should contain the desired Key Ring name as the keys of the map, and a list of desired Key Protect Key names to create as the values for each Key Ring. | `map(list(string))` | `{}` | no |
@@ -138,6 +138,7 @@ No resources.
 
 | Name | Description |
 |------|-------------|
+| <a name="output_existing_key_ring_keys"></a> [existing\_key\_ring\_keys](#output\_existing\_key\_ring\_keys) | IDs of Keys created by the module in existing Key Rings |
 | <a name="output_key_protect_guid"></a> [key\_protect\_guid](#output\_key\_protect\_guid) | Key Protect GUID |
 | <a name="output_key_protect_name"></a> [key\_protect\_name](#output\_key\_protect\_name) | Key Protect Name |
 | <a name="output_key_rings"></a> [key\_rings](#output\_key\_rings) | IDs of new Key Rings created by the module |

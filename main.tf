@@ -41,7 +41,7 @@ module "key_protect" {
 # Key Protect Key Rings
 ##############################################################################
 
-# Create Key Rings included in var.existing_key_ring_key_map
+# Create Key Rings included in var.existing_key_map
 module "key_protect_key_rings" {
   source        = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key-ring.git?ref=v2.0.0"
   for_each      = var.key_map
@@ -61,7 +61,7 @@ locals {
   # [{key_name = key_1, key_ring_name = key_ring_1}, {key_name = key_2, key_ring_name = key_ring_1}...]
 
   existing_key_ring_key_map = flatten([
-    for key_ring, key_list in var.existing_key_ring_key_map : [
+    for key_ring, key_list in var.existing_key_map : [
       for key_name in key_list : {
         key_name      = key_name
         key_ring_name = key_ring

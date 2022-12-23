@@ -21,3 +21,8 @@ output "keys" {
   description = "IDs of new Keys created by the module"
   value       = module.key_protect_keys
 }
+
+output "existing_key_ring_keys" {
+  description = "IDs of Keys created by the module in existing Key Rings"
+  value       = module.existing_key_ring_keys
+}
