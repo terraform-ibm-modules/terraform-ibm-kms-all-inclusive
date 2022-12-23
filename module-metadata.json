@@ -11,30 +11,20 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 38
+        "line": 15
       }
     },
     "enable_metrics": {
       "name": "enable_metrics",
       "type": "bool",
-      "description": "Set as true to enable metrics on the Key Protect instance.",
+      "description": "Set to true to enable metrics on the Key Protect instance (ignored is value for 'existing_key_protect_instance_guid' is passed). In order to view metrics, you will need a Monitoring (Sysdig) instance that is located in the same region as the Key Protect instance. Once you provision the Monitoring instance, you will need to enable platform metrics.",
       "default": true,
       "source": [
         "module.key_protect.restapi_object.enable_metrics.count"
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 20
-      }
-    },
-    "existing_key_map": {
-      "name": "existing_key_map",
-      "type": "map(list(string))",
-      "description": "A Map containing existing Key Ring names as the keys of the map and a list of desired Key Protect Key names as the values for each existing Key Ring, these keys will only be created if `create_key_protect_instance' is false.",
-      "default": {},
-      "pos": {
-        "filename": "variables.tf",
-        "line": 85
+        "line": 38
       }
     },
     "existing_key_protect_instance_guid": {
@@ -43,13 +33,36 @@
       "description": "The GUID of an existing Key Protect instance, required if 'var.create_key_protect_instance' is false.",
       "pos": {
         "filename": "variables.tf",
-        "line": 32
+        "line": 54
+      }
+    },
+    "existing_key_ring_key_map": {
+      "name": "existing_key_ring_key_map",
+      "type": "map(list(string))",
+      "description": "Use this variable if you wish to create new keys inside already existing Key Ring(s). The map should contain the existing Key Ring name as the keys of the map, and a list of desired Key Protect Key names to create as the values for each existing Key Ring.",
+      "default": {},
+      "pos": {
+        "filename": "variables.tf",
+        "line": 66
+      }
+    },
+    "force_delete": {
+      "name": "force_delete",
+      "type": "bool",
+      "description": "Allow keys to be force deleted, even if key is in use",
+      "default": true,
+      "source": [
+        "module.key_protect_keys.ibm_kms_key.key.force_delete"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 72
       }
     },
     "key_endpoint_type": {
       "name": "key_endpoint_type",
       "type": "string",
-      "description": "The type of endpoint to be used for keys, accepts 'public' or 'private'",
+      "description": "The type of endpoint to be used for creating keys. Accepts 'public' or 'private'",
       "default": "public",
       "source": [
         "module.existing_key_ring_keys.ibm_kms_key.key.endpoint_type",
@@ -61,7 +74,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 75
+        "line": 88
       },
       "immutable": true,
       "computed": true
@@ -69,20 +82,20 @@
     "key_map": {
       "name": "key_map",
       "type": "map(list(string))",
-      "description": "A Map containing the desired Key Ring Names as the keys of the map and a list of desired Key Protect Key names as the values for each Key Ring.",
-      "required": true,
+      "description": "Use this variable if you wish to create both a new key ring and new key. The map should contain the desired Key Ring name as the keys of the map, and a list of desired Key Protect Key names to create as the values for each Key Ring.",
+      "default": {},
       "source": [
         "module.key_protect_key_rings"
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 70
+        "line": 60
       }
     },
     "key_protect_endpoint_type": {
       "name": "key_protect_endpoint_type",
       "type": "string",
-      "description": "The type of endpoint to be used, if creating instances for keys and key rings, accepts 'public' or 'private'",
+      "description": "The type of the service endpoints to be set for the Key Protect instance. Possible values are 'public', 'private', or 'public-and-private'. Ignored is value for 'existing_key_protect_instance_guid' is passed.",
       "default": "public-and-private",
       "source": [
         "module.key_protect.ibm_resource_instance.key_protect_instance.service_endpoints"
@@ -96,40 +109,44 @@
     "key_protect_instance_name": {
       "name": "key_protect_instance_name",
       "type": "string",
-      "description": "The name to give the Key Protect instance that will be provisioned by this module, this variable will be ignored if a value is passed for 'var.existing_key_protect_instance_guid.",
+      "description": "The name to give the Key Protect instance that will be provisioned by this module. Only used if 'create_key_protect_instance' is true",
       "required": true,
       "source": [
         "module.key_protect.ibm_resource_instance.key_protect_instance.name"
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 26
+        "line": 21
+      }
+    },
+    "key_protect_plan": {
+      "name": "key_protect_plan",
+      "type": "string",
+      "description": "Plan for the Key Protect instance. Currently only 'tiered-pricing' is supported. Only used if 'create_key_protect_instance' is true",
+      "default": "tiered-pricing",
+      "required": true,
+      "source": [
+        "module.key_protect.ibm_resource_instance.key_protect_instance.plan"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 27
       }
     },
     "key_ring_endpoint_type": {
       "name": "key_ring_endpoint_type",
       "type": "string",
-      "description": "The type of endpoint to be used, if creating instances for key rings, accepts 'public' or 'private'",
+      "description": "The type of endpoint to be used for creating key rings. Accepts 'public' or 'private'",
       "default": "public",
       "source": [
         "module.key_protect_key_rings.ibm_kms_key_rings.key_ring.endpoint_type"
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 60
+        "line": 78
       },
       "immutable": true,
       "computed": true
-    },
-    "prefix": {
-      "name": "prefix",
-      "type": "string",
-      "description": "The prefix to use for naming all of the provisioned resources.",
-      "required": true,
-      "pos": {
-        "filename": "variables.tf",
-        "line": 15
-      }
     },
     "region": {
       "name": "region",
@@ -173,14 +190,14 @@
     "resource_tags": {
       "name": "resource_tags",
       "type": "list(string)",
-      "description": "Optional list of tags to be added to created resources.",
+      "description": "Optional list of tags to be added to the Key Protect instance. Only used if 'create_key_protect_instance' is true.",
       "default": [],
       "source": [
         "module.key_protect.ibm_resource_instance.key_protect_instance.tags"
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 91
+        "line": 98
       },
       "min_length": 1,
       "max_length": 128,
@@ -189,31 +206,9 @@
       "elem": {
         "type": "TypeString"
       }
-    },
-    "use_existing_key_rings": {
-      "name": "use_existing_key_rings",
-      "type": "bool",
-      "description": "A flag to control whether the 'existing_key_map' variable is used, defaults to false.",
-      "default": false,
-      "source": [
-        "data.ibm_kms_key_rings.existing_key_rings.count"
-      ],
-      "pos": {
-        "filename": "variables.tf",
-        "line": 54
-      }
     }
   },
   "outputs": {
-    "existing_key_ring_keys": {
-      "name": "existing_key_ring_keys",
-      "description": "IDs of Keys created by the module in existing Key Rings",
-      "value": "module.existing_key_ring_keys",
-      "pos": {
-        "filename": "outputs.tf",
-        "line": 32
-      }
-    },
     "key_protect_guid": {
       "name": "key_protect_guid",
       "description": "Key Protect GUID",
@@ -228,25 +223,25 @@
       "description": "Key Protect Name",
       "pos": {
         "filename": "outputs.tf",
-        "line": 13
+        "line": 10
       }
     },
     "key_rings": {
       "name": "key_rings",
-      "description": "IDs of Key Rings created by the module",
+      "description": "IDs of new Key Rings created by the module",
       "value": "module.key_protect_key_rings",
       "pos": {
         "filename": "outputs.tf",
-        "line": 20
+        "line": 15
       }
     },
     "keys": {
       "name": "keys",
-      "description": "IDs of Keys created by the module",
+      "description": "IDs of new Keys created by the module",
       "value": "module.key_protect_keys",
       "pos": {
         "filename": "outputs.tf",
-        "line": 27
+        "line": 20
       }
     }
   },
@@ -268,27 +263,11 @@
     }
   },
   "managed_resources": {},
-  "data_resources": {
-    "data.ibm_kms_key_rings.existing_key_rings": {
-      "mode": "data",
-      "type": "ibm_kms_key_rings",
-      "name": "existing_key_rings",
-      "attributes": {
-        "count": "use_existing_key_rings"
-      },
-      "provider": {
-        "name": "ibm"
-      },
-      "pos": {
-        "filename": "main.tf",
-        "line": 38
-      }
-    }
-  },
+  "data_resources": {},
   "module_calls": {
     "existing_key_ring_keys": {
       "name": "existing_key_ring_keys",
-      "source": "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key.git?ref=v1.0.1",
+      "source": "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key.git?ref=v1.0.2",
       "attributes": {
         "endpoint_type": "key_endpoint_type"
       },
@@ -390,16 +369,17 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 87
+        "line": 99
       }
     },
     "key_protect": {
       "name": "key_protect",
-      "source": "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect.git?ref=v1.1.1",
+      "source": "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect.git?ref=v1.2.0",
       "attributes": {
         "count": "create_key_protect_instance",
         "key_protect_name": "key_protect_instance_name",
         "metrics_enabled": "enable_metrics",
+        "plan": "key_protect_plan",
         "region": "region",
         "resource_group_id": "resource_group_id",
         "service_endpoints": "key_protect_endpoint_type",
@@ -443,7 +423,7 @@
           },
           "pos": {
             "filename": ".terraform/modules/key_protect/main.tf",
-            "line": 15
+            "line": 20
           }
         }
       },
@@ -459,25 +439,34 @@
           },
           "type": "TypeString"
         },
+        "key_protect_id": {
+          "name": "key_protect_id",
+          "description": "ID of the Key Protect instance",
+          "value": "ibm_resource_instance.key_protect_instance.id",
+          "pos": {
+            "filename": ".terraform/modules/key_protect/outputs.tf",
+            "line": 10
+          }
+        },
         "key_protect_name": {
           "name": "key_protect_name",
           "description": "Name of the Key Protect instance",
           "value": "ibm_resource_instance.key_protect_instance.name",
           "pos": {
             "filename": ".terraform/modules/key_protect/outputs.tf",
-            "line": 10
+            "line": 15
           },
           "type": "TypeString"
         }
       },
       "pos": {
         "filename": "main.tf",
-        "line": 15
+        "line": 28
       }
     },
     "key_protect_key_rings": {
       "name": "key_protect_key_rings",
-      "source": "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key-ring.git?ref=v1.0.1",
+      "source": "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key-ring.git?ref=v2.0.0",
       "attributes": {
         "endpoint_type": "key_ring_endpoint_type",
         "for_each": "key_map"
@@ -516,14 +505,15 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 30
+        "line": 45
       }
     },
     "key_protect_keys": {
       "name": "key_protect_keys",
-      "source": "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key.git?ref=v1.0.1",
+      "source": "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key.git?ref=v1.0.2",
       "attributes": {
-        "endpoint_type": "key_endpoint_type"
+        "endpoint_type": "key_endpoint_type",
+        "force_delete": "force_delete"
       },
       "managed_resources": {
         "ibm_kms_key.key": {
@@ -623,7 +613,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 72
+        "line": 83
       }
     }
   }

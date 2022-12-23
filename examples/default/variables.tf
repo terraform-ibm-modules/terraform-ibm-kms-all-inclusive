@@ -13,7 +13,7 @@ variable "region" {
 variable "prefix" {
   type        = string
   description = "Prefix to append to all resources created by this example"
-  default     = "kp-all-inclusive"
+  default     = "kp-all-inc"
 }
 
 variable "resource_group" {

@@ -10,10 +10,10 @@ module "resource_group" {
 }
 
 ##############################################################################
-# "Existing" Key Protect instance
+# Create Key Protect instance outside of terraform-ibm-key-protect-all-inclusive module
 ##############################################################################
 module "existing_key_protect" {
-  source            = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect.git?ref=v1.1.1"
+  source            = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect.git?ref=v1.2.0"
   resource_group_id = module.resource_group.resource_group_id
   region            = var.region
   tags              = var.resource_tags
@@ -21,20 +21,41 @@ module "existing_key_protect" {
 }
 
 ##############################################################################
+# Create Key Ring outside of terraform-ibm-key-protect-all-inclusive module
+##############################################################################
+
+locals {
+  key_ring_id = "${var.prefix}-existing-key-ring"
+}
+
+module "existing_key_ring" {
+  source      = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key-ring.git?ref=v2.0.0"
+  instance_id = module.existing_key_protect.key_protect_guid
+  key_ring_id = local.key_ring_id
+}
+
+##############################################################################
 # Key Protect All Inclusive
 ##############################################################################
 
 module "key_protect_all_inclusive" {
+  depends_on                         = [module.existing_key_ring]
   source                             = "../.."
   resource_group_id                  = module.resource_group.resource_group_id
   region                             = var.region
-  prefix                             = var.prefix
   resource_tags                      = var.resource_tags
   create_key_protect_instance        = false
   existing_key_protect_instance_guid = module.existing_key_protect.key_protect_guid
-  use_existing_key_rings             = true
-  # Following topology groups all root keys related to a given service type (eg: ocp, cos) in the same key ring.
-  # This facilitates access assignment, which meeting least privilege controls
-  key_map          = {}
-  existing_key_map = { "default" = ["default-key"] }
+  existing_key_ring_key_map = {
+    # create a new key in an existing key ring
+    (local.key_ring_id) = [
+      "test-key"
+    ]
+  }
+  key_map = {
+    # "ocp" key ring will be created with a key called "ocp-cluster-1-key"
+    "ocp" = [
+      "ocp-cluster-1-key"
+    ]
+  }
 }
