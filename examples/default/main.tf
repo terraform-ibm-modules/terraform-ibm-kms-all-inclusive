@@ -14,12 +14,26 @@ module "resource_group" {
 ##############################################################################
 
 module "key_protect_all_inclusive" {
-  source            = "../.."
-  resource_group_id = module.resource_group.resource_group_id
-  region            = var.region
-  prefix            = var.prefix
-  resource_tags     = var.resource_tags
-  # Following topology groups all root keys related to a given service type (eg: ocp, cos) in the same key ring.
-  # This facilitates access assignment, which meeting least privilege controls
-  key_map = { "ocp" = ["ocp-cluster-1"], "cos" = ["cos-bucket-1"] }
+  source                    = "../.."
+  resource_group_id         = module.resource_group.resource_group_id
+  key_protect_instance_name = "${var.prefix}-kp"
+  region                    = var.region
+  resource_tags             = var.resource_tags
+  existing_key_map = {
+    # "default" king ring already exists out of the box with Key Protect, so just the key will be created here
+    "default" = [
+      "default-key"
+    ]
+  }
+  key_map = {
+    # "ocp" key ring will be created with a key called "ocp-cluster-1-key"
+    "ocp" = [
+      "ocp-cluster-1-key"
+    ],
+    # "cos" key ring will be created with 2 keys called "cos-bucket-1-key" and "cos-bucket-2-key"
+    "cos" = [
+      "cos-bucket-1-key",
+      "cos-bucket-2-key"
+    ]
+  }
 }
