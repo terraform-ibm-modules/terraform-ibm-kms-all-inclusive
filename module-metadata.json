@@ -288,7 +288,7 @@
   "module_calls": {
     "existing_key_ring_keys": {
       "name": "existing_key_ring_keys",
-      "source": "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key.git?ref=v1.0.1",
+      "source": "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key.git?ref=v1.0.2",
       "attributes": {
         "endpoint_type": "key_endpoint_type"
       },
@@ -530,7 +530,7 @@
     },
     "key_protect_keys": {
       "name": "key_protect_keys",
-      "source": "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key.git?ref=v1.0.1",
+      "source": "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key.git?ref=v1.0.2",
       "attributes": {
         "endpoint_type": "key_endpoint_type"
       },
