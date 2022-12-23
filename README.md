@@ -1,13 +1,11 @@
-<!-- BEGIN MODULE HOOK -->
-
-<!-- Update the title to match the module name and add a description -->
 # Key Protect all inclusive module
-<!-- UPDATE BADGE: Update the link for the following badge-->
+
 [![Stable (With quality checks)](https://img.shields.io/badge/Status-Stable%20(With%20quality%20checks)-green?style=plastic)](https://terraform-ibm-modules.github.io/documentation/#/badge-status)
 [![Build status](https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive/actions/workflows/ci.yml/badge.svg)](https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive/actions/workflows/ci.yml)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 [![latest release](https://img.shields.io/github/v/release/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive?logo=GitHub&sort=semver)](https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive/releases/latest)
+[![Renovate enabled](https://img.shields.io/badge/renovate-enabled-brightgreen.svg)](https://renovatebot.com/)
 
 This module combines the following Key Protect modules to create a full end-to-end key infrastructure:
 - [Key Protect module](https://github.com/terraform-ibm-modules/terraform-ibm-key-protect)
@@ -41,27 +39,15 @@ One emerging pattern is to create one Key Protect instance per VPC. All workload
 
 ## Usage
 
+There is currently an [enhancement request](https://github.com/IBM-Cloud/terraform-provider-ibm/issues/4256) open with the IBM terraform provider to support enabling metrics. Until then, this module uses the restapi provider to enable metrics.
+
 ```hcl
-##############################################################################
-# Key Protect All Inclusive
-##############################################################################
-
-# Replace "main" with a GIT release version to lock into a specific release
-module "key_protect_all_inclusive" {
-    source            = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive.git?ref=main"
-    resource_group_id = "1234qwerasdfzxcv5678tyuighjk" #pragma: allowlist secret
-    region            = "us-south"
-    prefix            = "kp-all-inclusive"
-    key_map           = {
-        "example-key-ring-1" = ["example-key-1", "example-key-2"]
-        "example-key-ring-2" = ["example-key-3", "example-key-4"]
-    }
+provider "ibm" {
+  ibmcloud_api_key = "XXXXXXXXXX"
+  region           = "us-south"
 }
-```
 
-### Note:
-The RestAPI provider configuration that is needed for enabling metrics in the key-protect-module needs to be configured with specific headers that differ from the other modules, please use a configuration containing the following headers. You may need to set this provider as an alias if using other modules which require the RestAPI provider
-```
+# Retrieve IAM access token (required for restapi provider)
 data "ibm_iam_auth_token" "token_data" {
 }
 
@@ -69,11 +55,23 @@ provider "restapi" {
   uri                   = "https:"
   write_returns_object  = false
   create_returns_object = false
-  debug                 = false # set to true to show detailed logs, but use carefully as it might print sensitive values.
+  debug                 = false
   headers = {
     Authorization    = data.ibm_iam_auth_token.token_data.iam_access_token
-    Bluemix-Instance = module.key_protect_all_inclusive.key_protect_guid
+    Bluemix-Instance = module.key_protect_module.key_protect_guid
     Content-Type     = "application/vnd.ibm.kms.policy+json"
+  }
+}
+
+module "key_protect_all_inclusive" {
+  # Replace "main" with a GIT release version to lock into a specific release
+  source            = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive.git?ref=main"
+  key_protect_instance_name = "my-key-protect-instance"
+  resource_group_id = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
+  region            = "us-south"
+  key_map           = {
+    "example-key-ring-1" = ["example-key-1", "example-key-2"]
+    "example-key-ring-2" = ["example-key-3", "example-key-4"]
   }
 }
 ```
@@ -89,7 +87,6 @@ You need the following permissions to run this module.
         - `Editor` platform access
         - `Manager` service access
 
-<!-- END MODULE HOOK -->
 <!-- BEGIN EXAMPLES HOOK -->
 ## Examples
 
@@ -116,28 +113,26 @@ You need the following permissions to run this module.
 
 ## Resources
 
-| Name | Type |
-|------|------|
-| [ibm_kms_key_rings.existing_key_rings](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/data-sources/kms_key_rings) | data source |
+No resources.
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_create_key_protect_instance"></a> [create\_key\_protect\_instance](#input\_create\_key\_protect\_instance) | A flag to control whether a Key Protect instance is created, defaults to true. | `bool` | `true` | no |
-| <a name="input_enable_metrics"></a> [enable\_metrics](#input\_enable\_metrics) | Set as true to enable metrics on the Key Protect instance. | `bool` | `true` | no |
-| <a name="input_existing_key_map"></a> [existing\_key\_map](#input\_existing\_key\_map) | A Map containing existing Key Ring names as the keys of the map and a list of desired Key Protect Key names as the values for each existing Key Ring, these keys will only be created if `create_key_protect_instance' is false.` | `map(list(string))` | `{}` | no |
+| <a name="input_enable_metrics"></a> [enable\_metrics](#input\_enable\_metrics) | Set to true to enable metrics on the Key Protect instance (ignored is value for 'existing\_key\_protect\_instance\_guid' is passed). In order to view metrics, you will need a Monitoring (Sysdig) instance that is located in the same region as the Key Protect instance. Once you provision the Monitoring instance, you will need to enable platform metrics. | `bool` | `true` | no |
+| <a name="input_existing_key_map"></a> [existing\_key\_map](#input\_existing\_key\_map) | Use this variable if you wish to create new keys inside already existing Key Ring(s). The map should contain the existing Key Ring name as the keys of the map, and a list of desired Key Protect Key names to create as the values for each existing Key Ring. | `map(list(string))` | `{}` | no |
 | <a name="input_existing_key_protect_instance_guid"></a> [existing\_key\_protect\_instance\_guid](#input\_existing\_key\_protect\_instance\_guid) | The GUID of an existing Key Protect instance, required if 'var.create\_key\_protect\_instance' is false. | `string` | `null` | no |
-| <a name="input_key_endpoint_type"></a> [key\_endpoint\_type](#input\_key\_endpoint\_type) | The type of endpoint to be used for keys, accepts 'public' or 'private' | `string` | `"public"` | no |
-| <a name="input_key_map"></a> [key\_map](#input\_key\_map) | A Map containing the desired Key Ring Names as the keys of the map and a list of desired Key Protect Key names as the values for each Key Ring. | `map(list(string))` | n/a | yes |
-| <a name="input_key_protect_endpoint_type"></a> [key\_protect\_endpoint\_type](#input\_key\_protect\_endpoint\_type) | The type of endpoint to be used, if creating instances for keys and key rings, accepts 'public' or 'private' | `string` | `"public-and-private"` | no |
-| <a name="input_key_protect_instance_name"></a> [key\_protect\_instance\_name](#input\_key\_protect\_instance\_name) | The name to give the Key Protect instance that will be provisioned by this module, this variable will be ignored if a value is passed for 'var.existing\_key\_protect\_instance\_guid. | `string` | `null` | no |
-| <a name="input_key_ring_endpoint_type"></a> [key\_ring\_endpoint\_type](#input\_key\_ring\_endpoint\_type) | The type of endpoint to be used, if creating instances for key rings, accepts 'public' or 'private' | `string` | `"public"` | no |
-| <a name="input_prefix"></a> [prefix](#input\_prefix) | The prefix to use for naming all of the provisioned resources. | `string` | n/a | yes |
+| <a name="input_force_delete"></a> [force\_delete](#input\_force\_delete) | Allow keys to be force deleted, even if key is in use | `bool` | `true` | no |
+| <a name="input_key_endpoint_type"></a> [key\_endpoint\_type](#input\_key\_endpoint\_type) | The type of endpoint to be used for creating keys. Accepts 'public' or 'private' | `string` | `"public"` | no |
+| <a name="input_key_map"></a> [key\_map](#input\_key\_map) | Use this variable if you wish to create both a new key ring and new key. The map should contain the desired Key Ring name as the keys of the map, and a list of desired Key Protect Key names to create as the values for each Key Ring. | `map(list(string))` | `{}` | no |
+| <a name="input_key_protect_endpoint_type"></a> [key\_protect\_endpoint\_type](#input\_key\_protect\_endpoint\_type) | The type of the service endpoints to be set for the Key Protect instance. Possible values are 'public', 'private', or 'public-and-private'. Ignored is value for 'existing\_key\_protect\_instance\_guid' is passed. | `string` | `"public-and-private"` | no |
+| <a name="input_key_protect_instance_name"></a> [key\_protect\_instance\_name](#input\_key\_protect\_instance\_name) | The name to give the Key Protect instance that will be provisioned by this module. Only used if 'create\_key\_protect\_instance' is true | `string` | `null` | no |
+| <a name="input_key_protect_plan"></a> [key\_protect\_plan](#input\_key\_protect\_plan) | Plan for the Key Protect instance. Currently only 'tiered-pricing' is supported. Only used if 'create\_key\_protect\_instance' is true | `string` | `"tiered-pricing"` | no |
+| <a name="input_key_ring_endpoint_type"></a> [key\_ring\_endpoint\_type](#input\_key\_ring\_endpoint\_type) | The type of endpoint to be used for creating key rings. Accepts 'public' or 'private' | `string` | `"public"` | no |
 | <a name="input_region"></a> [region](#input\_region) | The IBM Cloud region where all resources will be provisioned. | `string` | n/a | yes |
 | <a name="input_resource_group_id"></a> [resource\_group\_id](#input\_resource\_group\_id) | The name of the Resource Group to provision all resources in. | `string` | n/a | yes |
-| <a name="input_resource_tags"></a> [resource\_tags](#input\_resource\_tags) | Optional list of tags to be added to created resources. | `list(string)` | `[]` | no |
-| <a name="input_use_existing_key_rings"></a> [use\_existing\_key\_rings](#input\_use\_existing\_key\_rings) | A flag to control whether the 'existing\_key\_map' variable is used, defaults to false. | `bool` | `false` | no |
+| <a name="input_resource_tags"></a> [resource\_tags](#input\_resource\_tags) | Optional list of tags to be added to the Key Protect instance. Only used if 'create\_key\_protect\_instance' is true. | `list(string)` | `[]` | no |
 
 ## Outputs
 
@@ -146,8 +141,8 @@ You need the following permissions to run this module.
 | <a name="output_existing_key_ring_keys"></a> [existing\_key\_ring\_keys](#output\_existing\_key\_ring\_keys) | IDs of Keys created by the module in existing Key Rings |
 | <a name="output_key_protect_guid"></a> [key\_protect\_guid](#output\_key\_protect\_guid) | Key Protect GUID |
 | <a name="output_key_protect_name"></a> [key\_protect\_name](#output\_key\_protect\_name) | Key Protect Name |
-| <a name="output_key_rings"></a> [key\_rings](#output\_key\_rings) | IDs of Key Rings created by the module |
-| <a name="output_keys"></a> [keys](#output\_keys) | IDs of Keys created by the module |
+| <a name="output_key_rings"></a> [key\_rings](#output\_key\_rings) | IDs of new Key Rings created by the module |
+| <a name="output_keys"></a> [keys](#output\_keys) | IDs of new Keys created by the module |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 <!-- BEGIN CONTRIBUTING HOOK -->
 
