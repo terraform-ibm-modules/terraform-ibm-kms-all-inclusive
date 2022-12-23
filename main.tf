@@ -74,7 +74,7 @@ module "key_protect_keys" {
   depends_on = [
     module.key_protect_key_rings,
   ]
-  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key.git?ref=v1.0.1"
+  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key.git?ref=v1.0.2"
   # This for_each is needed to assign a name to the maps in the array so they can be referenced/saved in the terraform graph
   for_each                = { for map_name in local.key_ring_key_map : "${map_name.key_ring_name}.${map_name.key_name}" => map_name }
   endpoint_type           = var.key_endpoint_type
@@ -89,7 +89,7 @@ module "existing_key_ring_keys" {
   depends_on = [
     data.ibm_kms_key_rings.existing_key_rings
   ]
-  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key.git?ref=v1.0.1"
+  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key.git?ref=v1.0.2"
   # This for_each is needed to assign a name to the maps in the array so they can be referenced/saved in the terraform graph
   for_each                = { for map_name in local.existing_key_ring_key_map : "existing-key-ring.${map_name.key_name}" => map_name }
   key_protect_instance_id = local.key_protect_guid
