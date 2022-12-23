@@ -486,7 +486,7 @@
     },
     "key_protect_key_rings": {
       "name": "key_protect_key_rings",
-      "source": "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key-ring.git?ref=v1.0.1",
+      "source": "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key-ring.git?ref=v2.0.0",
       "attributes": {
         "endpoint_type": "key_ring_endpoint_type",
         "for_each": "key_map"
