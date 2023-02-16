@@ -12,6 +12,11 @@ output "key_protect_name" {
   value       = length(module.key_protect) > 0 ? module.key_protect[0].key_protect_name : null
 }
 
+output "key_protect_instance_policies" {
+  description = "Instance Polices of the Key Protect instance"
+  value       = length(module.key_protect) > 0 ? module.key_protect[0].key_protect_instance_policies : null
+}
+
 output "key_rings" {
   description = "IDs of new Key Rings created by the module"
   value       = module.key_protect_key_rings
