@@ -22,6 +22,11 @@ output "key_protect_name" {
   value       = module.key_protect_all_inclusive.key_protect_name
 }
 
+output "key_protect_instance_policies" {
+  description = "Instance Polices of the Key Protect instance"
+  value       = module.key_protect_all_inclusive.key_protect_instance_policies
+}
+
 output "key_rings" {
   description = "IDs of Key Rings created by the module"
   value       = module.key_protect_all_inclusive.key_rings
