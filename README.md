@@ -14,7 +14,6 @@ This module combines the following Key Protect modules to create a full end-to-e
 
 The module takes a map, called `key_map`, that supports hierarchical "key rings" for a single Key Protect instance. Because access to key rings is managed in Key Protect, you can comply with controls around least privilege (for example, [NIST AC-6](https://csrc.nist.gov/Projects/risk-management/sp800-53-controls/release-search#/control?version=4.0&number=AC-6)) and can reduce the number of access groups you need to assign. For more information about key rings, see [Grouping keys together using key rings](https://cloud.ibm.com/docs/key-protect?topic=key-protect-grouping-keys).
 The following example shows a typical topology for a Key Protect instance:
-
 ```
 ├── cos-key-ring
 │   ├── root-key-cos-bucket-1
