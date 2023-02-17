@@ -20,7 +20,7 @@
       "description": "Set to true to enable metrics on the Key Protect instance (ignored is value for 'existing_key_protect_instance_guid' is passed). In order to view metrics, you will need a Monitoring (Sysdig) instance that is located in the same region as the Key Protect instance. Once you provision the Monitoring instance, you will need to enable platform metrics.",
       "default": true,
       "source": [
-        "module.key_protect.restapi_object.enable_metrics.count"
+        "module.key_protect"
       ],
       "pos": {
         "filename": "variables.tf",
@@ -154,12 +154,7 @@
       "description": "The IBM Cloud region where all resources will be provisioned.",
       "required": true,
       "source": [
-        "module.key_protect.ibm_resource_instance.key_protect_instance.location",
-        "module.key_protect.restapi_object.enable_metrics.create_path",
-        "module.key_protect.restapi_object.enable_metrics.destroy_path",
-        "module.key_protect.restapi_object.enable_metrics.path",
-        "module.key_protect.restapi_object.enable_metrics.read_path",
-        "module.key_protect.restapi_object.enable_metrics.update_path"
+        "module.key_protect.ibm_resource_instance.key_protect_instance.location"
       ],
       "pos": {
         "filename": "variables.tf",
@@ -215,7 +210,7 @@
       "value": "module.existing_key_ring_keys",
       "pos": {
         "filename": "outputs.tf",
-        "line": 25
+        "line": 30
       }
     },
     "key_protect_guid": {
@@ -225,6 +220,14 @@
       "pos": {
         "filename": "outputs.tf",
         "line": 5
+      }
+    },
+    "key_protect_instance_policies": {
+      "name": "key_protect_instance_policies",
+      "description": "Instance Polices of the Key Protect instance",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 15
       }
     },
     "key_protect_name": {
@@ -241,7 +244,7 @@
       "value": "module.key_protect_key_rings",
       "pos": {
         "filename": "outputs.tf",
-        "line": 15
+        "line": 20
       }
     },
     "keys": {
@@ -250,7 +253,7 @@
       "value": "module.key_protect_keys",
       "pos": {
         "filename": "outputs.tf",
-        "line": 20
+        "line": 25
       }
     }
   },
@@ -383,7 +386,7 @@
     },
     "key_protect": {
       "name": "key_protect",
-      "source": "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect.git?ref=v1.2.1",
+      "source": "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect.git?ref=v1.3.0",
       "attributes": {
         "count": "create_key_protect_instance",
         "key_protect_name": "key_protect_instance_name",
@@ -395,6 +398,18 @@
         "tags": "resource_tags"
       },
       "managed_resources": {
+        "ibm_kms_instance_policies.key_protect_instance_policies": {
+          "mode": "managed",
+          "type": "ibm_kms_instance_policies",
+          "name": "key_protect_instance_policies",
+          "provider": {
+            "name": "ibm"
+          },
+          "pos": {
+            "filename": ".terraform/modules/key_protect/main.tf",
+            "line": 19
+          }
+        },
         "ibm_resource_instance.key_protect_instance": {
           "mode": "managed",
           "type": "ibm_resource_instance",
@@ -413,26 +428,6 @@
           "pos": {
             "filename": ".terraform/modules/key_protect/main.tf",
             "line": 5
-          }
-        },
-        "restapi_object.enable_metrics": {
-          "mode": "managed",
-          "type": "restapi_object",
-          "name": "enable_metrics",
-          "attributes": {
-            "count": "metrics_enabled",
-            "create_path": "region",
-            "destroy_path": "region",
-            "path": "region",
-            "read_path": "region",
-            "update_path": "region"
-          },
-          "provider": {
-            "name": "restapi"
-          },
-          "pos": {
-            "filename": ".terraform/modules/key_protect/main.tf",
-            "line": 20
           }
         }
       },
@@ -455,6 +450,15 @@
           "pos": {
             "filename": ".terraform/modules/key_protect/outputs.tf",
             "line": 10
+          }
+        },
+        "key_protect_instance_policies": {
+          "name": "key_protect_instance_policies",
+          "description": "Instance Polices of the Key Protect instance",
+          "value": "ibm_kms_instance_policies.key_protect_instance_policies",
+          "pos": {
+            "filename": ".terraform/modules/key_protect/outputs.tf",
+            "line": 20
           }
         },
         "key_protect_name": {
