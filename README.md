@@ -39,7 +39,7 @@ One emerging pattern is to create one Key Protect instance per VPC. All workload
 
 ## Usage
 
-There is currently an [enhancement request](https://github.com/IBM-Cloud/terraform-provider-ibm/issues/4256) open with the IBM terraform provider to support enabling metrics. Until then, this module uses the restapi provider to enable metrics.
+Although the restapi provider is currently a required provider for this module, it is no longer used for any function within the module. It will be removed in the next major version release of this module.
 
 ```hcl
 provider "ibm" {
@@ -140,6 +140,7 @@ No resources.
 |------|-------------|
 | <a name="output_existing_key_ring_keys"></a> [existing\_key\_ring\_keys](#output\_existing\_key\_ring\_keys) | IDs of Keys created by the module in existing Key Rings |
 | <a name="output_key_protect_guid"></a> [key\_protect\_guid](#output\_key\_protect\_guid) | Key Protect GUID |
+| <a name="output_key_protect_instance_policies"></a> [key\_protect\_instance\_policies](#output\_key\_protect\_instance\_policies) | Instance Polices of the Key Protect instance |
 | <a name="output_key_protect_name"></a> [key\_protect\_name](#output\_key\_protect\_name) | Key Protect Name |
 | <a name="output_key_rings"></a> [key\_rings](#output\_key\_rings) | IDs of new Key Rings created by the module |
 | <a name="output_keys"></a> [keys](#output\_keys) | IDs of new Keys created by the module |
