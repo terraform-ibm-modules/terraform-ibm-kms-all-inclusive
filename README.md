@@ -74,6 +74,7 @@ You need the following permissions to run this module.
 
 - [ End to end example with default values](examples/default)
 - [ Existing resources example](examples/existing-resources)
+- [ Example with SLZ default values](examples/slz)
 <!-- END EXAMPLES HOOK -->
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
