@@ -210,7 +210,7 @@
       "value": "module.existing_key_ring_keys",
       "pos": {
         "filename": "outputs.tf",
-        "line": 30
+        "line": 35
       }
     },
     "key_protect_guid": {
@@ -222,12 +222,20 @@
         "line": 5
       }
     },
+    "key_protect_id": {
+      "name": "key_protect_id",
+      "description": "Key Protect service instance ID when an instance is created, otherwise null",
+      "pos": {
+        "filename": "outputs.tf",
+        "line": 10
+      }
+    },
     "key_protect_instance_policies": {
       "name": "key_protect_instance_policies",
       "description": "Instance Polices of the Key Protect instance",
       "pos": {
         "filename": "outputs.tf",
-        "line": 15
+        "line": 20
       }
     },
     "key_protect_name": {
@@ -235,7 +243,7 @@
       "description": "Key Protect Name",
       "pos": {
         "filename": "outputs.tf",
-        "line": 10
+        "line": 15
       }
     },
     "key_rings": {
@@ -244,7 +252,7 @@
       "value": "module.key_protect_key_rings",
       "pos": {
         "filename": "outputs.tf",
-        "line": 20
+        "line": 25
       }
     },
     "keys": {
@@ -253,7 +261,7 @@
       "value": "module.key_protect_keys",
       "pos": {
         "filename": "outputs.tf",
-        "line": 25
+        "line": 30
       }
     }
   },

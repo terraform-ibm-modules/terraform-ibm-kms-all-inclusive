@@ -12,6 +12,11 @@ output "resource_group_id" {
   value       = module.resource_group.resource_group_id
 }
 
+output "key_protect_id" {
+  description = "Key Protect service instance ID"
+  value       = module.existing_key_protect.key_protect_id
+}
+
 output "key_protect_guid" {
   description = "Key Protect GUID"
   value       = module.key_protect_all_inclusive.key_protect_guid
