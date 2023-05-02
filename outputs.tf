@@ -7,6 +7,11 @@ output "key_protect_guid" {
   value       = local.key_protect_guid
 }
 
+output "key_protect_id" {
+  description = "Key Protect service instance ID when an instance is created, otherwise null"
+  value       = can(module.key_protect[0].key_protect_id) ? module.key_protect[0].key_protect_id : null
+}
+
 output "key_protect_name" {
   description = "Key Protect Name"
   value       = length(module.key_protect) > 0 ? module.key_protect[0].key_protect_name : null
