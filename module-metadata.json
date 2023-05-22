@@ -272,7 +272,7 @@
     "ibm": {
       "source": "IBM-Cloud/ibm",
       "version_constraints": [
-        "\u003e= 1.49.0"
+        "\u003e= 1.53.0"
       ]
     }
   },
@@ -388,7 +388,7 @@
     },
     "key_protect": {
       "name": "key_protect",
-      "source": "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect.git?ref=v2.0.0",
+      "source": "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect.git?ref=v2.2.0",
       "attributes": {
         "count": "create_key_protect_instance",
         "key_protect_name": "key_protect_instance_name",
@@ -430,6 +430,22 @@
           "pos": {
             "filename": ".terraform/modules/key_protect/main.tf",
             "line": 5
+          }
+        },
+        "ibm_resource_tag.key_protect_tag": {
+          "mode": "managed",
+          "type": "ibm_resource_tag",
+          "name": "key_protect_tag",
+          "attributes": {
+            "count": "access_tags",
+            "tags": "access_tags"
+          },
+          "provider": {
+            "name": "ibm"
+          },
+          "pos": {
+            "filename": ".terraform/modules/key_protect/main.tf",
+            "line": 45
           }
         }
       },
