@@ -19,6 +19,7 @@ module "key_protect_all_inclusive" {
   key_protect_instance_name = "${var.prefix}-slz-kms"
   region                    = var.region
   resource_tags             = var.resource_tags
+  access_tags               = var.access_tags
   key_map = {
     "${var.prefix}-slz-ring" = [
       "${var.prefix}-slz-key",
