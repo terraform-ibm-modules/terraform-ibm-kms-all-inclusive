@@ -2,20 +2,34 @@
 package test
 
 import (
+	"log"
+	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/common"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testhelper"
 )
 
 // Use existing resource group for tests
 const resourceGroup = "geretain-test-key-protect-all-inclusive"
 const defaultExampleDir = "examples/default"
-const existingResourcesExampleDir = "examples/default"
+const existingResourcesExampleDir = "examples/existing-resources"
 
-var ignoreUpdates = []string{
-	//remove after merge
-	"module.key_protect_all_inclusive.module.key_protect[0].ibm_kms_instance_policies.key_protect_instance_policies",
+// Define a struct with fields that match the structure of the YAML data
+const yamlLocation = "../common-dev-assets/common-go-assets/common-permanent-resources.yaml"
+
+var permanentResources map[string]interface{}
+
+func TestMain(m *testing.M) {
+	// Read the YAML file contents
+	var err error
+	permanentResources, err = common.LoadMapFromYaml(yamlLocation)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	os.Exit(m.Run())
 }
 
 func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptions {
@@ -24,8 +38,8 @@ func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptio
 		TerraformDir:  dir,
 		Prefix:        prefix,
 		ResourceGroup: resourceGroup,
-		IgnoreUpdates: testhelper.Exemptions{
-			List: ignoreUpdates,
+		TerraformVars: map[string]interface{}{
+			"access_tags": permanentResources["accessTags"],
 		},
 	})
 

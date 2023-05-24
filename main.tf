@@ -26,15 +26,21 @@ locals {
 }
 
 module "key_protect" {
-  count             = var.create_key_protect_instance ? 1 : 0
-  source            = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect.git?ref=v2.2.0"
-  key_protect_name  = var.key_protect_instance_name
-  region            = var.region
-  service_endpoints = var.key_protect_endpoint_type
-  resource_group_id = var.resource_group_id
-  plan              = var.key_protect_plan
-  tags              = var.resource_tags
-  metrics_enabled   = var.enable_metrics
+  count                             = var.create_key_protect_instance ? 1 : 0
+  source                            = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect.git?ref=v2.2.0"
+  key_protect_name                  = var.key_protect_instance_name
+  region                            = var.region
+  service_endpoints                 = var.key_protect_endpoint_type
+  resource_group_id                 = var.resource_group_id
+  plan                              = var.key_protect_plan
+  tags                              = var.resource_tags
+  access_tags                       = var.access_tags
+  rotation_enabled                  = var.rotation_enabled
+  rotation_interval_month           = var.rotation_interval_month
+  metrics_enabled                   = var.enable_metrics
+  dual_auth_delete_enabled          = var.dual_auth_delete_enabled
+  key_create_import_access_enabled  = var.key_create_import_access_enabled
+  key_create_import_access_settings = var.key_create_import_access_settings
 }
 
 ##############################################################################

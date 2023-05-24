@@ -1,6 +1,27 @@
 {
   "path": ".",
   "variables": {
+    "access_tags": {
+      "name": "access_tags",
+      "type": "list(string)",
+      "description": "A list of access tags to apply to the Key Protect instance created by the module.",
+      "default": [],
+      "source": [
+        "module.key_protect.ibm_resource_tag.key_protect_tag.count",
+        "module.key_protect.ibm_resource_tag.key_protect_tag.tags"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 140
+      },
+      "min_length": 1,
+      "max_length": 128,
+      "matches": "^[A-Za-z0-9:_ .-]+$",
+      "computed": true,
+      "elem": {
+        "type": "TypeString"
+      }
+    },
     "create_key_protect_instance": {
       "name": "create_key_protect_instance",
       "type": "bool",
@@ -14,6 +35,19 @@
         "line": 15
       }
     },
+    "dual_auth_delete_enabled": {
+      "name": "dual_auth_delete_enabled",
+      "type": "bool",
+      "description": "If set to true, Key Protect enables a dual authorization policy on the instance. Note: Once the dual authorization policy is set on the instance, it cannot be reverted. An instance with dual authorization policy enabled cannot be destroyed using Terraform.",
+      "default": false,
+      "source": [
+        "module.key_protect"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 50
+      }
+    },
     "enable_metrics": {
       "name": "enable_metrics",
       "type": "bool",
@@ -24,7 +58,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 38
+        "line": 56
       }
     },
     "existing_key_map": {
@@ -34,7 +68,7 @@
       "default": {},
       "pos": {
         "filename": "variables.tf",
-        "line": 66
+        "line": 102
       }
     },
     "existing_key_protect_instance_guid": {
@@ -43,7 +77,7 @@
       "description": "The GUID of an existing Key Protect instance, required if 'var.create_key_protect_instance' is false.",
       "pos": {
         "filename": "variables.tf",
-        "line": 54
+        "line": 90
       }
     },
     "force_delete": {
@@ -56,7 +90,33 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 72
+        "line": 108
+      }
+    },
+    "key_create_import_access_enabled": {
+      "name": "key_create_import_access_enabled",
+      "type": "bool",
+      "description": "If set to true, Key Protect enables a key create import access policy on the instance",
+      "default": true,
+      "source": [
+        "module.key_protect"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 62
+      }
+    },
+    "key_create_import_access_settings": {
+      "name": "key_create_import_access_settings",
+      "type": "object({\n    create_root_key     = optional(bool, true)\n    create_standard_key = optional(bool, true)\n    import_root_key     = optional(bool, true)\n    import_standard_key = optional(bool, true)\n    enforce_token       = optional(bool, false)\n  })",
+      "description": "Key create import access policy settings to configure if var.enable_key_create_import_access_policy is true. For more info see https://cloud.ibm.com/docs/key-protect?topic=key-protect-manage-keyCreateImportAccess",
+      "default": {},
+      "source": [
+        "module.key_protect"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 68
       }
     },
     "key_endpoint_type": {
@@ -74,7 +134,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 88
+        "line": 124
       },
       "immutable": true,
       "computed": true
@@ -89,7 +149,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 60
+        "line": 96
       }
     },
     "key_protect_endpoint_type": {
@@ -102,7 +162,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 44
+        "line": 80
       },
       "computed": true
     },
@@ -143,7 +203,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 78
+        "line": 114
       },
       "immutable": true,
       "computed": true
@@ -192,7 +252,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 98
+        "line": 134
       },
       "min_length": 1,
       "max_length": 128,
@@ -200,6 +260,32 @@
       "computed": true,
       "elem": {
         "type": "TypeString"
+      }
+    },
+    "rotation_enabled": {
+      "name": "rotation_enabled",
+      "type": "bool",
+      "description": "If set to true, Key Protect enables a rotation policy on the Key Protect instance.",
+      "default": true,
+      "source": [
+        "module.key_protect"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 38
+      }
+    },
+    "rotation_interval_month": {
+      "name": "rotation_interval_month",
+      "type": "number",
+      "description": "Specifies the key rotation time interval in months. Must be between 1 and 12 inclusive.",
+      "default": 1,
+      "source": [
+        "module.key_protect"
+      ],
+      "pos": {
+        "filename": "variables.tf",
+        "line": 44
       }
     }
   },
@@ -383,19 +469,25 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 99
+        "line": 105
       }
     },
     "key_protect": {
       "name": "key_protect",
       "source": "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect.git?ref=v2.2.0",
       "attributes": {
+        "access_tags": "access_tags",
         "count": "create_key_protect_instance",
+        "dual_auth_delete_enabled": "dual_auth_delete_enabled",
+        "key_create_import_access_enabled": "key_create_import_access_enabled",
+        "key_create_import_access_settings": "key_create_import_access_settings",
         "key_protect_name": "key_protect_instance_name",
         "metrics_enabled": "enable_metrics",
         "plan": "key_protect_plan",
         "region": "region",
         "resource_group_id": "resource_group_id",
+        "rotation_enabled": "rotation_enabled",
+        "rotation_interval_month": "rotation_interval_month",
         "service_endpoints": "key_protect_endpoint_type",
         "tags": "resource_tags"
       },
@@ -536,7 +628,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 45
+        "line": 51
       }
     },
     "key_protect_keys": {
@@ -644,7 +736,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 83
+        "line": 89
       }
     }
   }
