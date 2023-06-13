@@ -46,8 +46,8 @@ provider "ibm" {
 }
 
 module "key_protect_all_inclusive" {
-  # Replace "main" with a GIT release version to lock into a specific release
-  source            = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive.git?ref=main"
+  source  = "terraform-ibm-modules/key-protect-all-inclusive/ibm"
+  version = "latest" # Replace "latest" with a release version to lock into a specific release
   key_protect_instance_name = "my-key-protect-instance"
   resource_group_id = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
   region            = "us-south"
@@ -88,10 +88,10 @@ You need the following permissions to run this module.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_existing_key_ring_keys"></a> [existing\_key\_ring\_keys](#module\_existing\_key\_ring\_keys) | git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key.git | v1.0.3 |
-| <a name="module_key_protect"></a> [key\_protect](#module\_key\_protect) | git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect.git | v2.2.0 |
-| <a name="module_key_protect_key_rings"></a> [key\_protect\_key\_rings](#module\_key\_protect\_key\_rings) | git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key-ring.git | v2.0.1 |
-| <a name="module_key_protect_keys"></a> [key\_protect\_keys](#module\_key\_protect\_keys) | git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key.git | v1.0.3 |
+| <a name="module_existing_key_ring_keys"></a> [existing\_key\_ring\_keys](#module\_existing\_key\_ring\_keys) | terraform-ibm-modules/key-protect/ibm | 2.2.0 |
+| <a name="module_key_protect"></a> [key\_protect](#module\_key\_protect) | terraform-ibm-modules/key-protect/ibm | 2.2.0 |
+| <a name="module_key_protect_key_rings"></a> [key\_protect\_key\_rings](#module\_key\_protect\_key\_rings) | terraform-ibm-modules/key-protect-key-ring/ibm | 2.0.1 |
+| <a name="module_key_protect_keys"></a> [key\_protect\_keys](#module\_key\_protect\_keys) | terraform-ibm-modules/key-protect/ibm | 2.2.0 |
 
 ## Resources
 
