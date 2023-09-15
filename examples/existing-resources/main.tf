@@ -3,7 +3,7 @@
 ##############################################################################
 
 module "resource_group" {
-  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-resource-group.git?ref=v1.0.5"
+  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-resource-group.git?ref=v1.0.6"
   # if an existing resource group is not set (null) create a new one using prefix
   resource_group_name          = var.resource_group == null ? "${var.prefix}-resource-group" : null
   existing_resource_group_name = var.resource_group
@@ -13,7 +13,7 @@ module "resource_group" {
 # Create Key Protect instance outside of terraform-ibm-key-protect-all-inclusive module
 ##############################################################################
 module "existing_key_protect" {
-  source            = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect.git?ref=v2.2.0"
+  source            = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect.git?ref=v2.3.1"
   resource_group_id = module.resource_group.resource_group_id
   region            = var.region
   tags              = var.resource_tags
@@ -29,7 +29,7 @@ locals {
 }
 
 module "existing_key_ring" {
-  source      = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key-ring.git?ref=v2.0.1"
+  source      = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key-ring.git?ref=v2.1.0"
   instance_id = module.existing_key_protect.key_protect_guid
   key_ring_id = local.key_ring_id
 }

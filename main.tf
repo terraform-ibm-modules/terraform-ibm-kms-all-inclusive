@@ -27,7 +27,7 @@ locals {
 
 module "key_protect" {
   count                             = var.create_key_protect_instance ? 1 : 0
-  source                            = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect.git?ref=v2.2.0"
+  source                            = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect.git?ref=v2.3.1"
   key_protect_name                  = var.key_protect_instance_name
   region                            = var.region
   service_endpoints                 = var.key_protect_endpoint_type
@@ -49,7 +49,7 @@ module "key_protect" {
 
 # Create Key Rings included in var.existing_key_map
 module "key_protect_key_rings" {
-  source        = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key-ring.git?ref=v2.0.1"
+  source        = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key-ring.git?ref=v2.1.0"
   for_each      = var.key_map
   instance_id   = local.key_protect_guid
   endpoint_type = var.key_ring_endpoint_type
@@ -91,7 +91,7 @@ module "key_protect_keys" {
   depends_on = [
     module.key_protect_key_rings
   ]
-  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key.git?ref=v1.0.3"
+  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key.git?ref=v1.1.0"
   # This for_each is needed to assign a name to the maps in the array so they can be referenced/saved in the terraform graph
   for_each                = { for map_name in local.key_ring_key_map : "${map_name.key_ring_name}.${map_name.key_name}" => map_name }
   endpoint_type           = var.key_endpoint_type
@@ -103,7 +103,7 @@ module "key_protect_keys" {
 
 # Create Keys in existing Key Rings
 module "existing_key_ring_keys" {
-  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key.git?ref=v1.0.3"
+  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key.git?ref=v1.1.0"
   # This for_each is needed to assign a name to the maps in the array so they can be referenced/saved in the terraform graph
   for_each                = { for map_name in local.existing_key_ring_key_map : "existing-key-ring.${map_name.key_name}" => map_name }
   key_protect_instance_id = local.key_protect_guid
