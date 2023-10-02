@@ -47,6 +47,12 @@ module "key_protect" {
 # Key Protect Key Rings
 ##############################################################################
 
+resource "time_sleep" "wait_30_seconds" {
+  depends_on = [module.module.key_protect_keys]
+
+  destroy_duration = "30s"
+}
+
 # Create Key Rings included in var.existing_key_map
 module "key_protect_key_rings" {
   source        = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key-ring.git?ref=v2.0.1"
@@ -54,6 +60,7 @@ module "key_protect_key_rings" {
   instance_id   = local.key_protect_guid
   endpoint_type = var.key_ring_endpoint_type
   key_ring_id   = each.key
+  depends_on = [time_sleep.wait_30_seconds]
 }
 
 ##############################################################################
