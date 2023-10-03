@@ -105,6 +105,12 @@ variable "existing_key_map" {
   default     = {}
 }
 
+variable "force_delete_key_ring" {
+  type        = bool
+  description = "Set to `true` to force delete key ring or `false` if not"
+  default     = true
+}
+
 variable "force_delete" {
   type        = bool
   description = "Allow keys to be force deleted, even if key is in use"

@@ -12,7 +12,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 140
+        "line": 146
       },
       "min_length": 1,
       "max_length": 128,
@@ -90,6 +90,19 @@
       ],
       "pos": {
         "filename": "variables.tf",
+        "line": 114
+      }
+    },
+    "force_delete_key_ring": {
+      "name": "force_delete_key_ring",
+      "type": "bool",
+      "description": "Set to `true` to force delete key ring or `false` if not",
+      "default": true,
+      "source": [
+        "module.key_protect_key_rings.ibm_kms_key_rings.key_ring.force_delete"
+      ],
+      "pos": {
+        "filename": "variables.tf",
         "line": 108
       }
     },
@@ -134,7 +147,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 124
+        "line": 130
       },
       "immutable": true,
       "computed": true
@@ -203,7 +216,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 114
+        "line": 120
       },
       "immutable": true,
       "computed": true
@@ -252,7 +265,7 @@
       ],
       "pos": {
         "filename": "variables.tf",
-        "line": 134
+        "line": 140
       },
       "min_length": 1,
       "max_length": 128,
@@ -358,7 +371,7 @@
     "ibm": {
       "source": "IBM-Cloud/ibm",
       "version_constraints": [
-        "\u003e= 1.53.0"
+        "\u003e= 1.58.0"
       ]
     }
   },
@@ -469,7 +482,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 105
+        "line": 106
       }
     },
     "key_protect": {
@@ -589,10 +602,11 @@
     },
     "key_protect_key_rings": {
       "name": "key_protect_key_rings",
-      "source": "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key-ring.git?ref=v2.0.1",
+      "source": "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key-ring.git?ref=v2.2.0",
       "attributes": {
         "endpoint_type": "key_ring_endpoint_type",
-        "for_each": "key_map"
+        "for_each": "key_map",
+        "force_delete": "force_delete_key_ring"
       },
       "managed_resources": {
         "ibm_kms_key_rings.key_ring": {
@@ -601,6 +615,7 @@
           "name": "key_ring",
           "attributes": {
             "endpoint_type": "endpoint_type",
+            "force_delete": "force_delete",
             "instance_id": "instance_id",
             "key_ring_id": "key_ring_id"
           },
@@ -736,7 +751,7 @@
       },
       "pos": {
         "filename": "main.tf",
-        "line": 89
+        "line": 90
       }
     }
   }

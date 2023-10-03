@@ -29,7 +29,7 @@ locals {
 }
 
 module "existing_key_ring" {
-  source      = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key-ring.git?ref=v2.0.1"
+  source      = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key-ring.git?ref=v2.2.0"
   instance_id = module.existing_key_protect.key_protect_guid
   key_ring_id = local.key_ring_id
 }

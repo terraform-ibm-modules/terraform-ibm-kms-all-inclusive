@@ -82,7 +82,7 @@ You need the following permissions to run this module.
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0.0 |
-| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.53.0 |
+| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.58.0 |
 
 ### Modules
 
@@ -90,7 +90,7 @@ You need the following permissions to run this module.
 |------|--------|---------|
 | <a name="module_existing_key_ring_keys"></a> [existing\_key\_ring\_keys](#module\_existing\_key\_ring\_keys) | git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key.git | v1.0.3 |
 | <a name="module_key_protect"></a> [key\_protect](#module\_key\_protect) | git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect.git | v2.2.0 |
-| <a name="module_key_protect_key_rings"></a> [key\_protect\_key\_rings](#module\_key\_protect\_key\_rings) | git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key-ring.git | v2.0.1 |
+| <a name="module_key_protect_key_rings"></a> [key\_protect\_key\_rings](#module\_key\_protect\_key\_rings) | git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key-ring.git | v2.2.0 |
 | <a name="module_key_protect_keys"></a> [key\_protect\_keys](#module\_key\_protect\_keys) | git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key.git | v1.0.3 |
 
 ### Resources
@@ -108,6 +108,7 @@ No resources.
 | <a name="input_existing_key_map"></a> [existing\_key\_map](#input\_existing\_key\_map) | Use this variable if you wish to create new keys inside already existing Key Ring(s). The map should contain the existing Key Ring name as the keys of the map, and a list of desired Key Protect Key names to create as the values for each existing Key Ring. | `map(list(string))` | `{}` | no |
 | <a name="input_existing_key_protect_instance_guid"></a> [existing\_key\_protect\_instance\_guid](#input\_existing\_key\_protect\_instance\_guid) | The GUID of an existing Key Protect instance, required if 'var.create\_key\_protect\_instance' is false. | `string` | `null` | no |
 | <a name="input_force_delete"></a> [force\_delete](#input\_force\_delete) | Allow keys to be force deleted, even if key is in use | `bool` | `true` | no |
+| <a name="input_force_delete_key_ring"></a> [force\_delete\_key\_ring](#input\_force\_delete\_key\_ring) | Set to `true` to force delete key ring or `false` if not | `bool` | `true` | no |
 | <a name="input_key_create_import_access_enabled"></a> [key\_create\_import\_access\_enabled](#input\_key\_create\_import\_access\_enabled) | If set to true, Key Protect enables a key create import access policy on the instance | `bool` | `true` | no |
 | <a name="input_key_create_import_access_settings"></a> [key\_create\_import\_access\_settings](#input\_key\_create\_import\_access\_settings) | Key create import access policy settings to configure if var.enable\_key\_create\_import\_access\_policy is true. For more info see https://cloud.ibm.com/docs/key-protect?topic=key-protect-manage-keyCreateImportAccess | <pre>object({<br>    create_root_key     = optional(bool, true)<br>    create_standard_key = optional(bool, true)<br>    import_root_key     = optional(bool, true)<br>    import_standard_key = optional(bool, true)<br>    enforce_token       = optional(bool, false)<br>  })</pre> | `{}` | no |
 | <a name="input_key_endpoint_type"></a> [key\_endpoint\_type](#input\_key\_endpoint\_type) | The type of endpoint to be used for creating keys. Accepts 'public' or 'private' | `string` | `"public"` | no |
