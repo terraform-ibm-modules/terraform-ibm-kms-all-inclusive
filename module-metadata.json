@@ -96,7 +96,7 @@
     "force_delete_key_ring": {
       "name": "force_delete_key_ring",
       "type": "bool",
-      "description": "Set to `true` to force delete key ring or `false` if not.",
+      "description": "Set to `true` to force delete key ring or `false` if not",
       "default": true,
       "source": [
         "module.key_protect_key_rings.ibm_kms_key_rings.key_ring.force_delete"
