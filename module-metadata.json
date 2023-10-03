@@ -99,7 +99,7 @@
       "description": "Set to `true` to force delete key ring or `false` if not.",
       "default": true,
       "source": [
-        "module.key_protect_key_rings"
+        "module.key_protect_key_rings.ibm_kms_key_rings.key_ring.force_delete"
       ],
       "pos": {
         "filename": "variables.tf",
@@ -602,7 +602,7 @@
     },
     "key_protect_key_rings": {
       "name": "key_protect_key_rings",
-      "source": "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key-ring.git?ref=v2.0.1",
+      "source": "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key-ring.git?ref=v2.2.0",
       "attributes": {
         "endpoint_type": "key_ring_endpoint_type",
         "for_each": "key_map",
@@ -615,6 +615,7 @@
           "name": "key_ring",
           "attributes": {
             "endpoint_type": "endpoint_type",
+            "force_delete": "force_delete",
             "instance_id": "instance_id",
             "key_ring_id": "key_ring_id"
           },
