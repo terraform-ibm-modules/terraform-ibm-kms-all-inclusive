@@ -54,6 +54,7 @@ module "key_protect_key_rings" {
   instance_id   = local.key_protect_guid
   endpoint_type = var.key_ring_endpoint_type
   key_ring_id   = each.key
+  force_delete  = var.force_delete_key_ring
 }
 
 ##############################################################################
