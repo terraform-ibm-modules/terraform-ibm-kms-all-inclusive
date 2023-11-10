@@ -94,22 +94,22 @@ module "key_protect_keys" {
   ]
   source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key.git?ref=v1.2.0"
   # This for_each is needed to assign a name to the maps in the array so they can be referenced/saved in the terraform graph
-  for_each                = { for map_name in local.key_ring_key_map : "${map_name.key_ring_name}.${map_name.key_name}" => map_name }
-  endpoint_type           = var.key_endpoint_type
-  key_protect_instance_id = local.key_protect_guid
-  key_name                = each.value.key_name
-  key_protect_key_ring_id = each.value.key_ring_name
-  force_delete            = var.force_delete
+  for_each        = { for map_name in local.key_ring_key_map : "${map_name.key_ring_name}.${map_name.key_name}" => map_name }
+  endpoint_type   = var.key_endpoint_type
+  kms_instance_id = local.key_protect_guid
+  key_name        = each.value.key_name
+  kms_key_ring_id = each.value.key_ring_name
+  force_delete    = var.force_delete
 }
 
 # Create Keys in existing Key Rings
 module "existing_key_ring_keys" {
   source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key.git?ref=v1.2.0"
   # This for_each is needed to assign a name to the maps in the array so they can be referenced/saved in the terraform graph
-  for_each                = { for map_name in local.existing_key_ring_key_map : "existing-key-ring.${map_name.key_name}" => map_name }
-  key_protect_instance_id = local.key_protect_guid
-  endpoint_type           = var.key_endpoint_type
-  key_name                = each.value.key_name
-  key_protect_key_ring_id = each.value.key_ring_name
-  force_delete            = true
+  for_each        = { for map_name in local.existing_key_ring_key_map : "existing-key-ring.${map_name.key_name}" => map_name }
+  kms_instance_id = local.key_protect_guid
+  endpoint_type   = var.key_endpoint_type
+  key_name        = each.value.key_name
+  kms_key_ring_id = each.value.key_ring_name
+  force_delete    = true
 }
