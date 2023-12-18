@@ -47,6 +47,7 @@ One emerging pattern is to create one Key Protect instance per VPC. All workload
 * [Contributing](#contributing)
 <!-- END OVERVIEW HOOK -->
 
+## terraform-ibm-key-protect-all-inclusive
 ### Usage
 
 ```hcl
