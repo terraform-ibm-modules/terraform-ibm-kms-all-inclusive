@@ -36,8 +36,19 @@ To achieve compliance, you can write logic to call the module multiple times to 
 
 One emerging pattern is to create one Key Protect instance per VPC. All workloads in the VPC access the Key Protect instance through a VPE binding. This simple approach ensures network segmentation. A drawback is that this approach creates more Key Protect instances than necessary, in some case.
 
+<!-- Below content is automatically populated via pre-commit hook -->
+<!-- BEGIN OVERVIEW HOOK -->
+## Overview
+* [terraform-ibm-key-protect-all-inclusive](#terraform-ibm-key-protect-all-inclusive)
+* [Examples](./examples)
+    * [End to end example with default values](./examples/default)
+    * [Example with SLZ default values](./examples/slz)
+    * [Existing resources example](./examples/existing-resources)
+* [Contributing](#contributing)
+<!-- END OVERVIEW HOOK -->
 
-## Usage
+## terraform-ibm-key-protect-all-inclusive
+### Usage
 
 ```hcl
 provider "ibm" {
@@ -58,7 +69,7 @@ module "key_protect_all_inclusive" {
 }
 ```
 
-## Required IAM access policies
+### Required IAM access policies
 You need the following permissions to run this module.
 
 - Account Management
@@ -69,13 +80,6 @@ You need the following permissions to run this module.
         - `Editor` platform access
         - `Manager` service access
 
-<!-- BEGIN EXAMPLES HOOK -->
-## Examples
-
-- [ End to end example with default values](examples/default)
-- [ Existing resources example](examples/existing-resources)
-- [ Example with SLZ default values](examples/slz)
-<!-- END EXAMPLES HOOK -->
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ### Requirements
 
