@@ -1,4 +1,4 @@
-# Key Protect all inclusive module
+# KMS all inclusive module
 
 [![Graduated (Supported)](https://img.shields.io/badge/Status-Graduated%20(Supported)-brightgreen)](https://terraform-ibm-modules.github.io/documentation/#/badge-status)
 [![Build status](https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive/actions/workflows/ci.yml/badge.svg)](https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive/actions/workflows/ci.yml)
@@ -47,7 +47,7 @@ One emerging pattern is to create one Key Protect instance per VPC. All workload
 * [Contributing](#contributing)
 <!-- END OVERVIEW HOOK -->
 
-## terraform-ibm-key-protect-all-inclusive
+## terraform-ibm-kms-all-inclusive
 ### Usage
 
 ```hcl
