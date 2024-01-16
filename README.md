@@ -1,10 +1,10 @@
 # KMS all inclusive module
 
 [![Graduated (Supported)](https://img.shields.io/badge/Status-Graduated%20(Supported)-brightgreen)](https://terraform-ibm-modules.github.io/documentation/#/badge-status)
-[![Build status](https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive/actions/workflows/ci.yml/badge.svg)](https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive/actions/workflows/ci.yml)
+[![Build status](https://github.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive/actions/workflows/ci.yml/badge.svg)](https://github.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive/actions/workflows/ci.yml)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
-[![latest release](https://img.shields.io/github/v/release/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive?logo=GitHub&sort=semver)](https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive/releases/latest)
+[![latest release](https://img.shields.io/github/v/release/terraform-ibm-modules/terraform-ibm-kms-all-inclusive?logo=GitHub&sort=semver)](https://github.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive/releases/latest)
 [![Renovate enabled](https://img.shields.io/badge/renovate-enabled-brightgreen.svg)](https://renovatebot.com/)
 
 This module combines the following Key Protect modules to create a full end-to-end key infrastructure:
@@ -25,6 +25,8 @@ The following example shows a typical topology for a Key Protect instance:
 │   ├── root-key-ocp-cluster-...
 ```
 
+This module supports creating key rings and keys in both HPCS and Key Protect key management services, in order to utilize this module with your HPCS instance provide the GUID of the instance in `var.existing_key_protect_instance_guid` and set `var.create_key_protect_instance` to false, any key rings or keys provided in the key map will then be created in the HPCS instance.
+
 ## Multiple Key Protect instances, and potential future directions for this module
 The strings `cos-bucket` and `ocp-cluster` are the cluster IDs for Cloud Object Storage and for the OpenShift Container Platform.
 
@@ -39,7 +41,7 @@ One emerging pattern is to create one Key Protect instance per VPC. All workload
 <!-- Below content is automatically populated via pre-commit hook -->
 <!-- BEGIN OVERVIEW HOOK -->
 ## Overview
-* [terraform-ibm-key-protect-all-inclusive](#terraform-ibm-key-protect-all-inclusive)
+* [terraform-ibm-kms-all-inclusive](#terraform-ibm-kms-all-inclusive)
 * [Examples](./examples)
     * [End to end example with default values](./examples/default)
     * [Example with SLZ default values](./examples/slz)
@@ -56,13 +58,13 @@ provider "ibm" {
   region           = "us-south"
 }
 
-module "key_protect_all_inclusive" {
-  # Replace "main" with a GIT release version to lock into a specific release
-  source            = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive.git?ref=main"
+module "kms_all_inclusive" {
+  source                    = "terraform-ibm-modules/kms-all-inclusive/ibm"
+  version                   = "X.X.X" # replace "X.X.X" with a release version to lock into a specific release
   key_protect_instance_name = "my-key-protect-instance"
-  resource_group_id = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
-  region            = "us-south"
-  key_map           = {
+  resource_group_id         = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
+  region                    = "us-south"
+  key_map = {
     "example-key-ring-1" = ["example-key-1", "example-key-2"]
     "example-key-ring-2" = ["example-key-3", "example-key-4"]
   }
