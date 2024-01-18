@@ -1,4 +1,4 @@
-module github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive
+module github.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive
 
 go 1.21
 

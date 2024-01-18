@@ -1,20 +1,22 @@
 # KMS all inclusive module
 
 [![Graduated (Supported)](https://img.shields.io/badge/Status-Graduated%20(Supported)-brightgreen)](https://terraform-ibm-modules.github.io/documentation/#/badge-status)
-[![Build status](https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive/actions/workflows/ci.yml/badge.svg)](https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive/actions/workflows/ci.yml)
+[![Build status](https://github.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive/actions/workflows/ci.yml/badge.svg)](https://github.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive/actions/workflows/ci.yml)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
-[![latest release](https://img.shields.io/github/v/release/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive?logo=GitHub&sort=semver)](https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive/releases/latest)
+[![latest release](https://img.shields.io/github/v/release/terraform-ibm-modules/terraform-ibm-kms-all-inclusive?logo=GitHub&sort=semver)](https://github.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive/releases/latest)
 [![Renovate enabled](https://img.shields.io/badge/renovate-enabled-brightgreen.svg)](https://renovatebot.com/)
 
 This module combines the following Key Protect modules to create a full end-to-end key infrastructure:
+
 - [Key Protect module](https://github.com/terraform-ibm-modules/terraform-ibm-key-protect)
 - [Key Protect key module](https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key)
 - [Key Protect key ring module](https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key-ring)
 
-The module takes a map, called `key_map`, that supports hierarchical "key rings" for a single Key Protect instance. Because access to key rings is managed in Key Protect, you can comply with controls around least privilege (for example, [NIST AC-6](https://csrc.nist.gov/Projects/risk-management/sp800-53-controls/release-search#/control?version=4.0&number=AC-6)) and can reduce the number of access groups you need to assign. For more information about key rings, see [Grouping keys together using key rings](https://cloud.ibm.com/docs/key-protect?topic=key-protect-grouping-keys).
-The following example shows a typical topology for a Key Protect instance:
-```
+The module takes a map, called `key_map`, that supports hierarchical "key rings" for a single key management service (KMS) instance. Because access to key rings is managed in the KMS, you can comply with controls around least privilege (for example, [NIST AC-6](https://csrc.nist.gov/Projects/risk-management/sp800-53-controls/release-search#/control?version=4.0&number=AC-6)) and can reduce the number of access groups you need to assign. For more information about key rings, see [Grouping keys together using key rings](https://cloud.ibm.com/docs/key-protect?topic=key-protect-grouping-keys).
+The following example shows a typical topology for a KMS instance:
+
+```md
 ├── cos-key-ring
 │   ├── root-key-cos-bucket-1
 │   ├── root-key-cos-bucket-2
@@ -25,21 +27,26 @@ The following example shows a typical topology for a Key Protect instance:
 │   ├── root-key-ocp-cluster-...
 ```
 
+## Using HPCS instead of Key Protect
+
+This module supports creating key rings and keys for Key Protect or Hyper Protect Crypto Services (HPCS). By default the module creates a Key Protect instance and creates the key rings and keys in that service instance, but this can be modified to use an existing HPCS instance by providing the GUID of your HPCS instance in the `var.existing_key_protect_instance_guid` input variable, and then setting the `var.create_key_protect_instance` input variable to `false`.
+
 ## Multiple Key Protect instances, and potential future directions for this module
+
 The strings `cos-bucket` and `ocp-cluster` are the cluster IDs for Cloud Object Storage and for the OpenShift Container Platform.
 
-The module supports only a single Key Protect instance and creates the key topology in that instance. It doesn't create multiple Key Protect instances. However, in a typical production environment, services might need multiple Key Protect instances for compliance reasons.
+The module supports only a single KMS instance and creates the key topology in that instance. The module code doesn't create multiple Key Protect instances, or support key rings and keys across multiple HPCS instances.
 
-For example, you might need isolation between regulatory boundaries (for example, between FedRamp and everything else). Or you might be required to isolate keys that are used by a service's control plane from the data plane (for example, with IBM Cloud Databases (ICD) services).
+ In a typical production environment, services might need multiple Key Protect or HPCS instances for compliance reasons. For example, you might need isolation between regulatory boundaries (for example, between FedRamp and everything else). Or you might be required to isolate keys that are used by a service's control plane from the data plane (for example, with IBM Cloud Databases (ICD) services).
 
-To achieve compliance, you can write logic to call the module multiple times to create multiple Key Protect instances.
+To achieve compliance, you can write logic to call the module multiple times for multiple KMS instances.
 
-One emerging pattern is to create one Key Protect instance per VPC. All workloads in the VPC access the Key Protect instance through a VPE binding. This simple approach ensures network segmentation. A drawback is that this approach creates more Key Protect instances than necessary, in some case.
+One emerging pattern is to use one KMS instance per VPC. All workloads in the VPC access the KMS instance through a VPE binding. This simple approach ensures network segmentation. A drawback is that this approach creates more KMS instances than necessary, in some case.
 
 <!-- Below content is automatically populated via pre-commit hook -->
 <!-- BEGIN OVERVIEW HOOK -->
 ## Overview
-* [terraform-ibm-key-protect-all-inclusive](#terraform-ibm-key-protect-all-inclusive)
+* [terraform-ibm-kms-all-inclusive](#terraform-ibm-kms-all-inclusive)
 * [Examples](./examples)
     * [End to end example with default values](./examples/default)
     * [Example with SLZ default values](./examples/slz)
@@ -48,6 +55,7 @@ One emerging pattern is to create one Key Protect instance per VPC. All workload
 <!-- END OVERVIEW HOOK -->
 
 ## terraform-ibm-kms-all-inclusive
+
 ### Usage
 
 ```hcl
@@ -56,13 +64,13 @@ provider "ibm" {
   region           = "us-south"
 }
 
-module "key_protect_all_inclusive" {
-  # Replace "main" with a GIT release version to lock into a specific release
-  source            = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-all-inclusive.git?ref=main"
+module "kms_all_inclusive" {
+  source                    = "terraform-ibm-modules/kms-all-inclusive/ibm"
+  version                   = "X.X.X" # replace "X.X.X" with a release version to lock into a specific release
   key_protect_instance_name = "my-key-protect-instance"
-  resource_group_id = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
-  region            = "us-south"
-  key_map           = {
+  resource_group_id         = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
+  region                    = "us-south"
+  key_map = {
     "example-key-ring-1" = ["example-key-1", "example-key-2"]
     "example-key-ring-2" = ["example-key-3", "example-key-4"]
   }
@@ -70,6 +78,7 @@ module "key_protect_all_inclusive" {
 ```
 
 ### Required IAM access policies
+
 You need the following permissions to run this module.
 
 - Account Management
