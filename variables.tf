@@ -87,20 +87,32 @@ variable "key_protect_endpoint_type" {
   }
 }
 
-variable "existing_key_protect_instance_guid" {
+variable "existing_kms_instance_guid" {
   type        = string
-  description = "The GUID of an existing Key Protect instance, required if 'var.create_key_protect_instance' is false."
+  description = "The GUID of an existing Key Protect or Hyper Protect Crypto Services instance, required if 'var.create_key_protect_instance' is false."
   default     = null
 }
 
 variable "key_map" {
-  type        = map(list(string))
+  type = map(list(object({
+    key_name                 = string
+    standard_key             = optional(bool, false)
+    rotation_interval_month  = optional(number, 1)
+    dual_auth_delete_enabled = optional(bool, false)
+    force_delete             = optional(bool, true)
+  })))
   description = "Use this variable if you wish to create both a new key ring and new key. The map should contain the desired Key Ring name as the keys of the map, and a list of desired Key Protect Key names to create as the values for each Key Ring."
   default     = {}
 }
 
 variable "existing_key_map" {
-  type        = map(list(string))
+  type = map(list(object({
+    key_name                 = string
+    standard_key             = optional(bool, false)
+    rotation_interval_month  = optional(number, 1)
+    dual_auth_delete_enabled = optional(bool, false)
+    force_delete             = optional(bool, true)
+  })))
   description = "Use this variable if you wish to create new keys inside already existing Key Ring(s). The map should contain the existing Key Ring name as the keys of the map, and a list of desired Key Protect Key names to create as the values for each existing Key Ring."
   default     = {}
 }
@@ -108,12 +120,6 @@ variable "existing_key_map" {
 variable "force_delete_key_ring" {
   type        = bool
   description = "Set to `true` to force delete key ring or `false` if not"
-  default     = true
-}
-
-variable "force_delete" {
-  type        = bool
-  description = "Allow keys to be force deleted, even if key is in use"
   default     = true
 }
 

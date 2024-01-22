@@ -22,9 +22,15 @@ module "key_protect_all_inclusive" {
   access_tags               = var.access_tags
   key_map = {
     "${var.prefix}-slz-ring" = [
-      "${var.prefix}-slz-key",
-      "${var.prefix}-atracker-key",
-      "${var.prefix}-vsi-volume-key"
+      {
+        key_name = "${var.prefix}-slz-key"
+      },
+      {
+        key_name = "${var.prefix}-atracker-key"
+      },
+      {
+        key_name = "${var.prefix}-vsi-volume-key"
+      }
     ]
   }
 }

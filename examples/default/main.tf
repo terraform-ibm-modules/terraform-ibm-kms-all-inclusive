@@ -23,18 +23,26 @@ module "key_protect_all_inclusive" {
   existing_key_map = {
     # "default" king ring already exists out of the box with Key Protect, so just the key will be created here
     "default" = [
-      "default-key"
+      {
+        key_name = "default-key"
+      }
     ]
   }
   key_map = {
     # "ocp" key ring will be created with a key called "ocp-cluster-1-key"
     "ocp" = [
-      "ocp-cluster-1-key"
-    ],
+      {
+        key_name = "ocp-cluster-1-key"
+      }
+    ]
     # "cos" key ring will be created with 2 keys called "cos-bucket-1-key" and "cos-bucket-2-key"
     "cos" = [
-      "cos-bucket-1-key",
-      "cos-bucket-2-key"
+      {
+        key_name = "cos-bucket-1-key"
+      },
+      {
+        key_name = "cos-bucket-2-key"
+      }
     ]
   }
 }

@@ -10,8 +10,8 @@
 This module combines the following Key Protect modules to create a full end-to-end key infrastructure:
 
 - [Key Protect module](https://github.com/terraform-ibm-modules/terraform-ibm-key-protect)
-- [Key Protect key module](https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key)
-- [Key Protect key ring module](https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key-ring)
+- [KMS Key module](https://github.com/terraform-ibm-modules/terraform-ibm-kms-key)
+- [KMS Key Ring module](https://github.com/terraform-ibm-modules/terraform-ibm-kms-key-ring)
 
 The module takes a map, called `key_map`, that supports hierarchical "key rings" for a single key management service (KMS) instance. Because access to key rings is managed in the KMS, you can comply with controls around least privilege (for example, [NIST AC-6](https://csrc.nist.gov/Projects/risk-management/sp800-53-controls/release-search#/control?version=4.0&number=AC-6)) and can reduce the number of access groups you need to assign. For more information about key rings, see [Grouping keys together using key rings](https://cloud.ibm.com/docs/key-protect?topic=key-protect-grouping-keys).
 The following example shows a typical topology for a KMS instance:
@@ -29,7 +29,7 @@ The following example shows a typical topology for a KMS instance:
 
 ## Using HPCS instead of Key Protect
 
-This module supports creating key rings and keys for Key Protect or Hyper Protect Crypto Services (HPCS). By default the module creates a Key Protect instance and creates the key rings and keys in that service instance, but this can be modified to use an existing HPCS instance by providing the GUID of your HPCS instance in the `var.existing_key_protect_instance_guid` input variable, and then setting the `var.create_key_protect_instance` input variable to `false`.
+This module supports creating key rings and keys for Key Protect or Hyper Protect Crypto Services (HPCS). By default the module creates a Key Protect instance and creates the key rings and keys in that service instance, but this can be modified to use an existing HPCS instance by providing the GUID of your HPCS instance in the `var.existing_kms_instance_guid` input variable, and then setting the `var.create_key_protect_instance` input variable to `false`.
 
 ## Multiple Key Protect instances, and potential future directions for this module
 
@@ -71,8 +71,8 @@ module "kms_all_inclusive" {
   resource_group_id         = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
   region                    = "us-south"
   key_map = {
-    "example-key-ring-1" = ["example-key-1", "example-key-2"]
-    "example-key-ring-2" = ["example-key-3", "example-key-4"]
+    "example-key-ring-1" = [ { key_name = "example-key-1" }, { key_name = "example-key-2" } ]
+    "example-key-ring-2" = [ { key_name = "example-key-3" }, { key_name = "example-key-4" } ]
   }
 }
 ```
@@ -118,14 +118,13 @@ No resources.
 | <a name="input_create_key_protect_instance"></a> [create\_key\_protect\_instance](#input\_create\_key\_protect\_instance) | A flag to control whether a Key Protect instance is created, defaults to true. | `bool` | `true` | no |
 | <a name="input_dual_auth_delete_enabled"></a> [dual\_auth\_delete\_enabled](#input\_dual\_auth\_delete\_enabled) | If set to true, Key Protect enables a dual authorization policy on the instance. Note: Once the dual authorization policy is set on the instance, it cannot be reverted. An instance with dual authorization policy enabled cannot be destroyed using Terraform. | `bool` | `false` | no |
 | <a name="input_enable_metrics"></a> [enable\_metrics](#input\_enable\_metrics) | Set to true to enable metrics on the Key Protect instance (ignored is value for 'existing\_key\_protect\_instance\_guid' is passed). In order to view metrics, you will need a Monitoring (Sysdig) instance that is located in the same region as the Key Protect instance. Once you provision the Monitoring instance, you will need to enable platform metrics. | `bool` | `true` | no |
-| <a name="input_existing_key_map"></a> [existing\_key\_map](#input\_existing\_key\_map) | Use this variable if you wish to create new keys inside already existing Key Ring(s). The map should contain the existing Key Ring name as the keys of the map, and a list of desired Key Protect Key names to create as the values for each existing Key Ring. | `map(list(string))` | `{}` | no |
-| <a name="input_existing_key_protect_instance_guid"></a> [existing\_key\_protect\_instance\_guid](#input\_existing\_key\_protect\_instance\_guid) | The GUID of an existing Key Protect instance, required if 'var.create\_key\_protect\_instance' is false. | `string` | `null` | no |
-| <a name="input_force_delete"></a> [force\_delete](#input\_force\_delete) | Allow keys to be force deleted, even if key is in use | `bool` | `true` | no |
+| <a name="input_existing_key_map"></a> [existing\_key\_map](#input\_existing\_key\_map) | Use this variable if you wish to create new keys inside already existing Key Ring(s). The map should contain the existing Key Ring name as the keys of the map, and a list of desired Key Protect Key names to create as the values for each existing Key Ring. | <pre>map(list(object({<br>    key_name                 = string<br>    standard_key             = optional(bool, false)<br>    rotation_interval_month  = optional(number, 1)<br>    dual_auth_delete_enabled = optional(bool, false)<br>    force_delete             = optional(bool, true)<br>  })))</pre> | `{}` | no |
+| <a name="input_existing_kms_instance_guid"></a> [existing\_kms\_instance\_guid](#input\_existing\_kms\_instance\_guid) | The GUID of an existing Key Protect or Hyper Protect Crypto Services instance, required if 'var.create\_key\_protect\_instance' is false. | `string` | `null` | no |
 | <a name="input_force_delete_key_ring"></a> [force\_delete\_key\_ring](#input\_force\_delete\_key\_ring) | Set to `true` to force delete key ring or `false` if not | `bool` | `true` | no |
 | <a name="input_key_create_import_access_enabled"></a> [key\_create\_import\_access\_enabled](#input\_key\_create\_import\_access\_enabled) | If set to true, Key Protect enables a key create import access policy on the instance | `bool` | `true` | no |
 | <a name="input_key_create_import_access_settings"></a> [key\_create\_import\_access\_settings](#input\_key\_create\_import\_access\_settings) | Key create import access policy settings to configure if var.enable\_key\_create\_import\_access\_policy is true. For more info see https://cloud.ibm.com/docs/key-protect?topic=key-protect-manage-keyCreateImportAccess | <pre>object({<br>    create_root_key     = optional(bool, true)<br>    create_standard_key = optional(bool, true)<br>    import_root_key     = optional(bool, true)<br>    import_standard_key = optional(bool, true)<br>    enforce_token       = optional(bool, false)<br>  })</pre> | `{}` | no |
 | <a name="input_key_endpoint_type"></a> [key\_endpoint\_type](#input\_key\_endpoint\_type) | The type of endpoint to be used for creating keys. Accepts 'public' or 'private' | `string` | `"public"` | no |
-| <a name="input_key_map"></a> [key\_map](#input\_key\_map) | Use this variable if you wish to create both a new key ring and new key. The map should contain the desired Key Ring name as the keys of the map, and a list of desired Key Protect Key names to create as the values for each Key Ring. | `map(list(string))` | `{}` | no |
+| <a name="input_key_map"></a> [key\_map](#input\_key\_map) | Use this variable if you wish to create both a new key ring and new key. The map should contain the desired Key Ring name as the keys of the map, and a list of desired Key Protect Key names to create as the values for each Key Ring. | <pre>map(list(object({<br>    key_name                 = string<br>    standard_key             = optional(bool, false)<br>    rotation_interval_month  = optional(number, 1)<br>    dual_auth_delete_enabled = optional(bool, false)<br>    force_delete             = optional(bool, true)<br>  })))</pre> | `{}` | no |
 | <a name="input_key_protect_endpoint_type"></a> [key\_protect\_endpoint\_type](#input\_key\_protect\_endpoint\_type) | The type of the service endpoints to be set for the Key Protect instance. Possible values are 'public', 'private', or 'public-and-private'. Ignored is value for 'existing\_key\_protect\_instance\_guid' is passed. | `string` | `"public-and-private"` | no |
 | <a name="input_key_protect_instance_name"></a> [key\_protect\_instance\_name](#input\_key\_protect\_instance\_name) | The name to give the Key Protect instance that will be provisioned by this module. Only used if 'create\_key\_protect\_instance' is true | `string` | `null` | no |
 | <a name="input_key_protect_plan"></a> [key\_protect\_plan](#input\_key\_protect\_plan) | Plan for the Key Protect instance. Currently only 'tiered-pricing' is supported. Only used if 'create\_key\_protect\_instance' is true | `string` | `"tiered-pricing"` | no |

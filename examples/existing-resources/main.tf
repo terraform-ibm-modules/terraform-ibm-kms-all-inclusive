@@ -39,24 +39,28 @@ module "existing_key_ring" {
 ##############################################################################
 
 module "key_protect_all_inclusive" {
-  depends_on                         = [module.existing_key_ring]
-  source                             = "../.."
-  resource_group_id                  = module.resource_group.resource_group_id
-  region                             = var.region
-  resource_tags                      = var.resource_tags
-  access_tags                        = var.access_tags
-  create_key_protect_instance        = false
-  existing_key_protect_instance_guid = module.existing_key_protect.key_protect_guid
+  depends_on                  = [module.existing_key_ring]
+  source                      = "../.."
+  resource_group_id           = module.resource_group.resource_group_id
+  region                      = var.region
+  resource_tags               = var.resource_tags
+  access_tags                 = var.access_tags
+  create_key_protect_instance = false
+  existing_kms_instance_guid  = module.existing_key_protect.key_protect_guid
   existing_key_map = {
     # create a new key in an existing key ring
     (local.key_ring_id) = [
-      "test-key"
+      {
+        key_name = "test-key"
+      }
     ]
   }
   key_map = {
     # "ocp" key ring will be created with a key called "ocp-cluster-1-key"
     "ocp" = [
-      "ocp-cluster-1-key"
+      {
+        key_name = "ocp-cluster-1-key"
+      }
     ]
   }
 }
