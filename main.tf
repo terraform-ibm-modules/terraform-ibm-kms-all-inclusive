@@ -87,9 +87,6 @@ locals {
 # Create Key Rings and Keys
 module "key_protect_keys" {
   # depends_on necessary since we're not directly referencing the previously provisioned key rings in the module
-  # depends_on = [
-  #   module.key_protect_key_rings
-  # ]
   source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key.git?ref=v1.2.1"
   # This for_each is needed to assign a name to the maps in the array so they can be referenced/saved in the terraform graph
   for_each        = { for obj in local.key_ring_key_list : "${obj.key_ring_name}.${obj.key_name}" => obj }
