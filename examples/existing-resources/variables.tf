@@ -22,14 +22,7 @@ variable "resource_group" {
   default     = null
 }
 
-variable "resource_tags" {
-  type        = list(string)
-  description = "Optional list of tags to be added to created resources"
-  default     = []
-}
-
-variable "access_tags" {
-  type        = list(string)
-  description = "A list of access tags to apply to the Key Protect instance created by the module."
-  default     = []
+variable "existing_kms_instance_guid" {
+  type        = string
+  description = "GUID of an existing KMS instance"
 }

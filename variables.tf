@@ -108,6 +108,11 @@ variable "keys" {
   }))
   description = "A list of objects which contain the key ring name, a flag indicating if this key ring already exists, and a flag to enable force deletion of the key ring. In addition, this object contains a list of keys with all of the information on the keys to be created in that key ring."
   default     = []
+
+  validation {
+    condition     = var.keys[*].keys[*].rotation_interval_month != 10
+    error_message = "this is a test"
+  }
 }
 
 variable "key_ring_endpoint_type" {

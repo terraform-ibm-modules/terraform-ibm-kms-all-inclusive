@@ -58,7 +58,20 @@ func TestRunDefaultExample(t *testing.T) {
 func TestRunExistingResourcesExample(t *testing.T) {
 	t.Parallel()
 
-	options := setupOptions(t, "kp-all-inc-exist", existingResourcesExampleDir)
+	// options := setupOptions(t, "kp-all-inc-exist", existingResourcesExampleDir)
+	options := testhelper.TestOptionsDefault(&testhelper.TestOptions{
+		Testing:       t,
+		TerraformDir:  existingResourcesExampleDir,
+		Prefix:        "kp-all-inc-exist",
+		ResourceGroup: resourceGroup,
+	})
+
+	terraformVars := map[string]interface{}{
+		"prefix":                     options.Prefix,
+		"existing_kms_instance_guid": permanentResources["hpcs_south"],
+	}
+	options.TerraformVars = terraformVars
+
 	output, err := options.RunTestConsistency()
 	assert.Nil(t, err, "This should not have errored")
 	assert.NotNil(t, output, "Expected some output")

@@ -29,13 +29,13 @@ The following example shows a typical topology for a KMS instance:
 
 ## Using HPCS instead of Key Protect
 
-This module supports creating key rings and keys for Key Protect or Hyper Protect Crypto Services (HPCS). By default the module creates a Key Protect instance and creates the key rings and keys in that service instance, but this can be modified to use an existing HPCS instance by providing the GUID of your HPCS instance in the `var.existing_kms_instance_guid` input variable, and then setting the `var.create_key_protect_instance` input variable to `false`. For more information on provisioning an HPCS instance, please see: <https://github.com/terraform-ibm-modules/terraform-ibm-toolkit-hpcs>
+This module supports creating key rings and keys for Key Protect or Hyper Protect Crypto Services (HPCS). By default the module creates a Key Protect instance and creates the key rings and keys in that service instance, but this can be modified to use an existing HPCS instance by providing the GUID of your HPCS instance in the `var.existing_kms_instance_guid` input variable, and then setting the `var.create_key_protect_instance` input variable to `false`. For more information on provisioning an HPCS instance, please see: <https://github.com/terraform-ibm-modules/terraform-ibm-hpcs>
 
-## Multiple Key Protect instances, and potential future directions for this module
+## Using Multiple Key Protect instances
 
 The strings `cos-bucket` and `ocp-cluster` are the cluster IDs for Cloud Object Storage and for the OpenShift Container Platform.
 
-The module supports only a single KMS instance and creates the key topology in that instance. The module code doesn't create multiple Key Protect instances, or support key rings and keys across multiple HPCS instances.
+The module supports only a single KMS instance and creates the key topology in that instance. The module code doesn't create multiple Key Protect instances, or support key rings and keys across multiple KMS instances.
 
  In a typical production environment, services might need multiple Key Protect or HPCS instances for compliance reasons. For example, you might need isolation between regulatory boundaries (for example, between FedRamp and everything else). Or you might be required to isolate keys that are used by a service's control plane from the data plane (for example, with IBM Cloud Databases (ICD) services).
 
@@ -73,11 +73,25 @@ module "kms_all_inclusive" {
   keys = [
     {
       key_ring_name = "example-key-ring-1"
-      keys = [ { key_name = "example-key-1" }, { key_name = "example-key-2" } ]
+      keys = [
+        {
+          key_name = "example-key-1"
+        },
+        {
+          key_name = "example-key-2"
+        }
+      ]
     },
     {
       key_ring_name = "example-key-ring-2"
-      keys = [ { key_name = "example-key-3" }, { key_name = "example-key-4" } ]
+      keys = [
+        {
+          key_name = "example-key-3"
+        },
+        {
+          key_name = "example-key-4"
+        }
+      ]
     }
   ]
 }
