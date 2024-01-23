@@ -47,7 +47,7 @@ module "key_protect_all_inclusive" {
   access_tags                 = var.access_tags
   create_key_protect_instance = false
   existing_kms_instance_guid  = module.existing_key_protect.key_protect_guid
-  key_map = [
+  keys = [
     {
       key_ring_name     = local.key_ring_id
       existing_key_ring = true

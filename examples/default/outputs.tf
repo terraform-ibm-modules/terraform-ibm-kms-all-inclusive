@@ -14,7 +14,7 @@ output "resource_group_id" {
 
 output "key_protect_guid" {
   description = "Key Protect GUID"
-  value       = module.key_protect_all_inclusive.key_protect_guid
+  value       = module.key_protect_all_inclusive.kms_guid
 }
 
 output "key_protect_name" {

@@ -2,8 +2,8 @@
 # Outputs
 ##############################################################################
 
-output "key_protect_guid" {
-  description = "Key Protect GUID"
+output "kms_guid" {
+  description = "KMS GUID"
   value       = local.kms_guid
 }
 
@@ -24,12 +24,12 @@ output "key_protect_instance_policies" {
 
 output "key_rings" {
   description = "IDs of new Key Rings created by the module"
-  value       = module.key_protect_key_rings
+  value       = module.kms_key_rings
 }
 
 output "keys" {
   description = "IDs of new Keys created by the module"
-  value       = module.key_protect_keys
+  value       = module.kms_keys
 }
 
 output "existing_key_ring_keys" {

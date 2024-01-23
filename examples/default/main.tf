@@ -20,7 +20,7 @@ module "key_protect_all_inclusive" {
   region                    = var.region
   resource_tags             = var.resource_tags
   access_tags               = var.access_tags
-  key_map = [
+  keys = [
     {
       key_ring_name     = "default"
       existing_key_ring = true
