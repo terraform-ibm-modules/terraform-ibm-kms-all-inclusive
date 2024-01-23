@@ -47,20 +47,23 @@ module "key_protect_all_inclusive" {
   access_tags                 = var.access_tags
   create_key_protect_instance = false
   existing_kms_instance_guid  = module.existing_key_protect.key_protect_guid
-  existing_key_map = {
-    # create a new key in an existing key ring
-    (local.key_ring_id) = [
-      {
-        key_name = "test-key"
-      }
-    ]
-  }
-  key_map = {
-    # "ocp" key ring will be created with a key called "ocp-cluster-1-key"
-    "ocp" = [
-      {
-        key_name = "ocp-cluster-1-key"
-      }
-    ]
-  }
+  key_map = [
+    {
+      key_ring_name     = local.key_ring_id
+      existing_key_ring = true
+      keys = [
+        {
+          key_name = "test-key"
+        }
+      ]
+    },
+    {
+      key_ring_name = "ocp"
+      keys = [
+        {
+          key_name = "ocp-cluster-1-key"
+        }
+      ]
+    }
+  ]
 }

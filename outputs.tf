@@ -4,7 +4,7 @@
 
 output "key_protect_guid" {
   description = "Key Protect GUID"
-  value       = local.key_protect_guid
+  value       = local.kms_guid
 }
 
 output "key_protect_id" {

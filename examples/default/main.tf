@@ -20,29 +20,34 @@ module "key_protect_all_inclusive" {
   region                    = var.region
   resource_tags             = var.resource_tags
   access_tags               = var.access_tags
-  existing_key_map = {
-    # "default" king ring already exists out of the box with Key Protect, so just the key will be created here
-    "default" = [
-      {
-        key_name = "default-key"
-      }
-    ]
-  }
-  key_map = {
-    # "ocp" key ring will be created with a key called "ocp-cluster-1-key"
-    "ocp" = [
-      {
-        key_name = "ocp-cluster-1-key"
-      }
-    ]
-    # "cos" key ring will be created with 2 keys called "cos-bucket-1-key" and "cos-bucket-2-key"
-    "cos" = [
-      {
-        key_name = "cos-bucket-1-key"
-      },
-      {
-        key_name = "cos-bucket-2-key"
-      }
-    ]
-  }
+  key_map = [
+    {
+      key_ring_name     = "default"
+      existing_key_ring = true
+      keys = [
+        {
+          key_name = "default-key"
+        }
+      ]
+    },
+    {
+      key_ring_name = "ocp"
+      keys = [
+        {
+          key_name = "ocp-cluster-1-key"
+        }
+      ]
+    },
+    {
+      key_ring_name = "cos"
+      keys = [
+        {
+          key_name = "cos-bucket-1-key"
+        },
+        {
+          key_name = "cos-bucket-2-key"
+        }
+      ]
+    }
+  ]
 }

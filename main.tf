@@ -22,7 +22,7 @@ locals {
   existing_instance_validate_check = regex("^${local.existing_instance_validate_msg}$", (!local.existing_instance_validate_condition ? local.existing_instance_validate_msg : ""))
 
   # set key_protect_guid as either the ID of the passed in name of instance or the one created by this module
-  key_protect_guid = var.create_key_protect_instance ? module.key_protect[0].key_protect_guid : var.existing_kms_instance_guid
+  kms_guid = var.create_key_protect_instance ? module.key_protect[0].key_protect_guid : var.existing_kms_instance_guid
 }
 
 module "key_protect" {
@@ -47,14 +47,23 @@ module "key_protect" {
 # Key Protect Key Rings
 ##############################################################################
 
-# Create Key Rings included in var.existing_key_map
+locals {
+  key_rings = flatten([
+    for key_ring in var.key_map :
+    key_ring.existing_key_ring ? [] : [{
+      key_ring_name = key_ring.key_ring_name
+      force_delete  = key_ring.force_delete
+    }]
+  ])
+}
+
 module "key_protect_key_rings" {
   source        = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key-ring.git?ref=v2.3.1"
-  for_each      = var.key_map
-  instance_id   = local.key_protect_guid
+  for_each      = { for obj in local.key_rings : obj.key_ring_name => obj }
+  instance_id   = local.kms_guid
   endpoint_type = var.key_ring_endpoint_type
-  key_ring_id   = each.key
-  force_delete  = var.force_delete_key_ring
+  key_ring_id   = each.value.key_ring_name
+  force_delete  = each.value.force_delete
 }
 
 ##############################################################################
@@ -62,23 +71,18 @@ module "key_protect_key_rings" {
 ##############################################################################
 
 locals {
-  # These two maps transform the variable data from
-  # {key_ring_1 = [key_1, key_2], key_ring_2 = [key_3, key_4]}
-  # into a more usable data structure of
-  # [{key_name = key_1, key_ring_name = key_ring_1}, {key_name = key_2, key_ring_name = key_ring_1}...]
-
-  existing_key_ring_key_list = flatten([
-    for key_ring, key_list in var.existing_key_map : [
-      for key_obj in key_list : merge({
-        key_ring_name = key_ring
+  key_ring_key_list = flatten([
+    for key_ring in var.key_map : key_ring.existing_key_ring ? [] : [
+      for key_obj in key_ring.keys : merge({
+        key_ring_name = key_ring.key_ring_name
       }, key_obj)
     ]
   ])
 
-  key_ring_key_list = flatten([
-    for ring_name, key_list in var.key_map : [
-      for key_obj in key_list : merge({
-        key_ring_name = ring_name
+  existing_key_ring_key_list = flatten([
+    for key_ring in var.key_map : !key_ring.existing_key_ring ? [] : [
+      for key_obj in key_ring.keys : merge({
+        key_ring_name = key_ring.key_ring_name
       }, key_obj)
     ]
   ])
@@ -86,11 +90,10 @@ locals {
 
 # Create Key Rings and Keys
 module "key_protect_keys" {
-  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key.git?ref=v1.2.1"
-  # This for_each is needed to assign a name to the maps in the array so they can be referenced/saved in the terraform graph
+  source          = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key.git?ref=v1.2.1"
   for_each        = { for obj in local.key_ring_key_list : "${obj.key_ring_name}.${obj.key_name}" => obj }
   endpoint_type   = var.key_endpoint_type
-  kms_instance_id = local.key_protect_guid
+  kms_instance_id = local.kms_guid
   key_name        = each.value.key_name
   kms_key_ring_id = module.key_protect_key_rings[each.value.key_ring_name].key_ring_id
   force_delete    = each.value.force_delete
@@ -98,10 +101,9 @@ module "key_protect_keys" {
 
 # Create Keys in existing Key Rings
 module "existing_key_ring_keys" {
-  source = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key.git?ref=v1.2.1"
-  # This for_each is needed to assign a name to the maps in the array so they can be referenced/saved in the terraform graph
+  source          = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key.git?ref=v1.2.1"
   for_each        = { for obj in local.existing_key_ring_key_list : "existing-key-ring.${obj.key_name}" => obj }
-  kms_instance_id = local.key_protect_guid
+  kms_instance_id = local.kms_guid
   endpoint_type   = var.key_endpoint_type
   key_name        = each.value.key_name
   kms_key_ring_id = each.value.key_ring_name
