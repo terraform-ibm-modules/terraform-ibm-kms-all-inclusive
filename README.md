@@ -13,7 +13,7 @@ This module combines the following key management service (KMS) modules to creat
 - [KMS Key module](https://github.com/terraform-ibm-modules/terraform-ibm-kms-key)
 - [KMS Key Ring module](https://github.com/terraform-ibm-modules/terraform-ibm-kms-key-ring)
 
-The module takes a map, called `key_map`, that supports hierarchical "key rings" for a single key management service (KMS) instance. Because access to key rings is managed in the KMS, you can comply with controls around least privilege (for example, [NIST AC-6](https://csrc.nist.gov/Projects/risk-management/sp800-53-controls/release-search#/control?version=4.0&number=AC-6)) and can reduce the number of access groups you need to assign. For more information about key rings, see [Grouping keys together using key rings](https://cloud.ibm.com/docs/key-protect?topic=key-protect-grouping-keys).
+The module takes a map, called `keys`, that supports hierarchical "key rings" for a single key management service (KMS) instance. Because access to key rings is managed in the KMS, you can comply with controls around least privilege (for example, [NIST AC-6](https://csrc.nist.gov/Projects/risk-management/sp800-53-controls/release-search#/control?version=4.0&number=AC-6)) and can reduce the number of access groups you need to assign. For more information about key rings, see [Grouping keys together using key rings](https://cloud.ibm.com/docs/key-protect?topic=key-protect-grouping-keys).
 The following example shows a typical topology for a KMS instance:
 
 ```md
@@ -27,17 +27,17 @@ The following example shows a typical topology for a KMS instance:
 │   ├── root-key-ocp-cluster-...
 ```
 
+In this scenario `cos` and `ocp` represent different IBM Cloud Services that utilize KMS keys to encrypt data at rest, each of the keys represent a different bucket or cluster in your environment.
+
 ## Using HPCS instead of Key Protect
 
 This module supports creating key rings and keys for Key Protect or Hyper Protect Crypto Services (HPCS). By default the module creates a Key Protect instance and creates the key rings and keys in that service instance, but this can be modified to use an existing HPCS instance by providing the GUID of your HPCS instance in the `var.existing_kms_instance_guid` input variable, and then setting the `var.create_key_protect_instance` input variable to `false`. For more information on provisioning an HPCS instance, please see: <https://github.com/terraform-ibm-modules/terraform-ibm-hpcs>
 
 ## Using Multiple Key Protect instances
 
-The strings `cos-bucket` and `ocp-cluster` are the cluster IDs for Cloud Object Storage and for the OpenShift Container Platform.
-
 The module supports only a single KMS instance and creates the key topology in that instance. The module code doesn't create multiple Key Protect instances, or support key rings and keys across multiple KMS instances.
 
- In a typical production environment, services might need multiple Key Protect or HPCS instances for compliance reasons. For example, you might need isolation between regulatory boundaries (for example, between FedRamp and everything else). Or you might be required to isolate keys that are used by a service's control plane from the data plane (for example, with IBM Cloud Databases (ICD) services).
+In a typical production environment, services might need multiple Key Protect or HPCS instances for compliance reasons. For example, you might need isolation between regulatory boundaries (for example, between FedRamp and everything else). Or you might be required to isolate keys that are used by a service's control plane from the data plane (for example, with IBM Cloud Databases (ICD) services).
 
 To achieve compliance, you can write logic to call the module multiple times for multiple KMS instances.
 
@@ -73,23 +73,43 @@ module "kms_all_inclusive" {
   keys = [
     {
       key_ring_name = "example-key-ring-1"
+      existing_key_ring = true
+      force_delete_key_ring = false
       keys = [
         {
           key_name = "example-key-1"
+          standard_key = true
+          rotation_interval_month = 1
+          dual_auth_delete_enabled = true
+          force_delete = true
         },
         {
           key_name = "example-key-2"
+          standard_key = false
+          rotation_interval_month = 12
+          dual_auth_delete enabled = false
+          force_delete = false
         }
       ]
     },
     {
       key_ring_name = "example-key-ring-2"
+      existing_key_ring = false
+      force_delete_key_ring = true
       keys = [
         {
           key_name = "example-key-3"
+          standard_key = true
+          rotation_interval_month = 4
+          dual_auth_delete_enabled = true
+          force_delete = true
         },
         {
           key_name = "example-key-4"
+          standard_key = false
+          rotation_interval_month = 8
+          dual_auth_delete enabled = false
+          force_delete = false
         }
       ]
     }
