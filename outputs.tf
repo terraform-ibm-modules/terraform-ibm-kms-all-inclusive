@@ -29,10 +29,5 @@ output "key_rings" {
 
 output "keys" {
   description = "IDs of new Keys created by the module"
-  value       = module.kms_keys
-}
-
-output "existing_key_ring_keys" {
-  description = "IDs of Keys created by the module in existing Key Rings"
-  value       = module.existing_key_ring_keys
+  value       = merge(module.kms_keys, module.existing_key_ring_keys)
 }

@@ -21,8 +21,3 @@ output "keys" {
   description = "Keys created by the module"
   value       = module.key_protect_all_inclusive.keys
 }
-
-output "existing_key_ring_keys" {
-  description = "Keys created by the module in existing Key Rings"
-  value       = module.key_protect_all_inclusive.existing_key_ring_keys
-}
