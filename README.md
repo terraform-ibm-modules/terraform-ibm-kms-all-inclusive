@@ -71,6 +71,7 @@ module "kms_all_inclusive" {
   resource_group_id         = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
   region                    = "us-south"
   keys = [
+    # use an existing key ring named "example-key-ring-1"
     {
       key_ring_name = "example-key-ring-1"
       existing_key_ring = true
@@ -92,6 +93,7 @@ module "kms_all_inclusive" {
         }
       ]
     },
+    # create a new key ring named "example-key-ring-2"
     {
       key_ring_name = "example-key-ring-2"
       existing_key_ring = false
