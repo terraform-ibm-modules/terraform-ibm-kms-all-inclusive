@@ -13,7 +13,7 @@ module "resource_group" {
 # Create Key Protect instance outside of terraform-ibm-key-protect-all-inclusive module
 ##############################################################################
 module "existing_key_protect" {
-  source            = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect.git?ref=v2.4.1"
+  source            = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect.git?ref=v2.5.1"
   resource_group_id = module.resource_group.resource_group_id
   region            = var.region
   tags              = var.resource_tags
