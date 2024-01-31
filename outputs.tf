@@ -39,10 +39,10 @@ output "existing_key_ring_keys" {
 
 output "kp_private_endpoint" {
   description = "Instance private endpoint URL"
-  value       = [for kp in module.key_protect : kp.kp_private_endpoint][0]
+  value       = var.existing_key_protect_instance_guid == null ? [for kp in module.key_protect : kp.kp_private_endpoint][0] : null
 }
 
 output "kp_public_endpoint" {
   description = "Instance public endpoint URL"
-  value       = [for kp in module.key_protect : kp.kp_public_endpoint][0]
+  value       = var.existing_key_protect_instance_guid == null ? [for kp in module.key_protect : kp.kp_public_endpoint][0] : null
 }
