@@ -102,7 +102,7 @@ You need the following permissions to run this module.
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_existing_key_ring_keys"></a> [existing\_key\_ring\_keys](#module\_existing\_key\_ring\_keys) | git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key.git | v1.2.1 |
-| <a name="module_key_protect"></a> [key\_protect](#module\_key\_protect) | git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect.git | v2.4.1 |
+| <a name="module_key_protect"></a> [key\_protect](#module\_key\_protect) | git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect.git | v2.5.0 |
 | <a name="module_key_protect_key_rings"></a> [key\_protect\_key\_rings](#module\_key\_protect\_key\_rings) | git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key-ring.git | v2.3.1 |
 | <a name="module_key_protect_keys"></a> [key\_protect\_keys](#module\_key\_protect\_keys) | git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key.git | v1.2.1 |
 
@@ -147,6 +147,8 @@ No resources.
 | <a name="output_key_protect_name"></a> [key\_protect\_name](#output\_key\_protect\_name) | Key Protect Name |
 | <a name="output_key_rings"></a> [key\_rings](#output\_key\_rings) | IDs of new Key Rings created by the module |
 | <a name="output_keys"></a> [keys](#output\_keys) | IDs of new Keys created by the module |
+| <a name="output_kp_private_endpoint"></a> [kp\_private\_endpoint](#output\_kp\_private\_endpoint) | Instance private endpoint URL |
+| <a name="output_kp_public_endpoint"></a> [kp\_public\_endpoint](#output\_kp\_public\_endpoint) | Instance public endpoint URL |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 <!-- BEGIN CONTRIBUTING HOOK -->
 

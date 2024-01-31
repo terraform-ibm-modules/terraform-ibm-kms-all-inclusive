@@ -41,3 +41,13 @@ output "existing_key_ring_keys" {
   description = "Keys created by the module in existing Key Rings"
   value       = module.key_protect_all_inclusive.existing_key_ring_keys
 }
+
+output "kp_private_endpoint" {
+  description = "Instance private endpoint URL"
+  value       = module.key_protect_all_inclusive.kp_private_endpoint
+}
+
+output "kp_public_endpoint" {
+  description = "Instance public endpoint URL"
+  value       = module.key_protect_all_inclusive.kp_public_endpoint
+}

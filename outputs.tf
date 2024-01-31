@@ -36,3 +36,13 @@ output "existing_key_ring_keys" {
   description = "IDs of Keys created by the module in existing Key Rings"
   value       = module.existing_key_ring_keys
 }
+
+output "kp_private_endpoint" {
+  description = "Instance private endpoint URL"
+  value       = [for kp in module.key_protect : kp.kp_private_endpoint][0]
+}
+
+output "kp_public_endpoint" {
+  description = "Instance public endpoint URL"
+  value       = [for kp in module.key_protect : kp.kp_public_endpoint][0]
+}
