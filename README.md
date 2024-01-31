@@ -7,13 +7,13 @@
 [![latest release](https://img.shields.io/github/v/release/terraform-ibm-modules/terraform-ibm-kms-all-inclusive?logo=GitHub&sort=semver)](https://github.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive/releases/latest)
 [![Renovate enabled](https://img.shields.io/badge/renovate-enabled-brightgreen.svg)](https://renovatebot.com/)
 
-This module combines the following Key Protect modules to create a full end-to-end key infrastructure:
+This module combines the following key management service (KMS) modules to create a full end-to-end key infrastructure:
 
 - [Key Protect module](https://github.com/terraform-ibm-modules/terraform-ibm-key-protect)
-- [Key Protect key module](https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key)
-- [Key Protect key ring module](https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key-ring)
+- [KMS Key module](https://github.com/terraform-ibm-modules/terraform-ibm-kms-key)
+- [KMS Key Ring module](https://github.com/terraform-ibm-modules/terraform-ibm-kms-key-ring)
 
-The module takes a map, called `key_map`, that supports hierarchical "key rings" for a single key management service (KMS) instance. Because access to key rings is managed in the KMS, you can comply with controls around least privilege (for example, [NIST AC-6](https://csrc.nist.gov/Projects/risk-management/sp800-53-controls/release-search#/control?version=4.0&number=AC-6)) and can reduce the number of access groups you need to assign. For more information about key rings, see [Grouping keys together using key rings](https://cloud.ibm.com/docs/key-protect?topic=key-protect-grouping-keys).
+The module takes a list, called `keys`, that supports hierarchical "key rings" for a single key management service (KMS) instance. Because access to key rings is managed in the KMS, you can comply with controls around least privilege (for example, [NIST AC-6](https://csrc.nist.gov/Projects/risk-management/sp800-53-controls/release-search#/control?version=4.0&number=AC-6)) and can reduce the number of access groups you need to assign. For more information about key rings, see [Grouping keys together using key rings](https://cloud.ibm.com/docs/key-protect?topic=key-protect-grouping-keys).
 The following example shows a typical topology for a KMS instance:
 
 ```md
@@ -27,17 +27,17 @@ The following example shows a typical topology for a KMS instance:
 │   ├── root-key-ocp-cluster-...
 ```
 
+In this scenario `cos` and `ocp` represent different IBM Cloud Services that utilize KMS keys to encrypt data at rest, each of the keys represent a different bucket or cluster in your environment.
+
 ## Using HPCS instead of Key Protect
 
-This module supports creating key rings and keys for Key Protect or Hyper Protect Crypto Services (HPCS). By default the module creates a Key Protect instance and creates the key rings and keys in that service instance, but this can be modified to use an existing HPCS instance by providing the GUID of your HPCS instance in the `var.existing_key_protect_instance_guid` input variable, and then setting the `var.create_key_protect_instance` input variable to `false`.
+This module supports creating key rings and keys for Key Protect or Hyper Protect Crypto Services (HPCS). By default the module creates a Key Protect instance and creates the key rings and keys in that service instance, but this can be modified to use an existing HPCS instance by providing the GUID of your HPCS instance in the `var.existing_kms_instance_guid` input variable, and then setting the `var.create_key_protect_instance` input variable to `false`. For more information on provisioning an HPCS instance, please see: <https://github.com/terraform-ibm-modules/terraform-ibm-hpcs>
 
-## Multiple Key Protect instances, and potential future directions for this module
+## Using Multiple Key Protect instances
 
-The strings `cos-bucket` and `ocp-cluster` are the cluster IDs for Cloud Object Storage and for the OpenShift Container Platform.
+The module supports only a single KMS instance and creates the key topology in that instance. The module code doesn't create multiple Key Protect instances, or support key rings and keys across multiple KMS instances.
 
-The module supports only a single KMS instance and creates the key topology in that instance. The module code doesn't create multiple Key Protect instances, or support key rings and keys across multiple HPCS instances.
-
- In a typical production environment, services might need multiple Key Protect or HPCS instances for compliance reasons. For example, you might need isolation between regulatory boundaries (for example, between FedRamp and everything else). Or you might be required to isolate keys that are used by a service's control plane from the data plane (for example, with IBM Cloud Databases (ICD) services).
+In a typical production environment, services might need multiple Key Protect or HPCS instances for compliance reasons. For example, you might need isolation between regulatory boundaries (for example, between FedRamp and everything else). Or you might be required to isolate keys that are used by a service's control plane from the data plane (for example, with IBM Cloud Databases (ICD) services).
 
 To achieve compliance, you can write logic to call the module multiple times for multiple KMS instances.
 
@@ -70,10 +70,52 @@ module "kms_all_inclusive" {
   key_protect_instance_name = "my-key-protect-instance"
   resource_group_id         = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
   region                    = "us-south"
-  key_map = {
-    "example-key-ring-1" = ["example-key-1", "example-key-2"]
-    "example-key-ring-2" = ["example-key-3", "example-key-4"]
-  }
+  keys = [
+    # use an existing key ring named "example-key-ring-1"
+    {
+      key_ring_name = "example-key-ring-1"
+      existing_key_ring = true
+      force_delete_key_ring = false
+      keys = [
+        {
+          key_name = "example-key-1"
+          standard_key = true
+          rotation_interval_month = 1
+          dual_auth_delete_enabled = true
+          force_delete = true
+        },
+        {
+          key_name = "example-key-2"
+          standard_key = false
+          rotation_interval_month = 12
+          dual_auth_delete enabled = false
+          force_delete = false
+        }
+      ]
+    },
+    # create a new key ring named "example-key-ring-2"
+    {
+      key_ring_name = "example-key-ring-2"
+      existing_key_ring = false
+      force_delete_key_ring = true
+      keys = [
+        {
+          key_name = "example-key-3"
+          standard_key = true
+          rotation_interval_month = 4
+          dual_auth_delete_enabled = true
+          force_delete = true
+        },
+        {
+          key_name = "example-key-4"
+          standard_key = false
+          rotation_interval_month = 8
+          dual_auth_delete enabled = false
+          force_delete = false
+        }
+      ]
+    }
+  ]
 }
 ```
 
@@ -101,10 +143,10 @@ You need the following permissions to run this module.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_existing_key_ring_keys"></a> [existing\_key\_ring\_keys](#module\_existing\_key\_ring\_keys) | git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key.git | v1.2.1 |
+| <a name="module_existing_key_ring_keys"></a> [existing\_key\_ring\_keys](#module\_existing\_key\_ring\_keys) | terraform-ibm-modules/kms-key/ibm | v1.2.1 |
 | <a name="module_key_protect"></a> [key\_protect](#module\_key\_protect) | git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect.git | v2.4.1 |
-| <a name="module_key_protect_key_rings"></a> [key\_protect\_key\_rings](#module\_key\_protect\_key\_rings) | git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key-ring.git | v2.3.1 |
-| <a name="module_key_protect_keys"></a> [key\_protect\_keys](#module\_key\_protect\_keys) | git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect-key.git | v1.2.1 |
+| <a name="module_kms_key_rings"></a> [kms\_key\_rings](#module\_kms\_key\_rings) | terraform-ibm-modules/kms-key-ring/ibm | v2.3.1 |
+| <a name="module_kms_keys"></a> [kms\_keys](#module\_kms\_keys) | terraform-ibm-modules/kms-key/ibm | v1.2.1 |
 
 ### Resources
 
@@ -118,18 +160,15 @@ No resources.
 | <a name="input_create_key_protect_instance"></a> [create\_key\_protect\_instance](#input\_create\_key\_protect\_instance) | A flag to control whether a Key Protect instance is created, defaults to true. | `bool` | `true` | no |
 | <a name="input_dual_auth_delete_enabled"></a> [dual\_auth\_delete\_enabled](#input\_dual\_auth\_delete\_enabled) | If set to true, Key Protect enables a dual authorization policy on the instance. Note: Once the dual authorization policy is set on the instance, it cannot be reverted. An instance with dual authorization policy enabled cannot be destroyed using Terraform. | `bool` | `false` | no |
 | <a name="input_enable_metrics"></a> [enable\_metrics](#input\_enable\_metrics) | Set to true to enable metrics on the Key Protect instance (ignored is value for 'existing\_key\_protect\_instance\_guid' is passed). In order to view metrics, you will need a Monitoring (Sysdig) instance that is located in the same region as the Key Protect instance. Once you provision the Monitoring instance, you will need to enable platform metrics. | `bool` | `true` | no |
-| <a name="input_existing_key_map"></a> [existing\_key\_map](#input\_existing\_key\_map) | Use this variable if you wish to create new keys inside already existing Key Ring(s). The map should contain the existing Key Ring name as the keys of the map, and a list of desired Key Protect Key names to create as the values for each existing Key Ring. | `map(list(string))` | `{}` | no |
-| <a name="input_existing_key_protect_instance_guid"></a> [existing\_key\_protect\_instance\_guid](#input\_existing\_key\_protect\_instance\_guid) | The GUID of an existing Key Protect instance, required if 'var.create\_key\_protect\_instance' is false. | `string` | `null` | no |
-| <a name="input_force_delete"></a> [force\_delete](#input\_force\_delete) | Allow keys to be force deleted, even if key is in use | `bool` | `true` | no |
-| <a name="input_force_delete_key_ring"></a> [force\_delete\_key\_ring](#input\_force\_delete\_key\_ring) | Set to `true` to force delete key ring or `false` if not | `bool` | `true` | no |
+| <a name="input_existing_kms_instance_guid"></a> [existing\_kms\_instance\_guid](#input\_existing\_kms\_instance\_guid) | The GUID of an existing Key Protect or Hyper Protect Crypto Services instance, required if 'var.create\_key\_protect\_instance' is false. | `string` | `null` | no |
 | <a name="input_key_create_import_access_enabled"></a> [key\_create\_import\_access\_enabled](#input\_key\_create\_import\_access\_enabled) | If set to true, Key Protect enables a key create import access policy on the instance | `bool` | `true` | no |
 | <a name="input_key_create_import_access_settings"></a> [key\_create\_import\_access\_settings](#input\_key\_create\_import\_access\_settings) | Key create import access policy settings to configure if var.enable\_key\_create\_import\_access\_policy is true. For more info see https://cloud.ibm.com/docs/key-protect?topic=key-protect-manage-keyCreateImportAccess | <pre>object({<br>    create_root_key     = optional(bool, true)<br>    create_standard_key = optional(bool, true)<br>    import_root_key     = optional(bool, true)<br>    import_standard_key = optional(bool, true)<br>    enforce_token       = optional(bool, false)<br>  })</pre> | `{}` | no |
 | <a name="input_key_endpoint_type"></a> [key\_endpoint\_type](#input\_key\_endpoint\_type) | The type of endpoint to be used for creating keys. Accepts 'public' or 'private' | `string` | `"public"` | no |
-| <a name="input_key_map"></a> [key\_map](#input\_key\_map) | Use this variable if you wish to create both a new key ring and new key. The map should contain the desired Key Ring name as the keys of the map, and a list of desired Key Protect Key names to create as the values for each Key Ring. | `map(list(string))` | `{}` | no |
 | <a name="input_key_protect_endpoint_type"></a> [key\_protect\_endpoint\_type](#input\_key\_protect\_endpoint\_type) | The type of the service endpoints to be set for the Key Protect instance. Possible values are 'public', 'private', or 'public-and-private'. Ignored is value for 'existing\_key\_protect\_instance\_guid' is passed. | `string` | `"public-and-private"` | no |
 | <a name="input_key_protect_instance_name"></a> [key\_protect\_instance\_name](#input\_key\_protect\_instance\_name) | The name to give the Key Protect instance that will be provisioned by this module. Only used if 'create\_key\_protect\_instance' is true | `string` | `null` | no |
 | <a name="input_key_protect_plan"></a> [key\_protect\_plan](#input\_key\_protect\_plan) | Plan for the Key Protect instance. Currently only 'tiered-pricing' is supported. Only used if 'create\_key\_protect\_instance' is true | `string` | `"tiered-pricing"` | no |
 | <a name="input_key_ring_endpoint_type"></a> [key\_ring\_endpoint\_type](#input\_key\_ring\_endpoint\_type) | The type of endpoint to be used for creating key rings. Accepts 'public' or 'private' | `string` | `"public"` | no |
+| <a name="input_keys"></a> [keys](#input\_keys) | A list of objects which contain the key ring name, a flag indicating if this key ring already exists, and a flag to enable force deletion of the key ring. In addition, this object contains a list of keys with all of the information on the keys to be created in that key ring. | <pre>list(object({<br>    key_ring_name         = string<br>    existing_key_ring     = optional(bool, false)<br>    force_delete_key_ring = optional(bool, true)<br>    keys = list(object({<br>      key_name                 = string<br>      standard_key             = optional(bool, false)<br>      rotation_interval_month  = optional(number, 1)<br>      dual_auth_delete_enabled = optional(bool, false)<br>      force_delete             = optional(bool, true)<br>    }))<br>  }))</pre> | `[]` | no |
 | <a name="input_region"></a> [region](#input\_region) | The IBM Cloud region where all resources will be provisioned. | `string` | n/a | yes |
 | <a name="input_resource_group_id"></a> [resource\_group\_id](#input\_resource\_group\_id) | The name of the Resource Group to provision all resources in. | `string` | n/a | yes |
 | <a name="input_resource_tags"></a> [resource\_tags](#input\_resource\_tags) | Optional list of tags to be added to the Key Protect instance. Only used if 'create\_key\_protect\_instance' is true. | `list(string)` | `[]` | no |
@@ -140,13 +179,12 @@ No resources.
 
 | Name | Description |
 |------|-------------|
-| <a name="output_existing_key_ring_keys"></a> [existing\_key\_ring\_keys](#output\_existing\_key\_ring\_keys) | IDs of Keys created by the module in existing Key Rings |
-| <a name="output_key_protect_guid"></a> [key\_protect\_guid](#output\_key\_protect\_guid) | Key Protect GUID |
 | <a name="output_key_protect_id"></a> [key\_protect\_id](#output\_key\_protect\_id) | Key Protect service instance ID when an instance is created, otherwise null |
 | <a name="output_key_protect_instance_policies"></a> [key\_protect\_instance\_policies](#output\_key\_protect\_instance\_policies) | Instance Polices of the Key Protect instance |
 | <a name="output_key_protect_name"></a> [key\_protect\_name](#output\_key\_protect\_name) | Key Protect Name |
 | <a name="output_key_rings"></a> [key\_rings](#output\_key\_rings) | IDs of new Key Rings created by the module |
 | <a name="output_keys"></a> [keys](#output\_keys) | IDs of new Keys created by the module |
+| <a name="output_kms_guid"></a> [kms\_guid](#output\_kms\_guid) | KMS GUID |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 <!-- BEGIN CONTRIBUTING HOOK -->
 
