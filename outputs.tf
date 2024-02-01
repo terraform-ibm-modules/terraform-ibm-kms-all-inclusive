@@ -33,11 +33,11 @@ output "keys" {
 }
 
 output "kp_private_endpoint" {
-  description = "Instance private endpoint URL"
+  description = "Key Protect instance private endpoint URL"
   value       = var.create_key_protect_instance ? module.key_protect[0].kp_private_endpoint : null
 }
 
 output "kp_public_endpoint" {
-  description = "Instance public endpoint URL"
+  description = "Key Protect instance public endpoint URL"
   value       = var.create_key_protect_instance ? module.key_protect[0].kp_public_endpoint : null
 }
