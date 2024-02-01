@@ -34,10 +34,10 @@ output "keys" {
 
 output "kp_private_endpoint" {
   description = "Instance private endpoint URL"
-  value       = var.existing_key_protect_instance_guid == null ? [for kp in module.key_protect : kp.kp_private_endpoint][0] : null
+  value       = var.create_key_protect_instance ? module.key_protect[0].kp_private_endpoint : null
 }
 
 output "kp_public_endpoint" {
   description = "Instance public endpoint URL"
-  value       = var.existing_key_protect_instance_guid == null ? [for kp in module.key_protect : kp.kp_public_endpoint][0] : null
+  value       = var.create_key_protect_instance ? module.key_protect[0].kp_public_endpoint : null
 }
