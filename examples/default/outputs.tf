@@ -36,3 +36,13 @@ output "keys" {
   description = "Keys created by the module"
   value       = module.key_protect_all_inclusive.keys
 }
+
+output "kp_private_endpoint" {
+  description = "Instance private endpoint URL"
+  value       = module.key_protect_all_inclusive.kp_private_endpoint
+}
+
+output "kp_public_endpoint" {
+  description = "Instance public endpoint URL"
+  value       = module.key_protect_all_inclusive.kp_public_endpoint
+}

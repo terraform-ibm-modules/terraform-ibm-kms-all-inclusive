@@ -31,3 +31,13 @@ output "keys" {
   description = "IDs of new Keys created by the module"
   value       = merge(module.kms_keys, module.existing_key_ring_keys)
 }
+
+output "kp_private_endpoint" {
+  description = "Key Protect instance private endpoint URL"
+  value       = var.create_key_protect_instance ? module.key_protect[0].kp_private_endpoint : null
+}
+
+output "kp_public_endpoint" {
+  description = "Key Protect instance public endpoint URL"
+  value       = var.create_key_protect_instance ? module.key_protect[0].kp_public_endpoint : null
+}

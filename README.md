@@ -144,7 +144,7 @@ You need the following permissions to run this module.
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_existing_key_ring_keys"></a> [existing\_key\_ring\_keys](#module\_existing\_key\_ring\_keys) | terraform-ibm-modules/kms-key/ibm | v1.2.1 |
-| <a name="module_key_protect"></a> [key\_protect](#module\_key\_protect) | git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect.git | v2.4.1 |
+| <a name="module_key_protect"></a> [key\_protect](#module\_key\_protect) | git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect.git | v2.5.1 |
 | <a name="module_kms_key_rings"></a> [kms\_key\_rings](#module\_kms\_key\_rings) | terraform-ibm-modules/kms-key-ring/ibm | v2.3.1 |
 | <a name="module_kms_keys"></a> [kms\_keys](#module\_kms\_keys) | terraform-ibm-modules/kms-key/ibm | v1.2.1 |
 
@@ -185,6 +185,8 @@ No resources.
 | <a name="output_key_rings"></a> [key\_rings](#output\_key\_rings) | IDs of new Key Rings created by the module |
 | <a name="output_keys"></a> [keys](#output\_keys) | IDs of new Keys created by the module |
 | <a name="output_kms_guid"></a> [kms\_guid](#output\_kms\_guid) | KMS GUID |
+| <a name="output_kp_private_endpoint"></a> [kp\_private\_endpoint](#output\_kp\_private\_endpoint) | Key Protect instance private endpoint URL |
+| <a name="output_kp_public_endpoint"></a> [kp\_public\_endpoint](#output\_kp\_public\_endpoint) | Key Protect instance public endpoint URL |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 <!-- BEGIN CONTRIBUTING HOOK -->
 
