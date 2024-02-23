@@ -27,10 +27,10 @@ locals {
 
 module "key_protect" {
   count                             = var.create_key_protect_instance ? 1 : 0
-  source                            = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect.git?ref=v2.5.1"
+  source                            = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect.git?ref=v2.6.0"
   key_protect_name                  = var.key_protect_instance_name
   region                            = var.region
-  service_endpoints                 = var.key_protect_endpoint_type
+  allowed_network                   = var.key_protect_allowed_network
   resource_group_id                 = var.resource_group_id
   plan                              = var.key_protect_plan
   tags                              = var.resource_tags
