@@ -77,13 +77,13 @@ variable "key_create_import_access_settings" {
   default     = {}
 }
 
-variable "key_protect_endpoint_type" {
+variable "key_protect_allowed_network" {
   type        = string
-  description = "The type of the service endpoints to be set for the Key Protect instance. Possible values are 'public', 'private', or 'public-and-private'. Ignored is value for 'existing_key_protect_instance_guid' is passed."
+  description = "The type of the allowed network to be set for the Key Protect instance. Possible values are 'private-only', or 'public-and-private'. Ignored is value for 'existing_key_protect_instance_guid' is passed."
   default     = "public-and-private"
   validation {
-    condition     = can(regex("public|private|public-and-private", var.key_protect_endpoint_type))
-    error_message = "The endpoint_type value must be 'public', 'private' or 'public-and-private'."
+    condition     = can(regex("private-only|public-and-private", var.key_protect_allowed_network))
+    error_message = "The key_protect_allowed_network value must be 'private-only' or 'public-and-private'."
   }
 }
 
