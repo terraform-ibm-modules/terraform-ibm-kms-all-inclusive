@@ -16,6 +16,7 @@ import (
 const resourceGroup = "geretain-test-key-protect-all-inclusive"
 const defaultExampleDir = "examples/default"
 const existingResourcesExampleDir = "examples/existing-resources"
+const solutionDADir = "solutions/standard"
 
 // Define a struct with fields that match the structure of the YAML data
 const yamlLocation = "../common-dev-assets/common-go-assets/common-permanent-resources.yaml"
@@ -99,9 +100,10 @@ func TestDASolutionInSchematics(t *testing.T) {
 		Prefix:  "kp-solution",
 		TarIncludePatterns: []string{
 			"*.tf",
+			solutionDADir + "/*.tf",
 		},
 		ResourceGroup:          resourceGroup,
-		TemplateFolder:         "solutions/standard",
+		TemplateFolder:         solutionDADir,
 		Tags:                   []string{"test-schematic"},
 		DeleteWorkspaceOnFail:  false,
 		WaitJobCompleteMinutes: 60,
@@ -117,7 +119,8 @@ func TestDASolutionInSchematics(t *testing.T) {
 		{Name: "service_endpoints", Value: "private", DataType: "string"},
 		{Name: "resource_tags", Value: options.Tags, DataType: "list(string)"},
 		{Name: "access_tags", Value: permanentResources["accessTags"], DataType: "list(string)"},
-		// {Name: "keys", Value: []string{key_ring_name = "default"}, DataType: "list(object)"},
+		// TODO: Figure out how to pass list object so we can test key ring / key creation
+		// {Name: "keys", Value: []object{{key_ring_name="ocp",keys=[]object{key_name="ocp-cluster-1-key"}}, DataType: "list(object)"},
 	}
 
 	err := options.RunSchematicTest()
