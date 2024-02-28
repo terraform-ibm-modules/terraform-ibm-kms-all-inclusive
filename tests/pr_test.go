@@ -119,8 +119,7 @@ func TestDASolutionInSchematics(t *testing.T) {
 		{Name: "service_endpoints", Value: "private", DataType: "string"},
 		{Name: "resource_tags", Value: options.Tags, DataType: "list(string)"},
 		{Name: "access_tags", Value: permanentResources["accessTags"], DataType: "list(string)"},
-		// TODO: Figure out how to pass list object so we can test key ring / key creation
-		// {Name: "keys", Value: []object{{key_ring_name="ocp",keys=[]object{key_name="ocp-cluster-1-key"}}, DataType: "list(object)"},
+		{Name: "keys", Value: []map[string]interface{}{{"key_ring_name": "my-key-ring", "keys": []map[string]interface{}{{"key_name": "some-key-name-1"}, {"key_name": "some-key-name-2"}}}}, DataType: "list(object)"},
 	}
 
 	err := options.RunSchematicTest()
