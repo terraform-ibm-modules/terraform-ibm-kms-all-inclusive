@@ -21,7 +21,7 @@ module "kms" {
   key_protect_instance_name         = var.key_protect_instance_name
   key_protect_plan                  = "tiered-pricing"
   rotation_enabled                  = true
-  rotation_interval_month           = 1
+  rotation_interval_month           = 3
   dual_auth_delete_enabled          = false
   enable_metrics                    = true
   key_create_import_access_enabled  = false
