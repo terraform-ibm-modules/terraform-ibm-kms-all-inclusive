@@ -29,6 +29,17 @@ The following example shows a typical topology for a KMS instance:
 
 In this scenario `cos` and `ocp` represent different IBM Cloud Services that utilize KMS keys to encrypt data at rest, each of the keys represent a different bucket or cluster in your environment.
 
+## Known limitations
+There is currently a known issue with the IBM provider (https://github.com/IBM-Cloud/terraform-provider-ibm/issues/5154) where the provider is always trying to use the public endpoint when communicating with the Key Protect instance, even if the instance has public endpoint disabled. You will see an error like below on apply:
+```
+Error: [ERROR] Get Policies failed with error : kp.Error: correlation_id='1920e5b8-d5af-4b13-8e67-11872f43bc87', msg='Unauthorized: Either the user does not have access to the specified resource, the resource does not exist, or the region is incorrectly set'
+```
+As a workaround, you can set the following environment variable before running apply:
+```
+export IBMCLOUD_KP_API_ENDPOINT=https://private.REGION.kms.cloud.ibm.com
+```
+where `REGION` is the value you have set for the `region` input variable.
+
 ## Using HPCS instead of Key Protect
 
 This module supports creating key rings and keys for Key Protect or Hyper Protect Crypto Services (HPCS). By default the module creates a Key Protect instance and creates the key rings and keys in that service instance, but this can be modified to use an existing HPCS instance by providing the GUID of your HPCS instance in the `var.existing_kms_instance_guid` input variable, and then setting the `var.create_key_protect_instance` input variable to `false`. For more information on provisioning an HPCS instance, please see: <https://github.com/terraform-ibm-modules/terraform-ibm-hpcs>
@@ -159,12 +170,12 @@ No resources.
 | <a name="input_access_tags"></a> [access\_tags](#input\_access\_tags) | A list of access tags to apply to the Key Protect instance created by the module. | `list(string)` | `[]` | no |
 | <a name="input_create_key_protect_instance"></a> [create\_key\_protect\_instance](#input\_create\_key\_protect\_instance) | A flag to control whether a Key Protect instance is created, defaults to true. | `bool` | `true` | no |
 | <a name="input_dual_auth_delete_enabled"></a> [dual\_auth\_delete\_enabled](#input\_dual\_auth\_delete\_enabled) | If set to true, Key Protect enables a dual authorization policy on the instance. Note: Once the dual authorization policy is set on the instance, it cannot be reverted. An instance with dual authorization policy enabled cannot be destroyed using Terraform. | `bool` | `false` | no |
-| <a name="input_enable_metrics"></a> [enable\_metrics](#input\_enable\_metrics) | Set to true to enable metrics on the Key Protect instance (ignored is value for 'existing\_key\_protect\_instance\_guid' is passed). In order to view metrics, you will need a Monitoring (Sysdig) instance that is located in the same region as the Key Protect instance. Once you provision the Monitoring instance, you will need to enable platform metrics. | `bool` | `true` | no |
+| <a name="input_enable_metrics"></a> [enable\_metrics](#input\_enable\_metrics) | Set to true to enable metrics on the Key Protect instance (ignored is value for 'existing\_kms\_instance\_guid' is passed). In order to view metrics, you will need a Monitoring (Sysdig) instance that is located in the same region as the Key Protect instance. Once you provision the Monitoring instance, you will need to enable platform metrics. | `bool` | `true` | no |
 | <a name="input_existing_kms_instance_guid"></a> [existing\_kms\_instance\_guid](#input\_existing\_kms\_instance\_guid) | The GUID of an existing Key Protect or Hyper Protect Crypto Services instance, required if 'var.create\_key\_protect\_instance' is false. | `string` | `null` | no |
 | <a name="input_key_create_import_access_enabled"></a> [key\_create\_import\_access\_enabled](#input\_key\_create\_import\_access\_enabled) | If set to true, Key Protect enables a key create import access policy on the instance | `bool` | `true` | no |
 | <a name="input_key_create_import_access_settings"></a> [key\_create\_import\_access\_settings](#input\_key\_create\_import\_access\_settings) | Key create import access policy settings to configure if var.enable\_key\_create\_import\_access\_policy is true. For more info see https://cloud.ibm.com/docs/key-protect?topic=key-protect-manage-keyCreateImportAccess | <pre>object({<br>    create_root_key     = optional(bool, true)<br>    create_standard_key = optional(bool, true)<br>    import_root_key     = optional(bool, true)<br>    import_standard_key = optional(bool, true)<br>    enforce_token       = optional(bool, false)<br>  })</pre> | `{}` | no |
 | <a name="input_key_endpoint_type"></a> [key\_endpoint\_type](#input\_key\_endpoint\_type) | The type of endpoint to be used for creating keys. Accepts 'public' or 'private' | `string` | `"public"` | no |
-| <a name="input_key_protect_allowed_network"></a> [key\_protect\_allowed\_network](#input\_key\_protect\_allowed\_network) | The type of the allowed network to be set for the Key Protect instance. Possible values are 'private-only', or 'public-and-private'. Ignored is value for 'existing\_key\_protect\_instance\_guid' is passed. | `string` | `"public-and-private"` | no |
+| <a name="input_key_protect_allowed_network"></a> [key\_protect\_allowed\_network](#input\_key\_protect\_allowed\_network) | The type of the allowed network to be set for the Key Protect instance. Possible values are 'private-only', or 'public-and-private'. Ignored is value for 'existing\_kms\_instance\_guid' is passed. | `string` | `"public-and-private"` | no |
 | <a name="input_key_protect_instance_name"></a> [key\_protect\_instance\_name](#input\_key\_protect\_instance\_name) | The name to give the Key Protect instance that will be provisioned by this module. Only used if 'create\_key\_protect\_instance' is true | `string` | `null` | no |
 | <a name="input_key_protect_plan"></a> [key\_protect\_plan](#input\_key\_protect\_plan) | Plan for the Key Protect instance. Currently only 'tiered-pricing' is supported. Only used if 'create\_key\_protect\_instance' is true | `string` | `"tiered-pricing"` | no |
 | <a name="input_key_ring_endpoint_type"></a> [key\_ring\_endpoint\_type](#input\_key\_ring\_endpoint\_type) | The type of endpoint to be used for creating key rings. Accepts 'public' or 'private' | `string` | `"public"` | no |

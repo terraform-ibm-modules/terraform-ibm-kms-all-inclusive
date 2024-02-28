@@ -9,6 +9,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/common"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testhelper"
+	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testschematic"
 )
 
 // Use existing resource group for tests
@@ -86,4 +87,39 @@ func TestRunUpgradeExample(t *testing.T) {
 		assert.Nil(t, err, "This should not have errored")
 		assert.NotNil(t, output, "Expected some output")
 	}
+}
+
+func TestDASolutionInSchematics(t *testing.T) {
+	t.Parallel()
+
+	const region = "us-south"
+
+	options := testschematic.TestSchematicOptionsDefault(&testschematic.TestSchematicOptions{
+		Testing: t,
+		Prefix:  "kp-solution",
+		TarIncludePatterns: []string{
+			"*.tf",
+		},
+		ResourceGroup:          resourceGroup,
+		TemplateFolder:         "solutions/standard",
+		Tags:                   []string{"test-schematic"},
+		DeleteWorkspaceOnFail:  false,
+		WaitJobCompleteMinutes: 60,
+		Region:                 region,
+	})
+
+	// Workaround for https://github.com/IBM-Cloud/terraform-provider-ibm/issues/5154
+	options.AddWorkspaceEnvVar("IBMCLOUD_KP_API_ENDPOINT", "https://private."+region+".kms.cloud.ibm.com", false, false)
+
+	options.TerraformVars = []testschematic.TestSchematicTerraformVar{
+		{Name: "ibmcloud_api_key", Value: options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
+		{Name: "resource_group_name", Value: options.Prefix, DataType: "string"},
+		{Name: "service_endpoints", Value: "private", DataType: "string"},
+		{Name: "resource_tags", Value: options.Tags, DataType: "list(string)"},
+		{Name: "access_tags", Value: permanentResources["accessTags"], DataType: "list(string)"},
+		// {Name: "keys", Value: []string{key_ring_name = "default"}, DataType: "list(object)"},
+	}
+
+	err := options.RunSchematicTest()
+	assert.Nil(t, err, "This should not have errored")
 }
