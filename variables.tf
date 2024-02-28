@@ -55,7 +55,7 @@ variable "dual_auth_delete_enabled" {
 
 variable "enable_metrics" {
   type        = bool
-  description = "Set to true to enable metrics on the Key Protect instance (ignored is value for 'existing_key_protect_instance_guid' is passed). In order to view metrics, you will need a Monitoring (Sysdig) instance that is located in the same region as the Key Protect instance. Once you provision the Monitoring instance, you will need to enable platform metrics."
+  description = "Set to true to enable metrics on the Key Protect instance (ignored is value for 'existing_kms_instance_guid' is passed). In order to view metrics, you will need a Monitoring (Sysdig) instance that is located in the same region as the Key Protect instance. Once you provision the Monitoring instance, you will need to enable platform metrics."
   default     = true
 }
 
@@ -79,7 +79,7 @@ variable "key_create_import_access_settings" {
 
 variable "key_protect_allowed_network" {
   type        = string
-  description = "The type of the allowed network to be set for the Key Protect instance. Possible values are 'private-only', or 'public-and-private'. Ignored is value for 'existing_key_protect_instance_guid' is passed."
+  description = "The type of the allowed network to be set for the Key Protect instance. Possible values are 'private-only', or 'public-and-private'. Ignored is value for 'existing_kms_instance_guid' is passed."
   default     = "public-and-private"
   validation {
     condition     = can(regex("private-only|public-and-private", var.key_protect_allowed_network))
