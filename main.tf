@@ -3,6 +3,12 @@
 ##############################################################################
 
 locals {
+  # variable validation around resource_group_id
+  rg_validate_condition = var.create_key_protect_instance && var.resource_group_id == null
+  rg_validate_msg       = "A value must be passed for 'resource_group_id' when 'create_key_protect_instance' is true"
+  # tflint-ignore: terraform_unused_declarations
+  rg_validate_check = regex("^${local.rg_validate_msg}$", (!local.rg_validate_condition ? local.rg_validate_msg : ""))
+
   # variable validation around new instance vs existing
   instance_validate_condition = var.create_key_protect_instance && var.existing_kms_instance_guid != null
   instance_validate_msg       = "'create_key_protect_instance' cannot be true when passing a value for 'existing_key_protect_instance_guid'"
