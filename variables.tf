@@ -4,7 +4,8 @@
 
 variable "resource_group_id" {
   type        = string
-  description = "The name of the Resource Group to provision all resources in."
+  description = "The name of the Resource Group to provision the Key Protect instance in. Not required if 'create_key_protect_instance' is false."
+  default     = null
 }
 
 variable "region" {
