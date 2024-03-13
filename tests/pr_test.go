@@ -14,8 +14,6 @@ import (
 
 // Use existing resource group for tests
 const resourceGroup = "geretain-test-key-protect-all-inclusive"
-const defaultExampleDir = "examples/default"
-const existingResourcesExampleDir = "examples/existing-resources"
 const solutionDADir = "solutions/standard"
 
 // Define a struct with fields that match the structure of the YAML data
@@ -32,62 +30,6 @@ func TestMain(m *testing.M) {
 	}
 
 	os.Exit(m.Run())
-}
-
-func setupOptions(t *testing.T, prefix string, dir string) *testhelper.TestOptions {
-	options := testhelper.TestOptionsDefaultWithVars(&testhelper.TestOptions{
-		Testing:       t,
-		TerraformDir:  dir,
-		Prefix:        prefix,
-		ResourceGroup: resourceGroup,
-		TerraformVars: map[string]interface{}{
-			"access_tags": permanentResources["accessTags"],
-		},
-	})
-
-	return options
-}
-
-func TestRunDefaultExample(t *testing.T) {
-	t.Parallel()
-
-	options := setupOptions(t, "kp-all-inclusive", defaultExampleDir)
-	output, err := options.RunTestConsistency()
-	assert.Nil(t, err, "This should not have errored")
-	assert.NotNil(t, output, "Expected some output")
-}
-
-func TestRunExistingResourcesExample(t *testing.T) {
-	t.Parallel()
-
-	// options := setupOptions(t, "kp-all-inc-exist", existingResourcesExampleDir)
-	options := testhelper.TestOptionsDefault(&testhelper.TestOptions{
-		Testing:       t,
-		TerraformDir:  existingResourcesExampleDir,
-		Prefix:        "kp-all-inc-exist",
-		ResourceGroup: resourceGroup,
-	})
-
-	terraformVars := map[string]interface{}{
-		"prefix":                     options.Prefix,
-		"existing_kms_instance_guid": permanentResources["hpcs_south"],
-	}
-	options.TerraformVars = terraformVars
-
-	output, err := options.RunTestConsistency()
-	assert.Nil(t, err, "This should not have errored")
-	assert.NotNil(t, output, "Expected some output")
-}
-
-func TestRunUpgradeExample(t *testing.T) {
-	t.Parallel()
-
-	options := setupOptions(t, "kp-all-inclusive-upg", defaultExampleDir)
-	output, err := options.RunTestUpgrade()
-	if !options.UpgradeTestSkipped {
-		assert.Nil(t, err, "This should not have errored")
-		assert.NotNil(t, output, "Expected some output")
-	}
 }
 
 func TestDASolutionInSchematics(t *testing.T) {
@@ -124,4 +66,29 @@ func TestDASolutionInSchematics(t *testing.T) {
 
 	err := options.RunSchematicTest()
 	assert.Nil(t, err, "This should not have errored")
+}
+
+func TestRunUpgradeDASolution(t *testing.T) {
+	t.Parallel()
+
+	options := testhelper.TestOptionsDefault(&testhelper.TestOptions{
+		Testing:      t,
+		TerraformDir: "examples/existing-resources",
+		Prefix:       "kms-da-upg",
+	})
+
+	terraformVars := map[string]interface{}{
+		"resource_group_name": options.Prefix,
+		"service_endpoints":   "public-and-private",
+		"existing_kms_guid":   permanentResources["hpcs_south"],
+		"keys":                []map[string]interface{}{{"key_ring_name": "my-key-ring", "keys": []map[string]interface{}{{"key_name": "some-key-name-1"}, {"key_name": "some-key-name-2"}}}},
+		"resource_tags":       []string{"kms-da-upg"},
+	}
+
+	options.TerraformVars = terraformVars
+	output, err := options.RunTestUpgrade()
+	if !options.UpgradeTestSkipped {
+		assert.Nil(t, err, "This should not have errored")
+		assert.NotNil(t, output, "Expected some output")
+	}
 }

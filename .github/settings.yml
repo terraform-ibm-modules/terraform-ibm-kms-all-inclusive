@@ -22,5 +22,5 @@ repository:
 
   # Uncomment this description property
   # and update the description to the current repo description.
-  description: "Creates a Key Protect instance, key rings for different services, and a key for each instance of the service."
+  description: "Supports creating a Key Protect instance, KMS Key Rings and Keys."
   topics: core-team, terraform, ibm-cloud, terraform-module, key-protect, kms, supported, graduated, deployable-architecture
