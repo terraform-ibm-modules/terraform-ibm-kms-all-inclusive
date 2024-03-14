@@ -18,4 +18,4 @@ export IBMCLOUD_KP_API_ENDPOINT=https://private.REGION.kms.cloud.ibm.com
 ```
 where `REGION` is the value you have set for the `region` input variable.
 
-![key-protect](https://github.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive/blob/main/reference-architecture/key_protect.svg)
+![key-protect](../../reference-architecture/key_protect.svg)
