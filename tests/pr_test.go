@@ -73,13 +73,13 @@ func TestRunUpgradeDASolution(t *testing.T) {
 
 	options := testhelper.TestOptionsDefault(&testhelper.TestOptions{
 		Testing:      t,
-		TerraformDir: "examples/existing-resources",
+		TerraformDir: solutionDADir,
 		Prefix:       "kms-da-upg",
 	})
 
 	terraformVars := map[string]interface{}{
 		"resource_group_name": options.Prefix,
-		"service_endpoints":   solutionDADir,
+		"service_endpoints":   "public-and-private",
 		"existing_kms_guid":   permanentResources["hpcs_south"],
 		"keys":                []map[string]interface{}{{"key_ring_name": "my-key-ring", "keys": []map[string]interface{}{{"key_name": "some-key-name-1"}, {"key_name": "some-key-name-2"}}}},
 		"resource_tags":       []string{"kms-da-upg"},
