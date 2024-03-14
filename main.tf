@@ -1,5 +1,5 @@
 ##############################################################################
-# Key Protect Instance
+# Variable validation
 ##############################################################################
 
 locals {
@@ -15,12 +15,6 @@ locals {
   # tflint-ignore: terraform_unused_declarations
   instance_validate_check = regex("^${local.instance_validate_msg}$", (!local.instance_validate_condition ? local.instance_validate_msg : ""))
 
-  # variable validation when creating new instance
-  new_instance_validate_condition = var.create_key_protect_instance && var.key_protect_instance_name == null
-  new_instance_validate_msg       = "A value must be provided for 'key_protect_instance_name' when 'create_key_protect_instance' is true"
-  # tflint-ignore: terraform_unused_declarations
-  new_instance_validate_check = regex("^${local.new_instance_validate_msg}$", (!local.new_instance_validate_condition ? local.new_instance_validate_msg : ""))
-
   # variable validation when not creating new instance
   existing_instance_validate_condition = !var.create_key_protect_instance && var.existing_kms_instance_guid == null
   existing_instance_validate_msg       = "A value must be provided for 'existing_key_protect_instance_guid' when 'create_key_protect_instance' is false"
@@ -31,9 +25,14 @@ locals {
   kms_guid = var.create_key_protect_instance ? module.key_protect[0].key_protect_guid : var.existing_kms_instance_guid
 }
 
+##############################################################################
+# Key Protect Instance
+##############################################################################
+
 module "key_protect" {
   count                             = var.create_key_protect_instance ? 1 : 0
-  source                            = "git::https://github.com/terraform-ibm-modules/terraform-ibm-key-protect.git?ref=v2.6.2"
+  source                            = "terraform-ibm-modules/key-protect/ibm"
+  version                           = "2.6.2"
   key_protect_name                  = var.key_protect_instance_name
   region                            = var.region
   allowed_network                   = var.key_protect_allowed_network
@@ -50,7 +49,7 @@ module "key_protect" {
 }
 
 ##############################################################################
-# Key Protect Key Rings
+# KMS Key Rings
 ##############################################################################
 
 locals {
@@ -79,7 +78,7 @@ moved {
 }
 
 ##############################################################################
-# Key Protect Keys
+# KMS Keys
 ##############################################################################
 
 locals {

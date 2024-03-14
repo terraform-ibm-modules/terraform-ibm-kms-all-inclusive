@@ -1,5 +1,6 @@
-# Existing resources example
+# Existing KMS example
 
-An end-to-end example will:
-- Create a new resource group (if existing one is not passed in).
-- Pass an existing HPCS instance into the terraform-ibm-kms-all-inclusive module and create a new Key in the existing default Key Ring.
+A simple example that shows how to provision a KMS root key in an existing KMS instance and Key Ring.
+
+The following resources are provisioned by this example:
+- A new KMS root key in the default key ring of an existing KMS instance

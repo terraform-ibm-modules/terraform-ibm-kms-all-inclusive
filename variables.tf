@@ -1,10 +1,10 @@
 ##############################################################################
-# Common Variables
+# Input Variables
 ##############################################################################
 
 variable "resource_group_id" {
   type        = string
-  description = "The name of the Resource Group to provision the Key Protect instance in. Not required if 'create_key_protect_instance' is false."
+  description = "The ID of the Resource Group to provision the Key Protect instance in. Not required if 'create_key_protect_instance' is false."
   default     = null
 }
 
@@ -21,13 +21,13 @@ variable "create_key_protect_instance" {
 
 variable "key_protect_instance_name" {
   type        = string
-  description = "The name to give the Key Protect instance that will be provisioned by this module. Only used if 'create_key_protect_instance' is true"
-  default     = null
+  description = "The name to give the Key Protect instance that will be provisioned by this module. Only used if 'create_key_protect_instance' is true."
+  default     = "key-protect"
 }
 
 variable "key_protect_plan" {
   type        = string
-  description = "Plan for the Key Protect instance. Currently only 'tiered-pricing' is supported. Only used if 'create_key_protect_instance' is true"
+  description = "Plan for the Key Protect instance. Currently only 'tiered-pricing' is supported. Only used if 'create_key_protect_instance' is true."
   default     = "tiered-pricing"
 
   validation {
@@ -38,31 +38,31 @@ variable "key_protect_plan" {
 
 variable "rotation_enabled" {
   type        = bool
-  description = "If set to true, Key Protect enables a rotation policy on the Key Protect instance."
+  description = "If set to true, Key Protect enables a rotation policy on the Key Protect instance. Only used if 'create_key_protect_instance' is true."
   default     = true
 }
 
 variable "rotation_interval_month" {
   type        = number
-  description = "Specifies the key rotation time interval in months. Must be between 1 and 12 inclusive."
+  description = "Specifies the key rotation time interval in months. Must be between 1 and 12 inclusive. Only used if 'create_key_protect_instance' is true."
   default     = 1
 }
 
 variable "dual_auth_delete_enabled" {
   type        = bool
-  description = "If set to true, Key Protect enables a dual authorization policy on the instance. Note: Once the dual authorization policy is set on the instance, it cannot be reverted. An instance with dual authorization policy enabled cannot be destroyed using Terraform."
+  description = "If set to true, Key Protect enables a dual authorization policy on the instance. Note: Once the dual authorization policy is set on the instance, it cannot be reverted. An instance with dual authorization policy enabled cannot be destroyed using Terraform. Only used if 'create_key_protect_instance' is true."
   default     = false
 }
 
 variable "enable_metrics" {
   type        = bool
-  description = "Set to true to enable metrics on the Key Protect instance (ignored is value for 'existing_kms_instance_guid' is passed). In order to view metrics, you will need a Monitoring (Sysdig) instance that is located in the same region as the Key Protect instance. Once you provision the Monitoring instance, you will need to enable platform metrics."
+  description = "Set to true to enable metrics on the Key Protect instance. Only used if 'create_key_protect_instance' is true. In order to view metrics, you will need a Monitoring (Sysdig) instance that is located in the same region as the Key Protect instance. Once you provision the Monitoring instance, you will need to enable platform metrics."
   default     = true
 }
 
 variable "key_create_import_access_enabled" {
   type        = bool
-  description = "If set to true, Key Protect enables a key create import access policy on the instance"
+  description = "If set to true, Key Protect enables a key create import access policy on the instance. Only used if 'create_key_protect_instance' is true."
   default     = true
 }
 
@@ -74,13 +74,13 @@ variable "key_create_import_access_settings" {
     import_standard_key = optional(bool, true)
     enforce_token       = optional(bool, false)
   })
-  description = "Key create import access policy settings to configure if var.enable_key_create_import_access_policy is true. For more info see https://cloud.ibm.com/docs/key-protect?topic=key-protect-manage-keyCreateImportAccess"
+  description = "Key create import access policy settings to configure if 'enable_key_create_import_access_policy' is true. Only used if 'create_key_protect_instance' is true. For more info see https://cloud.ibm.com/docs/key-protect?topic=key-protect-manage-keyCreateImportAccess"
   default     = {}
 }
 
 variable "key_protect_allowed_network" {
   type        = string
-  description = "The type of the allowed network to be set for the Key Protect instance. Possible values are 'private-only', or 'public-and-private'. Ignored is value for 'existing_kms_instance_guid' is passed."
+  description = "The type of the allowed network to be set for the Key Protect instance. Possible values are 'private-only', or 'public-and-private'. Only used if 'create_key_protect_instance' is true."
   default     = "public-and-private"
   validation {
     condition     = can(regex("private-only|public-and-private", var.key_protect_allowed_network))
@@ -90,7 +90,7 @@ variable "key_protect_allowed_network" {
 
 variable "existing_kms_instance_guid" {
   type        = string
-  description = "The GUID of an existing Key Protect or Hyper Protect Crypto Services instance, required if 'var.create_key_protect_instance' is false."
+  description = "The GUID of an existing Key Protect or Hyper Protect Crypto Services instance. Required if 'create_key_protect_instance' is false."
   default     = null
 }
 
@@ -139,6 +139,6 @@ variable "resource_tags" {
 
 variable "access_tags" {
   type        = list(string)
-  description = "A list of access tags to apply to the Key Protect instance created by the module."
+  description = "A list of access tags to apply to the Key Protect instance created by the module. Only used if 'create_key_protect_instance' is true."
   default     = []
 }
