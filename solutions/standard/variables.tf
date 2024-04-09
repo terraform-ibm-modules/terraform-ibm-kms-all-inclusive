@@ -37,7 +37,7 @@ variable "key_protect_instance_name" {
 
 variable "service_endpoints" {
   type        = string
-  default     = "public-and-private" # TODO: Default this to private when https://github.com/IBM-Cloud/terraform-provider-ibm/issues/5154 is fixed
+  default     = "private"
   description = "The service endpoints to enable for the Key Protect instance deployed by this solution. Allowed values are `private` or `public-and-private`. If selecting `public-and-private`, communication to the instance will all be done over the public endpoints. Ensure to enable virtual routing and forwarding (VRF) in your account if using `private`, and that the terraform runtime has access to the the IBM Cloud private network."
   validation {
     condition     = contains(["private", "public-and-private"], var.service_endpoints)
