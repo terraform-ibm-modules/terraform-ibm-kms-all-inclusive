@@ -35,13 +35,13 @@ variable "key_protect_instance_name" {
   description = "The name to give the Key Protect instance that will be provisioned by this solution. Only used if not supplying an existing KMS instance."
 }
 
-variable "service_endpoints" {
+variable "key_protect_allowed_network" {
   type        = string
-  default     = "private"
-  description = "The service endpoints to enable for the Key Protect instance deployed by this solution. Allowed values are `private` or `public-and-private`. If selecting `public-and-private`, communication to the instance will all be done over the public endpoints. Ensure to enable virtual routing and forwarding (VRF) in your account if using `private`, and that the terraform runtime has access to the the IBM Cloud private network."
+  description = "The type of the allowed network to be set for the Key Protect instance. Possible values are 'private-only', or 'public-and-private'. Only used if not supplying an existing KMS instance."
+  default     = "private-only"
   validation {
-    condition     = contains(["private", "public-and-private"], var.service_endpoints)
-    error_message = "The specified service_endpoints is not a valid selection. Allowed values are `private` or `public-and-private`."
+    condition     = can(regex("private-only|public-and-private", var.key_protect_allowed_network))
+    error_message = "The key_protect_allowed_network value must be 'private-only' or 'public-and-private'."
   }
 }
 
@@ -65,6 +65,13 @@ variable "existing_kms_instance_crn" {
   type        = string
   default     = null
   description = "The CRN of the existed Hyper Protect Crypto Services or Key Protect instance. If not supplied, a new Key Protect instance will be created."
+}
+
+variable "kms_endpoint_type" {
+  type        = string
+  description = "The type of endpoint to be used for creating keys and key rings in the existing KMS instance. Accepts 'public' or 'private', defaults to 'private'.  Only used when supplying an existing KMS instance."
+  default     = "private"
+  # validation is performed in root module
 }
 
 ########################################################################################################################

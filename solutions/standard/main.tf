@@ -16,6 +16,8 @@ module "resource_group" {
 locals {
   parsed_existing_kms_instance_crn = var.existing_kms_instance_crn != null ? split(":", var.existing_kms_instance_crn) : []
   existing_kms_guid                = length(local.parsed_existing_kms_instance_crn) > 0 ? local.parsed_existing_kms_instance_crn[7] : null
+  kp_endpoint_type                 = var.key_protect_allowed_network == "private-only" ? "private" : "public"
+  kms_endpoint_type                = var.existing_kms_instance_crn != null ? var.kms_endpoint_type : local.kp_endpoint_type
 }
 
 module "kms" {
@@ -31,9 +33,9 @@ module "kms" {
   enable_metrics                    = true
   key_create_import_access_enabled  = false
   key_create_import_access_settings = {} # TBC - should this be exposed to consumer? Or hard coded to best practise?
-  key_protect_allowed_network       = var.service_endpoints == "private" ? "private-only" : var.service_endpoints
-  key_ring_endpoint_type            = var.service_endpoints == "public-and-private" ? "public" : var.service_endpoints
-  key_endpoint_type                 = var.service_endpoints == "public-and-private" ? "public" : var.service_endpoints
+  key_protect_allowed_network       = var.key_protect_allowed_network
+  key_ring_endpoint_type            = local.kms_endpoint_type
+  key_endpoint_type                 = local.kms_endpoint_type
   existing_kms_instance_guid        = local.existing_kms_guid
   resource_tags                     = var.resource_tags
   access_tags                       = var.access_tags
