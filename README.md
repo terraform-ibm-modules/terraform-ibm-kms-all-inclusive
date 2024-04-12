@@ -184,6 +184,7 @@ No resources.
 
 | Name | Description |
 |------|-------------|
+| <a name="output_key_protect_crn"></a> [key\_protect\_crn](#output\_key\_protect\_crn) | Key Protect service instance CRN when an instance is created, otherwise null |
 | <a name="output_key_protect_id"></a> [key\_protect\_id](#output\_key\_protect\_id) | Key Protect service instance ID when an instance is created, otherwise null |
 | <a name="output_key_protect_instance_policies"></a> [key\_protect\_instance\_policies](#output\_key\_protect\_instance\_policies) | Instance Polices of the Key Protect instance |
 | <a name="output_key_protect_name"></a> [key\_protect\_name](#output\_key\_protect\_name) | Key Protect Name |

@@ -22,6 +22,11 @@ output "key_protect_id" {
   value       = module.kms.key_protect_id
 }
 
+output "key_protect_crn" {
+  description = "Key Protect instance CRN when an instance is created, otherwise null"
+  value       = module.kms.key_protect_crn
+}
+
 output "key_protect_name" {
   description = "Key Protect instance name when an instance is created, otherwise null"
   value       = module.kms.key_protect_name
