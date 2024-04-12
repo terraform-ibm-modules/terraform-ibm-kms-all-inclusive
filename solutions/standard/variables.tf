@@ -8,7 +8,7 @@ variable "ibmcloud_api_key" {
   sensitive   = true
 }
 
-variable "existing_resource_group" {
+variable "use_existing_resource_group" {
   type        = bool
   description = "Whether to use an existing resource group."
   default     = false
@@ -61,10 +61,10 @@ variable "access_tags" {
 # Existing KMS variables
 ########################################################################################################################
 
-variable "existing_kms_guid" {
+variable "existing_kms_instance_crn" {
   type        = string
   default     = null
-  description = "The GUID of an existing KMS instance to use. If not supplied, a new Key Protect instance will be created."
+  description = "The CRN of the existed Hyper Protect Crypto Services or Key Protect instance. If not supplied, a new Key Protect instance will be created."
 }
 
 ########################################################################################################################
