@@ -5,19 +5,24 @@
 module "resource_group" {
   source                       = "terraform-ibm-modules/resource-group/ibm"
   version                      = "1.1.5"
-  resource_group_name          = var.existing_resource_group == false ? var.resource_group_name : null
-  existing_resource_group_name = var.existing_resource_group == true ? var.resource_group_name : null
+  resource_group_name          = var.use_existing_resource_group == false ? var.resource_group_name : null
+  existing_resource_group_name = var.use_existing_resource_group == true ? var.resource_group_name : null
 }
 
 ########################################################################################################################
 # KMS
 ########################################################################################################################
 
+locals {
+  parsed_existing_kms_instance_crn = var.existing_kms_instance_crn != null ? split(":", var.existing_kms_instance_crn) : []
+  existing_kms_guid                = length(local.parsed_existing_kms_instance_crn) > 0 ? local.parsed_existing_kms_instance_crn[7] : null
+}
+
 module "kms" {
   source                            = "../.."
   resource_group_id                 = module.resource_group.resource_group_id
   region                            = var.region
-  create_key_protect_instance       = var.existing_kms_guid != null ? false : true
+  create_key_protect_instance       = local.existing_kms_guid != null ? false : true
   key_protect_instance_name         = var.key_protect_instance_name
   key_protect_plan                  = "tiered-pricing"
   rotation_enabled                  = true
@@ -29,7 +34,7 @@ module "kms" {
   key_protect_allowed_network       = var.service_endpoints == "private" ? "private-only" : var.service_endpoints
   key_ring_endpoint_type            = var.service_endpoints == "public-and-private" ? "public" : var.service_endpoints
   key_endpoint_type                 = var.service_endpoints == "public-and-private" ? "public" : var.service_endpoints
-  existing_kms_instance_guid        = var.existing_kms_guid
+  existing_kms_instance_guid        = local.existing_kms_guid
   resource_tags                     = var.resource_tags
   access_tags                       = var.access_tags
   keys                              = var.keys
