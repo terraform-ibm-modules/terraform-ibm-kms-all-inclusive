@@ -13,17 +13,27 @@ output "resource_group_id" {
 }
 
 output "kms_guid" {
-  description = "KMS GUID"
+  description = "Key Protect instance GUID or the KMS instance GUID if an existing KMS GUID was set"
   value       = module.kms.kms_guid
 }
 
+output "key_protect_id" {
+  description = "Key Protect instance ID when an instance is created, otherwise null"
+  value       = module.kms.key_protect_id
+}
+
+output "key_protect_crn" {
+  description = "Key Protect instance CRN when an instance is created, otherwise null"
+  value       = module.kms.key_protect_crn
+}
+
 output "key_protect_name" {
-  description = "Key Protect name"
+  description = "Key Protect instance name when an instance is created, otherwise null"
   value       = module.kms.key_protect_name
 }
 
 output "key_protect_instance_policies" {
-  description = "Instance Polices of the Key Protect instance"
+  description = "Key Protect instance Polices of the Key Protect instance when an instance is created, otherwise null"
   value       = module.kms.key_protect_instance_policies
 }
 
@@ -38,11 +48,11 @@ output "keys" {
 }
 
 output "kp_private_endpoint" {
-  description = "Instance private endpoint URL"
+  description = "Key Protect instance private endpoint URL when an instance is created, otherwise null"
   value       = module.kms.kp_private_endpoint
 }
 
 output "kp_public_endpoint" {
-  description = "Instance public endpoint URL"
+  description = "Key Protect instance public endpoint URL when an instance is created, otherwise null"
   value       = module.kms.kp_public_endpoint
 }

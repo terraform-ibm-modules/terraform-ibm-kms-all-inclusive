@@ -17,6 +17,11 @@ output "key_protect_name" {
   value       = length(module.key_protect) > 0 ? module.key_protect[0].key_protect_name : null
 }
 
+output "key_protect_crn" {
+  description = "Key Protect service instance CRN when an instance is created, otherwise null"
+  value       = can(module.key_protect[0].key_protect_crn) ? module.key_protect[0].key_protect_crn : null
+}
+
 output "key_protect_instance_policies" {
   description = "Instance Polices of the Key Protect instance"
   value       = length(module.key_protect) > 0 ? module.key_protect[0].key_protect_instance_policies : null
