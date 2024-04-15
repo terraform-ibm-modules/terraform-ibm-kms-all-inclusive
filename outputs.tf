@@ -17,10 +17,9 @@ output "key_protect_name" {
   value       = length(module.key_protect) > 0 ? module.key_protect[0].key_protect_name : null
 }
 
-# The ID is the CRN, output ID as CRN until the base module is updated
 output "key_protect_crn" {
   description = "Key Protect service instance CRN when an instance is created, otherwise null"
-  value       = can(module.key_protect[0].key_protect_id) ? module.key_protect[0].key_protect_id : null
+  value       = can(module.key_protect[0].key_protect_crn) ? module.key_protect[0].key_protect_crn : null
 }
 
 output "key_protect_instance_policies" {
