@@ -122,7 +122,6 @@
               },
               {
                 "key": "key_protect_allowed_network",
-                "required": true,
                 "options": [
                   {
                     "displayname": "Public and private",
