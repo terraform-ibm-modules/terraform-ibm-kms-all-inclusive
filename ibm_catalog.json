@@ -62,6 +62,27 @@
             ],
             "configuration" : [
               {
+                "key": "ibmcloud_api_key",
+                "required": true
+              },
+              {
+                "key": "use_existing_resource_group",
+                "options": [
+                  {
+                    "displayname": "True",
+                    "value": true
+                  },
+                  {
+                    "displayname": "False",
+                    "value": false
+                  }
+                ]
+              },
+              {
+                "key": "resource_group_name",
+                "required": true
+              },
+              {
                 "key": "region",
                 "required": true,
                 "default_value": "",
@@ -107,6 +128,38 @@
                     "value": "us-east"
                   }
                 ]
+              },
+              {
+                "key": "key_protect_instance_name"
+              },
+              {
+                "key": "key_protect_allowed_network",
+                "required": true,
+                "options": [
+                  {
+                    "displayname": "Public and private",
+                    "value": "public-and-private"
+                  },
+                  {
+                    "displayname": "Private only",
+                    "value": "private-only"
+                  }
+                ]
+              },
+              {
+                "key": "resource_tags"
+              },
+              {
+                "key": "access_tags"
+              },
+              {
+                "key": "existing_kms_instance_crn"
+              },
+              {
+                "key": "kms_endpoint_type"
+              },
+              {
+                "key": "keys"
               }
             ],
             "architecture": {
