@@ -118,6 +118,9 @@
                 ]
               },
               {
+                "key": "prefix"
+              },
+              {
                 "key": "key_protect_instance_name"
               },
               {
