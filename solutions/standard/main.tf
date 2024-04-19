@@ -5,7 +5,7 @@
 module "resource_group" {
   source                       = "terraform-ibm-modules/resource-group/ibm"
   version                      = "1.1.5"
-  resource_group_name          = var.use_existing_resource_group == false ? var.resource_group_name : null
+  resource_group_name          = var.use_existing_resource_group == false ? (var.prefix != null ? "${var.prefix}-${var.resource_group_name}" : var.resource_group_name) : null
   existing_resource_group_name = var.use_existing_resource_group == true ? var.resource_group_name : null
 }
 
@@ -25,7 +25,7 @@ module "kms" {
   resource_group_id                 = module.resource_group.resource_group_id
   region                            = var.region
   create_key_protect_instance       = local.existing_kms_guid != null ? false : true
-  key_protect_instance_name         = var.key_protect_instance_name
+  key_protect_instance_name         = var.prefix != null ? "${var.prefix}-${var.key_protect_instance_name}" : var.key_protect_instance_name
   key_protect_plan                  = "tiered-pricing"
   rotation_enabled                  = true
   rotation_interval_month           = 3

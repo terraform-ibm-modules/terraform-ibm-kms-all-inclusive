@@ -16,13 +16,19 @@ variable "use_existing_resource_group" {
 
 variable "resource_group_name" {
   type        = string
-  description = "The name of a new or an existing resource group in which to provision KMS resources to."
+  description = "The name of a new or an existing resource group in which to provision KMS resources to. If prefix input variable is passed then it will get prefixed infront of the value in the format of '<prefix>-value'."
 }
 
 variable "region" {
   type        = string
   default     = "us-south"
   description = "The region in which to provision KMS resources. If using existing KMS, set this to the region in which it is provisioned in."
+}
+
+variable "prefix" {
+  type        = string
+  description = "(Optional) Prefix to append to all resources created by this solution."
+  default     = null
 }
 
 ########################################################################################################################
@@ -32,7 +38,7 @@ variable "region" {
 variable "key_protect_instance_name" {
   type        = string
   default     = "base-security-services-kms"
-  description = "The name to give the Key Protect instance that will be provisioned by this solution. Only used if not supplying an existing KMS instance."
+  description = "The name to give the Key Protect instance that will be provisioned by this solution. Only used if not supplying an existing KMS instance. If prefix input variable is passed then it will get prefixed infront of the value in the format of '<prefix>-value'."
 }
 
 variable "key_protect_allowed_network" {
