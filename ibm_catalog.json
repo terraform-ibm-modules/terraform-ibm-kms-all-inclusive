@@ -146,7 +146,17 @@
                 "key": "existing_kms_instance_crn"
               },
               {
-                "key": "kms_endpoint_type"
+                "key": "kms_endpoint_type",
+                "options": [
+                  {
+                    "displayname": "Public",
+                    "value": "public"
+                  },
+                  {
+                    "displayname": "Private",
+                    "value": "private"
+                  }
+                ]
               },
               {
                 "key": "keys"
