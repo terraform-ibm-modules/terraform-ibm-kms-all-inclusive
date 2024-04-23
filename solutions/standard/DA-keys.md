@@ -58,7 +58,7 @@ and the other containing a single Key.
 
 ## Key options
 
-- `key_name` (required) is the name choosen for the Key 
+- `key_name` (required) is the name choosen for the Key
 - `rotation_interval_month` (optional, default 1) configures the Key rotation interval
 - `standard_key` (optional, default false) configures the Key type
 - `dual_auth_delete_enabled`  (optional, default false) configures the dual authorization for deletion option to be used during destroy
