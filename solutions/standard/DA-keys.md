@@ -50,7 +50,7 @@ The following example includes all the configuration options for two key rings. 
 
 - `key_ring_name` (required) is the name choosen for the Key Ring
 - `existing_key_ring` (optional, default false) can be set to true if the Key Ring already exists and Keys should be added to it
-- `force_delete_key_ring` (optional, default true) configures the force option using destroy, or removing the configuration
+- `force_delete_key_ring` (optional, default true) configures the force option to be used during destroy
 
 ## Key options
 
