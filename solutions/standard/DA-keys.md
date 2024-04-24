@@ -8,6 +8,7 @@ For the keys property the supporting information is "A list of objects which con
 
 To enter a custom value use the edit action to open the `Edit Array` pane. KMS Key Ring and Key
 configurations are added to the array here.
+The following example includes all the configuration options for two key rings. One ring contains two keys.
 
     [
       {
