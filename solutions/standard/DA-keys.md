@@ -1,4 +1,4 @@
-# Defining keys in a Key Management Service configuration in an IBM Cloud Project
+# Configuring keys in a KMS in IBM Cloud projects
 
 When adding Key Management Service from the IBM Catalog to an IBM Cloud project it is possible
 to configure additional key rings and keys. This is achieved by entering edit
