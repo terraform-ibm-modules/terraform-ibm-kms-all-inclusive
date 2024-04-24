@@ -48,8 +48,6 @@ The following example includes all the configuration options for two key rings. 
       }
     ]
 
-This example includes all the configuration options, for two Key Rings, one containing two Keys
-and the other containing a single Key.
 
 ## Key Ring options
 
