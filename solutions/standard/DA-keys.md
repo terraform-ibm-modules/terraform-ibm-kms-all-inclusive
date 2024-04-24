@@ -4,10 +4,9 @@ When adding Key Management Service from the IBM Catalog to an IBM Cloud project 
 to configure additional key rings and keys. This is achieved by entering edit
 mode for the project configuration and selecting the `Configure` pane and the `optional` tab.
 
-For the keys property the supporting information is "A list of objects which contain the key ring name, a flag indicating if this key ring already exists, and a flag to enable force deletion of the key ring. In addition, this object contains a list of keys with all of the information on the keys to be created in that key ring."
+In the configuration, specify the name of the key ring, whether the key ring exists, and whether to force the deletion of the key. The object also contains a list of keys with all the information about the keys that you want to create in that key ring.
 
-To enter a custom value use the edit action to open the `Edit Array` pane. KMS Key Ring and Key
-configurations are added to the array here.
+To enter a custom value, use the edit action to open the "Edit Array" panel. Add the KMS key ring and key configurations to the array here.
 The following example includes all the configuration options for two key rings. One ring contains two keys.
 
     [
