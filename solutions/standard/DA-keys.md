@@ -48,14 +48,14 @@ The following example includes all the configuration options for two key rings. 
 
 ## Key Ring options
 
-- `key_ring_name` (required) is the name choosen for the Key Ring
-- `existing_key_ring` (optional, default false) can be set to true if the Key Ring already exists and Keys should be added to it
-- `force_delete_key_ring` (optional, default true) configures the force option to be used during destroy
+- `key_ring_name` (required): A unique human-readable name that identifies this key ring. To protect your privacy, do not use personal data, such as your name or location. The key ring name can be between 2 and 100 characters.
+- `existing_key_ring` (optional, default = `false`): Set to true if the key ring already exists and keys should be added to it.
+- `force_delete_key_ring` (optional, default = `true`): Whether to force delete the key ring with a destroy command or when the projects configuration is removed. When `true` this force deletes the key ring in the event that it contains keys in the `Destroyed` state, see [Deleting key rings](https://cloud.ibm.com/docs/key-protect?topic=key-protect-grouping-keys&interface=api#delete-key-ring-api).
 
 ## Key options
 
-- `key_name` (required) is the name choosen for the Key
-- `rotation_interval_month` (optional, default 1) configures the Key rotation interval
-- `standard_key` (optional, default false) configures the Key type
-- `dual_auth_delete_enabled`  (optional, default false) configures the dual authorization for deletion option to be used during destroy
-- `force_delete` (optional, default true) configures the force option to be used during destroy
+- `key_name` (required): A human-readable name that identifies this key. To protect your privacy, do not use personal data, such as your name or location. The key name can be between 2 and 90 characters.
+- `rotation_interval_month` (optional, default = 1): Configures the key rotation interval.
+- `standard_key` (optional, default false): whether a standard encryption key is created. For more information, see [Key types](https://cloud.ibm.com/docs/key-protect?topic=key-protect-envelope-encryption#key-types).
+- `dual_auth_delete_enabled`  (optional, default = `false`): Whether to use dual authorization when deleting the key. For more information, see [Using dual authorization](https://cloud.ibm.com/docs/key-protect?topic=key-protect-manage-dual-auth).
+- `force_delete` (optional, default = `true`): Whether to force delete the key. For more information, see [Considerations before deleting and purging a key](https://cloud.ibm.com/docs/key-protect?topic=key-protect-delete-purge-keys#delete-purge-keys-considerations).

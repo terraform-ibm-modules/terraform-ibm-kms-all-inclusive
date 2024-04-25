@@ -97,6 +97,6 @@ variable "keys" {
       force_delete             = optional(bool, true)
     }))
   }))
-  description = "A list of objects defined by the name of the key ring name, whether the key ring exists, and whether to force deletion of the key ring. The object also contains a list of keys with all the information about the keys that you want to create in that key ring. Reference: https://github.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive/tree/main/solutions/standard/DA-keys.md"
+  description = "A list of key ring objects each containing one or more key objects. [Learn more](https://github.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive/tree/main/solutions/standard/DA-keys.md)."
   default     = []
 }
