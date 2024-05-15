@@ -63,6 +63,12 @@ variable "access_tags" {
   default     = []
 }
 
+variable "rotation_interval_month" {
+  type        = number
+  description = "Specifies the key rotation time interval in months. Must be between 1 and 12 inclusive. Only used if not supplying an existing KMS instance."
+  default     = 12
+}
+
 ########################################################################################################################
 # Existing KMS variables
 ########################################################################################################################
