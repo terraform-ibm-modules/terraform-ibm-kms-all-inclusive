@@ -65,7 +65,7 @@ variable "access_tags" {
 
 variable "rotation_interval_month" {
   type        = number
-  description = "Specifies the key rotation time interval in months. Must be between 1 and 12 inclusive. Only used if 'create_key_protect_instance' is true."
+  description = "Specifies the key rotation time interval in months. Must be between 1 and 12 inclusive. Only used if not supplying an existing KMS instance."
   default     = 12
 }
 
