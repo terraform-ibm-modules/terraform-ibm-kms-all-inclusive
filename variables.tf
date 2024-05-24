@@ -98,13 +98,13 @@ variable "keys" {
   type = list(object({
     key_ring_name         = string
     existing_key_ring     = optional(bool, false)
-    force_delete_key_ring = optional(bool, true)
+    force_delete_key_ring = optional(bool, false)
     keys = list(object({
       key_name                 = string
       standard_key             = optional(bool, false)
       rotation_interval_month  = optional(number, 1)
       dual_auth_delete_enabled = optional(bool, false)
-      force_delete             = optional(bool, true)
+      force_delete             = optional(bool, false)
     }))
   }))
   description = "A list of objects which contain the key ring name, a flag indicating if this key ring already exists, and a flag to enable force deletion of the key ring. In addition, this object contains a list of keys with all of the information on the keys to be created in that key ring."
