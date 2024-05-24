@@ -24,16 +24,20 @@ module "key_protect_all_inclusive" {
   keys = [
     # Create one new Key Ring with multiple new Keys in it
     {
-      key_ring_name = "${var.prefix}-slz-ring"
+      key_ring_name         = "${var.prefix}-slz-ring"
+      force_delete_key_ring = true # Setting it to true for testing purpose
       keys = [
         {
-          key_name = "${var.prefix}-slz-key"
+          key_name     = "${var.prefix}-slz-key"
+          force_delete = true # Setting it to true for testing purpose
         },
         {
-          key_name = "${var.prefix}-atracker-key"
+          key_name     = "${var.prefix}-atracker-key"
+          force_delete = true
         },
         {
-          key_name = "${var.prefix}-vsi-volume-key"
+          key_name     = "${var.prefix}-vsi-volume-key"
+          force_delete = true
         }
       ]
     }
