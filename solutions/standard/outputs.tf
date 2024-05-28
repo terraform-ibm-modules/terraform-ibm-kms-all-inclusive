@@ -56,3 +56,8 @@ output "kp_public_endpoint" {
   description = "Key Protect instance public endpoint URL when an instance is created, otherwise null"
   value       = module.kms.kp_public_endpoint
 }
+
+output "existing_kms_instance_crn" {
+  description = "The CRN of the existing Hyper Protect Crypto Services or Key Protect instance passed"
+  value       = var.existing_kms_instance_crn
+}
