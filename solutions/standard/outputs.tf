@@ -21,10 +21,9 @@ output "key_protect_id" {
   description = "Key Protect instance ID when an instance is created, otherwise null"
   value       = module.kms.key_protect_id
 }
-
-output "key_protect_crn" {
-  description = "Key Protect instance CRN when an instance is created, otherwise null"
-  value       = module.kms.key_protect_crn
+output "kms_instance_crn" {
+  value       = var.existing_kms_instance_crn == null ? module.kms.key_protect_crn : var.existing_kms_instance_crn
+  description = "The CRN of the existing Hyper Protect Crypto Services or Key Protect instance"
 }
 
 output "key_protect_name" {
@@ -55,9 +54,4 @@ output "kp_private_endpoint" {
 output "kp_public_endpoint" {
   description = "Key Protect instance public endpoint URL when an instance is created, otherwise null"
   value       = module.kms.kp_public_endpoint
-}
-
-output "existing_kms_instance_crn" {
-  description = "The CRN of the existing Hyper Protect Crypto Services or Key Protect instance passed"
-  value       = var.existing_kms_instance_crn
 }
