@@ -22,7 +22,7 @@ variable "resource_group_name" {
 variable "region" {
   type        = string
   default     = "us-south"
-  description = "The region in which to provision key management resources. If using an existing Key Protect or Hyper Protect Crypto Services key, set this to the region where it was provisioned."
+  description = "The region in which to provision key management resources. If using an existing Key Protect or Hyper Protect Crypto Services instance, set this to the region where it was provisioned."
 }
 
 variable "prefix" {
@@ -38,12 +38,12 @@ variable "prefix" {
 variable "key_protect_instance_name" {
   type        = string
   default     = "base-security-services-kms"
-  description = "The name to give the Key Protect instance that will be provisioned by this solution. Only used if not supplying an existing Key Protect instance. If a prefix input variable is specified, it's added to the value in the `<prefix>-value` format."
+  description = "The name to give the Key Protect instance that will be provisioned by this solution. Only used if not supplying an existing Key Protect or Hyper Protect Crypto Services instance. If a prefix input variable is specified, it's added to the value in the `<prefix>-value` format."
 }
 
 variable "key_protect_allowed_network" {
   type        = string
-  description = "The type of the allowed network to be set for the Key Protect instance. Possible values: `private-only`, `public-and-private`. Applies only if an existing Key Protect instance is not specified."
+  description = "The type of the allowed network to be set for the Key Protect instance. Possible values: `private-only`, `public-and-private`. Applies only if an existing Key Protect or Hyper Protect Crypto Services instance is not specified."
   default     = "private-only"
   validation {
     condition     = can(regex("private-only|public-and-private", var.key_protect_allowed_network))
@@ -53,19 +53,19 @@ variable "key_protect_allowed_network" {
 
 variable "resource_tags" {
   type        = list(string)
-  description = "Optional list of tags to be added to the Key Protect instance. Only used if not supplying an existing Key Protect instance."
+  description = "Optional list of tags to be added to the Key Protect instance. Only used if not supplying an existing Key Protect or Hyper Protect Crypto Services instance."
   default     = []
 }
 
 variable "access_tags" {
   type        = list(string)
-  description = "Optional list of access tags to apply to the Key Protect instance. Only used if not supplying an existing Key Protect instance."
+  description = "Optional list of access tags to apply to the Key Protect instance. Only used if not supplying an existing Key Protect or Hyper Protect Crypto Services instance."
   default     = []
 }
 
 variable "rotation_interval_month" {
   type        = number
-  description = "Specifies the key rotation time interval in months. Possible values: `1` through `12`. Applies only if an existing Key Protect instance is not specified."
+  description = "Specifies the key rotation time interval in months. Possible values: `1` through `12`. Applies only if an existing Key Protect or Hyper Protect Crypto Services instance is not specified."
   default     = 12
 }
 
