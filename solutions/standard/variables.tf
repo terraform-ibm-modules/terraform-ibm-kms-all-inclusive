@@ -16,13 +16,13 @@ variable "use_existing_resource_group" {
 
 variable "resource_group_name" {
   type        = string
-  description = "The name of a new or an existing resource group in which to provision KMS resources to. If prefix input variable is passed then it will get prefixed infront of the value in the format of '<prefix>-value'."
+  description = "The name of a new or an existing resource group in which to provision key management resources to. If a prefix input variable is specified, it's added to the value in the `<prefix>-value` format."
 }
 
 variable "region" {
   type        = string
   default     = "us-south"
-  description = "The region in which to provision KMS resources. If using existing KMS, set this to the region in which it is provisioned in."
+  description = "The region in which to provision key management resources. If using an existing Key Protect or Hyper Protect Crypto Services instance, set this to the region where it was provisioned."
 }
 
 variable "prefix" {
@@ -38,12 +38,12 @@ variable "prefix" {
 variable "key_protect_instance_name" {
   type        = string
   default     = "base-security-services-kms"
-  description = "The name to give the Key Protect instance that will be provisioned by this solution. Only used if not supplying an existing KMS instance. If prefix input variable is passed then it will get prefixed infront of the value in the format of '<prefix>-value'."
+  description = "The name to give the Key Protect instance that will be provisioned by this solution. Only used if not supplying an existing Key Protect or Hyper Protect Crypto Services instance. If a prefix input variable is specified, it's added to the value in the `<prefix>-value` format."
 }
 
 variable "key_protect_allowed_network" {
   type        = string
-  description = "The type of the allowed network to be set for the Key Protect instance. Possible values are 'private-only', or 'public-and-private'. Only used if not supplying an existing KMS instance."
+  description = "The type of the allowed network to be set for the Key Protect instance. Possible values: `private-only`, `public-and-private`. Applies only if an existing Key Protect or Hyper Protect Crypto Services instance is not specified."
   default     = "private-only"
   validation {
     condition     = can(regex("private-only|public-and-private", var.key_protect_allowed_network))
@@ -53,19 +53,19 @@ variable "key_protect_allowed_network" {
 
 variable "resource_tags" {
   type        = list(string)
-  description = "Optional list of tags to be added to the Key Protect instance. Only used if not supplying an existing KMS instance."
+  description = "Optional list of tags to be added to the Key Protect instance. Only used if not supplying an existing Key Protect or Hyper Protect Crypto Services instance."
   default     = []
 }
 
 variable "access_tags" {
   type        = list(string)
-  description = "Optional list of access tags to apply to the Key Protect instance. Only used if not supplying an existing KMS instance."
+  description = "Optional list of access tags to apply to the Key Protect instance. Only used if not supplying an existing Key Protect or Hyper Protect Crypto Services instance."
   default     = []
 }
 
 variable "rotation_interval_month" {
   type        = number
-  description = "Specifies the key rotation time interval in months. Must be between 1 and 12 inclusive. Only used if not supplying an existing KMS instance."
+  description = "Specifies the key rotation time interval in months. Possible values: `1` through `12`. Applies only if an existing Key Protect or Hyper Protect Crypto Services instance is not specified."
   default     = 12
 }
 
@@ -76,12 +76,12 @@ variable "rotation_interval_month" {
 variable "existing_kms_instance_crn" {
   type        = string
   default     = null
-  description = "The CRN of the existed Hyper Protect Crypto Services or Key Protect instance. If not supplied, a new Key Protect instance will be created."
+  description = "The CRN of the existed Hyper Protect Crypto Services or Key Protect instance. If not supplied, a new instance will be created."
 }
 
 variable "kms_endpoint_type" {
   type        = string
-  description = "The type of endpoint to be used for creating keys and key rings in the existing KMS instance. Accepts 'public' or 'private', defaults to 'private'.  Only used when supplying an existing KMS instance."
+  description = "The type of endpoint to use for creating keys and key rings in the existing Hyper Protect Crypto Services or Key Protect instance. Possible values: `public`, `private`. Applies only if an existing Hyper Protect Crypto Services or Key Protect instance is specified."
   default     = "private"
   # validation is performed in root module
 }
