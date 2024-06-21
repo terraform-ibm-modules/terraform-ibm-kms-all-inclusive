@@ -29,6 +29,16 @@ locals {
 # Key Protect Instance
 ##############################################################################
 
+data "ibm_resource_instance" "existing_kms_instance" {
+  count      = var.existing_kms_instance_guid != null ? 1 : 0
+  identifier = var.existing_kms_instance_guid
+}
+
+locals {
+  kms_public_endpoint  = var.create_key_protect_instance ? module.key_protect.kp_public_endpoint : data.ibm_resource_instance.existing_kms_instance[0].extensions["endpoints.public"]
+  kms_private_endpoint = var.create_key_protect_instance ? module.key_protect.kp_private_endpoint : data.ibm_resource_instance.existing_kms_instance[0].extensions["endpoints.private"]
+}
+
 module "key_protect" {
   count                             = var.create_key_protect_instance ? 1 : 0
   source                            = "terraform-ibm-modules/key-protect/ibm"

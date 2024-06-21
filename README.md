@@ -155,7 +155,9 @@ For more info, see [Understanding user roles and resources](https://cloud.ibm.co
 
 ### Resources
 
-No resources.
+| Name | Type |
+|------|------|
+| [ibm_resource_instance.existing_kms_instance](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/data-sources/resource_instance) | data source |
 
 ### Inputs
 
