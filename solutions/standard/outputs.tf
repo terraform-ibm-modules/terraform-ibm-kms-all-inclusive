@@ -47,11 +47,11 @@ output "keys" {
 }
 
 output "kp_private_endpoint" {
-  description = "Key Protect instance private endpoint URL when an instance is created, otherwise null"
-  value       = module.kms.kp_private_endpoint
+  description = "Key Protect instance private endpoint URL."
+  value       = local.kms_private_endpoint
 }
 
 output "kp_public_endpoint" {
-  description = "Key Protect instance public endpoint URL when an instance is created, otherwise null"
-  value       = module.kms.kp_public_endpoint
+  description = "Key Protect instance public endpoint URL."
+  value       = local.kms_public_endpoint
 }
