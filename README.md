@@ -193,8 +193,8 @@ For more info, see [Understanding user roles and resources](https://cloud.ibm.co
 | <a name="output_key_rings"></a> [key\_rings](#output\_key\_rings) | IDs of new Key Rings created by the module |
 | <a name="output_keys"></a> [keys](#output\_keys) | IDs of new Keys created by the module |
 | <a name="output_kms_guid"></a> [kms\_guid](#output\_kms\_guid) | KMS GUID |
-| <a name="output_kp_private_endpoint"></a> [kp\_private\_endpoint](#output\_kp\_private\_endpoint) | Key Protect instance private endpoint URL |
-| <a name="output_kp_public_endpoint"></a> [kp\_public\_endpoint](#output\_kp\_public\_endpoint) | Key Protect instance public endpoint URL |
+| <a name="output_kms_private_endpoint"></a> [kms\_private\_endpoint](#output\_kms\_private\_endpoint) | Key Management Service instance private endpoint URL |
+| <a name="output_kms_public_endpoint"></a> [kms\_public\_endpoint](#output\_kms\_public\_endpoint) | Key Management Service instance public endpoint URL |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 <!-- Leave this section as is so that your module has a link to local development environment set up steps for contributors to follow -->
