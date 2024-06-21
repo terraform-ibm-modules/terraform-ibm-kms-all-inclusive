@@ -35,8 +35,8 @@ data "ibm_resource_instance" "existing_kms_instance" {
 }
 
 locals {
-  kms_public_endpoint  = var.create_key_protect_instance ? module.key_protect.kp_public_endpoint : data.ibm_resource_instance.existing_kms_instance[0].extensions["endpoints.public"]
-  kms_private_endpoint = var.create_key_protect_instance ? module.key_protect.kp_private_endpoint : data.ibm_resource_instance.existing_kms_instance[0].extensions["endpoints.private"]
+  kms_public_endpoint  = var.create_key_protect_instance ? module.key_protect[0].kp_public_endpoint : data.ibm_resource_instance.existing_kms_instance[0].extensions["endpoints.public"]
+  kms_private_endpoint = var.create_key_protect_instance ? module.key_protect[0].kp_private_endpoint : data.ibm_resource_instance.existing_kms_instance[0].extensions["endpoints.private"]
 }
 
 module "key_protect" {
