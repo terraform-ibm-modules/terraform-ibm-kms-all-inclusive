@@ -19,8 +19,8 @@ locals {
   kp_endpoint_type                 = var.key_protect_allowed_network == "private-only" ? "private" : "public"
   kms_endpoint_type                = var.existing_kms_instance_crn != null ? var.kms_endpoint_type : local.kp_endpoint_type
 
-  kms_public_endpoint  = var.existing_kms_instance_crn == null ?  module.kms.kp_public_endpoint : data.ibm_resource_instance.existing_kms_instance[0].extensions["endpoints.public"]
-  kms_private_endpoint = var.existing_kms_instance_crn == null ? module.kms.kp_private_endpoint: data.ibm_resource_instance.existing_kms_instance[0].extensions["endpoints.private"]
+  kms_public_endpoint  = var.existing_kms_instance_crn == null ? module.kms.kp_public_endpoint : data.ibm_resource_instance.existing_kms_instance[0].extensions["endpoints.public"]
+  kms_private_endpoint = var.existing_kms_instance_crn == null ? module.kms.kp_private_endpoint : data.ibm_resource_instance.existing_kms_instance[0].extensions["endpoints.private"]
 }
 
 data "ibm_resource_instance" "existing_kms_instance" {
