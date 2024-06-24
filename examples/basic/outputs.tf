@@ -37,12 +37,12 @@ output "keys" {
   value       = module.key_protect_all_inclusive.keys
 }
 
-output "kp_private_endpoint" {
+output "kms_private_endpoint" {
   description = "Instance private endpoint URL"
-  value       = module.key_protect_all_inclusive.kp_private_endpoint
+  value       = module.key_protect_all_inclusive.kms_private_endpoint
 }
 
-output "kp_public_endpoint" {
+output "kms_public_endpoint" {
   description = "Instance public endpoint URL"
-  value       = module.key_protect_all_inclusive.kp_public_endpoint
+  value       = module.key_protect_all_inclusive.kms_public_endpoint
 }

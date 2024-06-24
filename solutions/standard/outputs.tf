@@ -46,12 +46,12 @@ output "keys" {
   value       = module.kms.keys
 }
 
-output "kp_private_endpoint" {
-  description = "Key Protect instance private endpoint URL when an instance is created, otherwise null"
-  value       = module.kms.kp_private_endpoint
+output "kms_private_endpoint" {
+  description = "Key Management Service instance private endpoint URL."
+  value       = module.kms.kms_private_endpoint
 }
 
-output "kp_public_endpoint" {
-  description = "Key Protect instance public endpoint URL when an instance is created, otherwise null"
-  value       = module.kms.kp_public_endpoint
+output "kms_public_endpoint" {
+  description = "Key Management Service instance public endpoint URL."
+  value       = module.kms.kms_public_endpoint
 }
