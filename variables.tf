@@ -142,3 +142,28 @@ variable "access_tags" {
   description = "A list of access tags to apply to the Key Protect instance created by the module. Only used if 'create_key_protect_instance' is true."
   default     = []
 }
+
+##############################################################
+# Context-based restriction (CBR)
+##############################################################
+
+variable "cbr_rules" {
+  type = list(object({
+    description = string
+    account_id  = string
+    rule_contexts = list(object({
+      attributes = optional(list(object({
+        name  = string
+        value = string
+    }))) }))
+    enforcement_mode = string
+    operations = optional(list(object({
+      api_types = list(object({
+        api_type_id = string
+      }))
+    })))
+  }))
+  description = "(Optional, list) List of context-based restrictions rules to create"
+  default     = []
+  # Validation happens in the rule module
+}

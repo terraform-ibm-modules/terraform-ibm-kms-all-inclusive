@@ -143,3 +143,47 @@ module "existing_key_ring_keys" {
   rotation_interval_month  = each.value.rotation_interval_month
   dual_auth_delete_enabled = each.value.dual_auth_delete_enabled
 }
+
+##############################################################################
+# Context Based Restrictions
+##############################################################################
+
+locals {
+  default_operations = [{
+    api_types = [
+      {
+        "api_type_id" : "crn:v1:bluemix:public:context-based-restrictions::::api-type:"
+      },
+      {
+        "api_type_id" : "crn:v1:bluemix:public:context-based-restrictions::::platform-api-type:"
+      }
+    ]
+  }]
+}
+
+module "cbr_rule" {
+  count            = length(var.cbr_rules) > 0 ? length(var.cbr_rules) : 0
+  source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module"
+  version          = "1.23.0"
+  rule_description = var.cbr_rules[count.index].description
+  enforcement_mode = var.cbr_rules[count.index].enforcement_mode
+  rule_contexts    = var.cbr_rules[count.index].rule_contexts
+  resources = [{
+    attributes = [
+      {
+        name  = "accountId"
+        value = var.cbr_rules[count.index].account_id
+      },
+      {
+        name     = "serviceInstance"
+        value    = local.kms_guid
+        operator = "stringEquals"
+      },
+      {
+        name  = "serviceName"
+        value = "kms"
+      }
+    ]
+  }]
+  operations = var.cbr_rules[count.index].operations == null ? local.default_operations : var.cbr_rules[count.index].operations
+}
