@@ -46,3 +46,8 @@ output "kms_public_endpoint" {
   description = "Key Management Service instance public endpoint URL"
   value       = local.kms_public_endpoint
 }
+
+output "cbr_rule_ids" {
+  description = "CBR rule ids created to restrict KMS(Key Protect)"
+  value       = module.cbr_rule[*].rule_id
+}
