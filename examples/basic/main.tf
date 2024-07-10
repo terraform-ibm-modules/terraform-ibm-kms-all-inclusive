@@ -71,7 +71,7 @@ module "key_protect_all_inclusive" {
   ]
   # CBR rule only allowing the Key Protect instance to be accessbile from Schematics
   cbr_rules = [{
-    description      = "${var.prefix}-key-protect access only from schematics"
+    description      = "key-protect access only from schematics"
     enforcement_mode = "enabled"
     account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
     rule_contexts = [{

@@ -165,7 +165,7 @@ locals {
 }
 
 module "cbr_rule" {
-  count            = contains(regex(".*kms.*", local.kms_crn)) ? length(var.cbr_rules) : 0
+  count            = length(regexall(".*kms.*", local.kms_crn)) > 0 ? length(var.cbr_rules) : 0
   source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module"
   version          = "1.23.0"
   rule_description = var.cbr_rules[count.index].description
