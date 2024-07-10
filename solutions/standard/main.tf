@@ -25,6 +25,7 @@ module "kms" {
   resource_group_id                 = module.resource_group.resource_group_id
   region                            = var.region
   create_key_protect_instance       = local.existing_kms_guid != null ? false : true
+  existing_kms_instance_crn         = var.existing_kms_instance_crn
   key_protect_instance_name         = var.prefix != null ? "${var.prefix}-${var.key_protect_instance_name}" : var.key_protect_instance_name
   key_protect_plan                  = "tiered-pricing"
   rotation_enabled                  = true

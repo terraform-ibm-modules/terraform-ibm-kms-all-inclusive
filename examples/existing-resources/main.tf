@@ -7,6 +7,7 @@ module "key_protect_all_inclusive" {
   region                      = var.region
   create_key_protect_instance = false
   existing_kms_instance_guid  = var.existing_kms_instance_guid
+  existing_kms_instance_crn   = var.existing_kms_instance_crn
   keys = [
     {
       key_ring_name         = "default"
