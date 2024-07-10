@@ -94,6 +94,12 @@ variable "existing_kms_instance_guid" {
   default     = null
 }
 
+variable "existing_kms_instance_crn" {
+  type        = string
+  description = "The CRN of an existing Key Protect or Hyper Protect Crypto Services instance. Required if 'create_key_protect_instance' is false."
+  default     = null
+}
+
 variable "keys" {
   type = list(object({
     key_ring_name         = string
@@ -166,4 +172,5 @@ variable "cbr_rules" {
   description = "(Optional, list) List of context-based restrictions rules to create"
   default     = []
   # Validation happens in the rule module
+  # NOTE: Context-based restrictions rule applies to Key Protect instances and is not supported for HPCS instances
 }

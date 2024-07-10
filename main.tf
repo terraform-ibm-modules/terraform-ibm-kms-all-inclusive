@@ -23,6 +23,9 @@ locals {
 
   # set key_protect_guid as either the ID of the passed in name of instance or the one created by this module
   kms_guid = var.create_key_protect_instance ? module.key_protect[0].key_protect_guid : var.existing_kms_instance_guid
+
+  # set key_protect_crn as either the crn of the passed in name of instance or the one created by this module
+  kms_crn = var.create_key_protect_instance ? module.key_protect[0].key_protect_crn : var.existing_kms_instance_crn
 }
 
 ##############################################################################
@@ -162,7 +165,7 @@ locals {
 }
 
 module "cbr_rule" {
-  count            = length(var.cbr_rules)
+  count            = contains(regex(".*kms.*", local.kms_crn)) ? length(var.cbr_rules) : 0
   source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module"
   version          = "1.23.0"
   rule_description = var.cbr_rules[count.index].description
