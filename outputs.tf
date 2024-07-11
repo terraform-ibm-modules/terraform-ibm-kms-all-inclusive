@@ -43,6 +43,6 @@ output "kms_private_endpoint" {
 }
 
 output "kms_public_endpoint" {
-  description = "Key Management Service instance public endpoint URL"
+  description = "Key Management Service instance public endpoint URL - test changes"
   value       = local.kms_public_endpoint
 }

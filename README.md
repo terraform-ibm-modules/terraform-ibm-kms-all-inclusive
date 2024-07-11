@@ -194,7 +194,7 @@ For more info, see [Understanding user roles and resources](https://cloud.ibm.co
 | <a name="output_keys"></a> [keys](#output\_keys) | IDs of new Keys created by the module |
 | <a name="output_kms_guid"></a> [kms\_guid](#output\_kms\_guid) | KMS GUID |
 | <a name="output_kms_private_endpoint"></a> [kms\_private\_endpoint](#output\_kms\_private\_endpoint) | Key Management Service instance private endpoint URL |
-| <a name="output_kms_public_endpoint"></a> [kms\_public\_endpoint](#output\_kms\_public\_endpoint) | Key Management Service instance public endpoint URL |
+| <a name="output_kms_public_endpoint"></a> [kms\_public\_endpoint](#output\_kms\_public\_endpoint) | Key Management Service instance public endpoint URL - test changes |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 <!-- Leave this section as is so that your module has a link to local development environment set up steps for contributors to follow -->
