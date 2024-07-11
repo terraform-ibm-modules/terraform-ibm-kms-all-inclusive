@@ -1,4 +1,3 @@
-> TEST: SAMPLE CHANGES TO ENSURE TEST SHOULD RUN WHEN A PR IS CREATED - validation of an issue.
 # KMS all inclusive module
 
 [![Graduated (Supported)](https://img.shields.io/badge/Status-Graduated%20(Supported)-brightgreen)](https://terraform-ibm-modules.github.io/documentation/#/badge-status)
