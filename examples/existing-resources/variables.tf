@@ -10,11 +10,6 @@ variable "region" {
   default     = "us-south"
 }
 
-variable "existing_kms_instance_guid" {
-  type        = string
-  description = "GUID of an existing KMS instance"
-}
-
 variable "existing_kms_instance_crn" {
   type        = string
   description = "CRN of an existing KMS instance"

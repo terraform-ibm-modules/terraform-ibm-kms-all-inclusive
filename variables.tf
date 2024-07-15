@@ -88,12 +88,6 @@ variable "key_protect_allowed_network" {
   }
 }
 
-variable "existing_kms_instance_guid" {
-  type        = string
-  description = "The GUID of an existing Key Protect or Hyper Protect Crypto Services instance. Required if 'create_key_protect_instance' is false."
-  default     = null
-}
-
 variable "existing_kms_instance_crn" {
   type        = string
   description = "The CRN of an existing Key Protect or Hyper Protect Crypto Services instance. Required if 'create_key_protect_instance' is false."

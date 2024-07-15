@@ -37,7 +37,6 @@ module "kms" {
   key_protect_allowed_network       = var.key_protect_allowed_network
   key_ring_endpoint_type            = local.kms_endpoint_type
   key_endpoint_type                 = local.kms_endpoint_type
-  existing_kms_instance_guid        = local.existing_kms_guid
   resource_tags                     = var.resource_tags
   access_tags                       = var.access_tags
   keys                              = var.keys
