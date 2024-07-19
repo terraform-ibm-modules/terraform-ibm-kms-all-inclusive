@@ -46,3 +46,13 @@ output "kms_public_endpoint" {
   description = "Instance public endpoint URL"
   value       = module.key_protect_all_inclusive.kms_public_endpoint
 }
+
+output "cbr_rule_ids" {
+  description = "CBR rule ids created to restrict Key Protect"
+  value       = module.key_protect_all_inclusive.cbr_rule_ids
+}
+
+output "cbr_zone_ids" {
+  description = "Zone ids created for CBR"
+  value       = module.cbr_zone[*].zone_id
+}

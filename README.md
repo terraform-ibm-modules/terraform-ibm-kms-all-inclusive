@@ -18,6 +18,7 @@ This module combines the following key management service (KMS) modules to creat
 ## Overview
 * [terraform-ibm-kms-all-inclusive](#terraform-ibm-kms-all-inclusive)
 * [Examples](./examples)
+    * [Advanced private example](./examples/advanced)
     * [Basic example](./examples/basic)
     * [Existing KMS example](./examples/existing-resources)
 * [Contributing](#contributing)
