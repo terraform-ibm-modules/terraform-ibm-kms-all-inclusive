@@ -9,20 +9,28 @@ locals {
   # tflint-ignore: terraform_unused_declarations
   rg_validate_check = regex("^${local.rg_validate_msg}$", (!local.rg_validate_condition ? local.rg_validate_msg : ""))
 
+  parsed_existing_kms_instance_crn = var.existing_kms_instance_crn != null ? split(":", var.existing_kms_instance_crn) : []
+  existing_kms_instance_guid       = length(local.parsed_existing_kms_instance_crn) > 0 ? local.parsed_existing_kms_instance_crn[7] : null
+
   # variable validation around new instance vs existing
-  instance_validate_condition = var.create_key_protect_instance && var.existing_kms_instance_guid != null
+  instance_validate_condition = var.create_key_protect_instance && local.existing_kms_instance_guid != null
   instance_validate_msg       = "'create_key_protect_instance' cannot be true when passing a value for 'existing_key_protect_instance_guid'"
   # tflint-ignore: terraform_unused_declarations
   instance_validate_check = regex("^${local.instance_validate_msg}$", (!local.instance_validate_condition ? local.instance_validate_msg : ""))
 
   # variable validation when not creating new instance
-  existing_instance_validate_condition = !var.create_key_protect_instance && var.existing_kms_instance_guid == null
+  existing_instance_validate_condition = !var.create_key_protect_instance && local.existing_kms_instance_guid == null
   existing_instance_validate_msg       = "A value must be provided for 'existing_key_protect_instance_guid' when 'create_key_protect_instance' is false"
   # tflint-ignore: terraform_unused_declarations
   existing_instance_validate_check = regex("^${local.existing_instance_validate_msg}$", (!local.existing_instance_validate_condition ? local.existing_instance_validate_msg : ""))
 
   # set key_protect_guid as either the ID of the passed in name of instance or the one created by this module
-  kms_guid = var.create_key_protect_instance ? module.key_protect[0].key_protect_guid : var.existing_kms_instance_guid
+  kms_guid = var.create_key_protect_instance ? module.key_protect[0].key_protect_guid : local.existing_kms_instance_guid
+
+  # set key_protect_crn as either the crn of the passed in name of instance or the one created by this module
+  kms_crn = var.create_key_protect_instance ? module.key_protect[0].key_protect_crn : var.existing_kms_instance_crn
+  # tflint-ignore: terraform_unused_declarations
+  cbr_validation = length(regexall(".*hs-crypto.*", local.kms_crn)) > 0 && length(var.cbr_rules) > 0 ? tobool("When passing an HPCS instance as value for `existing_kms_instance_crn` you cannot provide `cbr_rules`. Context-based restrictions is not supported for HPCS instances. For more information, see https://cloud.ibm.com/docs/account?topic=account-context-restrictions-whatis#cbr-adopters for the services that supports CBR") : true
 }
 
 ##############################################################################
@@ -31,7 +39,7 @@ locals {
 
 data "ibm_resource_instance" "existing_kms_instance" {
   count      = var.create_key_protect_instance ? 0 : 1
-  identifier = var.existing_kms_instance_guid
+  identifier = local.existing_kms_instance_guid
 }
 
 locals {
@@ -142,4 +150,48 @@ module "existing_key_ring_keys" {
   standard_key             = each.value.standard_key
   rotation_interval_month  = each.value.rotation_interval_month
   dual_auth_delete_enabled = each.value.dual_auth_delete_enabled
+}
+
+##############################################################################
+# Context Based Restrictions
+##############################################################################
+
+locals {
+  default_operations = [{
+    api_types = [
+      {
+        "api_type_id" : "crn:v1:bluemix:public:context-based-restrictions::::api-type:"
+      },
+      {
+        "api_type_id" : "crn:v1:bluemix:public:context-based-restrictions::::platform-api-type:"
+      }
+    ]
+  }]
+}
+
+module "cbr_rule" {
+  count            = length(var.cbr_rules)
+  source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module"
+  version          = "1.23.0"
+  rule_description = var.cbr_rules[count.index].description
+  enforcement_mode = var.cbr_rules[count.index].enforcement_mode
+  rule_contexts    = var.cbr_rules[count.index].rule_contexts
+  resources = [{
+    attributes = [
+      {
+        name  = "accountId"
+        value = var.cbr_rules[count.index].account_id
+      },
+      {
+        name     = "serviceInstance"
+        value    = local.kms_guid
+        operator = "stringEquals"
+      },
+      {
+        name  = "serviceName"
+        value = "kms"
+      }
+    ]
+  }]
+  operations = var.cbr_rules[count.index].operations == null ? local.default_operations : var.cbr_rules[count.index].operations
 }

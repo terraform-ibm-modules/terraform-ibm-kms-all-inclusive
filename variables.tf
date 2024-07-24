@@ -88,9 +88,9 @@ variable "key_protect_allowed_network" {
   }
 }
 
-variable "existing_kms_instance_guid" {
+variable "existing_kms_instance_crn" {
   type        = string
-  description = "The GUID of an existing Key Protect or Hyper Protect Crypto Services instance. Required if 'create_key_protect_instance' is false."
+  description = "The CRN of an existing Key Protect or Hyper Protect Crypto Services instance. Required if 'create_key_protect_instance' is false."
   default     = null
 }
 
@@ -141,4 +141,30 @@ variable "access_tags" {
   type        = list(string)
   description = "A list of access tags to apply to the Key Protect instance created by the module. Only used if 'create_key_protect_instance' is true."
   default     = []
+}
+
+##############################################################
+# Context-based restriction (CBR)
+##############################################################
+
+variable "cbr_rules" {
+  type = list(object({
+    description = string
+    account_id  = string
+    rule_contexts = list(object({
+      attributes = optional(list(object({
+        name  = string
+        value = string
+    }))) }))
+    enforcement_mode = string
+    operations = optional(list(object({
+      api_types = list(object({
+        api_type_id = string
+      }))
+    })))
+  }))
+  description = "(Optional, list) List of context-based restrictions rules to create"
+  default     = []
+  # Validation happens in the rule module
+  # NOTE: Context-based restrictions rule applies to Key Protect instances and is not supported for HPCS instances
 }
