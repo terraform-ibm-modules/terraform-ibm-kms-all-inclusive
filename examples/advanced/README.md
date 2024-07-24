@@ -1,4 +1,4 @@
-# Advanced private example
+# Advanced private only instance with CBRs
 
 An advanced example that shows how to provision a private only Key Protect instance with a new Key Ring and Key.
 
