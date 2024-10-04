@@ -9,9 +9,8 @@ module "key_protect_all_inclusive" {
   existing_kms_instance_crn   = var.existing_kms_instance_crn
   keys = [
     {
-      key_ring_name         = "default"
-      existing_key_ring     = true
-      force_delete_key_ring = true # Setting it to true for testing purpose
+      key_ring_name     = "default"
+      existing_key_ring = true
       keys = [
         {
           key_name     = "test-key"

@@ -75,19 +75,17 @@ locals {
     for key_ring in var.keys :
     key_ring.existing_key_ring ? [] : [{
       key_ring_name = key_ring.key_ring_name
-      force_delete  = key_ring.force_delete_key_ring
     }]
   ])
 }
 
 module "kms_key_rings" {
   source        = "terraform-ibm-modules/kms-key-ring/ibm"
-  version       = "v2.4.1"
+  version       = "v2.5.0"
   for_each      = { for obj in local.key_rings : obj.key_ring_name => obj }
   instance_id   = local.kms_guid
   endpoint_type = var.key_ring_endpoint_type
   key_ring_id   = each.value.key_ring_name
-  force_delete  = each.value.force_delete
 }
 
 moved {
