@@ -2,7 +2,7 @@
 
 When you add a key management service from the IBM Cloud catalog to an IBM Cloud Projects service, you can configure key rings and keys. In the edit mode for the projects configuration, select the Configure panel and then click the optional tab.
 
-In the configuration, specify the name of the key ring, whether the key ring exists, and whether to force the deletion of the key. The object also contains a list of keys with all the information about the keys that you want to create in that key ring.
+In the configuration, specify the name of the key ring and whether the key ring exists. The object also contains a list of keys with all the information about the keys that you want to create in that key ring.
 
 To enter a custom value, use the edit action to open the "Edit Array" panel. Add the KMS key ring and key configurations to the array here.
 
