@@ -12,7 +12,6 @@ To enter a custom value, use the edit action to open the "Edit Array" panel. Add
 
 - `key_ring_name` (required): A unique human-readable name that identifies this key ring. To protect your privacy, do not use personal data, such as your name or location. The key ring name can be between 2 and 100 characters.
 - `existing_key_ring` (optional, default = `false`): Set to true if the key ring already exists and keys should be added to it.
-- `force_delete_key_ring` (optional, default = `true`): Whether to force delete the key ring with a destroy command or when the projects configuration is removed. When `true` this force deletes the key ring in the event that it contains keys in the `Destroyed` state, see [Deleting key rings](https://cloud.ibm.com/docs/key-protect?topic=key-protect-grouping-keys&interface=api#delete-key-ring-api).
 
 ### Key options
 
@@ -28,7 +27,6 @@ The following example includes all the configuration options for two key rings. 
       {
         "key_ring_name": "da-ring-1",
         "existing_key_ring": false,
-        "force_delete_key_ring": true,
         "keys": [
           {
             "key_name": "da-key-1-1",
@@ -49,7 +47,6 @@ The following example includes all the configuration options for two key rings. 
       {
         "key_ring_name": "da-ring-2",
         "existing_key_ring": false,
-        "force_delete_key_ring": true,
         "keys": [
           {
             "key_name": "da-key-2-1",

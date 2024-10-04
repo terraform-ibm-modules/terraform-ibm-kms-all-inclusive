@@ -79,7 +79,6 @@ module "kms_all_inclusive" {
     {
       key_ring_name = "example-key-ring-1"
       existing_key_ring = true
-      force_delete_key_ring = false
       keys = [
         {
           key_name = "example-key-1"
@@ -101,7 +100,6 @@ module "kms_all_inclusive" {
     {
       key_ring_name = "example-key-ring-2"
       existing_key_ring = false
-      force_delete_key_ring = true
       keys = [
         {
           key_name = "example-key-3"
@@ -143,7 +141,7 @@ For more info, see [Understanding user roles and resources](https://cloud.ibm.co
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0.0 |
-| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.65.0, <2.0.0 |
+| <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.69.0, <2.0.0 |
 
 ### Modules
 
@@ -152,7 +150,7 @@ For more info, see [Understanding user roles and resources](https://cloud.ibm.co
 | <a name="module_cbr_rule"></a> [cbr\_rule](#module\_cbr\_rule) | terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module | 1.27.0 |
 | <a name="module_existing_key_ring_keys"></a> [existing\_key\_ring\_keys](#module\_existing\_key\_ring\_keys) | terraform-ibm-modules/kms-key/ibm | v1.2.4 |
 | <a name="module_key_protect"></a> [key\_protect](#module\_key\_protect) | terraform-ibm-modules/key-protect/ibm | 2.8.5 |
-| <a name="module_kms_key_rings"></a> [kms\_key\_rings](#module\_kms\_key\_rings) | terraform-ibm-modules/kms-key-ring/ibm | v2.4.1 |
+| <a name="module_kms_key_rings"></a> [kms\_key\_rings](#module\_kms\_key\_rings) | terraform-ibm-modules/kms-key-ring/ibm | v2.5.0 |
 | <a name="module_kms_keys"></a> [kms\_keys](#module\_kms\_keys) | terraform-ibm-modules/kms-key/ibm | v1.2.4 |
 
 ### Resources
@@ -178,7 +176,7 @@ For more info, see [Understanding user roles and resources](https://cloud.ibm.co
 | <a name="input_key_protect_instance_name"></a> [key\_protect\_instance\_name](#input\_key\_protect\_instance\_name) | The name to give the Key Protect instance that will be provisioned by this module. Only used if 'create\_key\_protect\_instance' is true. | `string` | `"key-protect"` | no |
 | <a name="input_key_protect_plan"></a> [key\_protect\_plan](#input\_key\_protect\_plan) | Plan for the Key Protect instance. Currently only 'tiered-pricing' is supported. Only used if 'create\_key\_protect\_instance' is true. | `string` | `"tiered-pricing"` | no |
 | <a name="input_key_ring_endpoint_type"></a> [key\_ring\_endpoint\_type](#input\_key\_ring\_endpoint\_type) | The type of endpoint to be used for creating key rings. Accepts 'public' or 'private' | `string` | `"public"` | no |
-| <a name="input_keys"></a> [keys](#input\_keys) | A list of objects which contain the key ring name, a flag indicating if this key ring already exists, and a flag to enable force deletion of the key ring. In addition, this object contains a list of keys with all of the information on the keys to be created in that key ring. | <pre>list(object({<br/>    key_ring_name         = string<br/>    existing_key_ring     = optional(bool, false)<br/>    force_delete_key_ring = optional(bool, false)<br/>    keys = list(object({<br/>      key_name                 = string<br/>      standard_key             = optional(bool, false)<br/>      rotation_interval_month  = optional(number, 1)<br/>      dual_auth_delete_enabled = optional(bool, false)<br/>      force_delete             = optional(bool, false)<br/>    }))<br/>  }))</pre> | `[]` | no |
+| <a name="input_keys"></a> [keys](#input\_keys) | A list of objects which contain the key ring name, a flag indicating if this key ring already exists, and a flag to enable force deletion of the key ring. In addition, this object contains a list of keys with all of the information on the keys to be created in that key ring. | <pre>list(object({<br/>    key_ring_name     = string<br/>    existing_key_ring = optional(bool, false)<br/>    keys = list(object({<br/>      key_name                 = string<br/>      standard_key             = optional(bool, false)<br/>      rotation_interval_month  = optional(number, 1)<br/>      dual_auth_delete_enabled = optional(bool, false)<br/>      force_delete             = optional(bool, false)<br/>    }))<br/>  }))</pre> | `[]` | no |
 | <a name="input_region"></a> [region](#input\_region) | The IBM Cloud region where all resources will be provisioned. | `string` | n/a | yes |
 | <a name="input_resource_group_id"></a> [resource\_group\_id](#input\_resource\_group\_id) | The ID of the Resource Group to provision the Key Protect instance in. Not required if 'create\_key\_protect\_instance' is false. | `string` | `null` | no |
 | <a name="input_resource_tags"></a> [resource\_tags](#input\_resource\_tags) | Optional list of tags to be added to the Key Protect instance. Only used if 'create\_key\_protect\_instance' is true. | `list(string)` | `[]` | no |

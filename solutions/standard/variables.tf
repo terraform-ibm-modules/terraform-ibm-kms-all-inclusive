@@ -92,9 +92,8 @@ variable "kms_endpoint_type" {
 
 variable "keys" {
   type = list(object({
-    key_ring_name         = string
-    existing_key_ring     = optional(bool, false)
-    force_delete_key_ring = optional(bool, true)
+    key_ring_name     = string
+    existing_key_ring = optional(bool, false)
     keys = list(object({
       key_name                 = string
       standard_key             = optional(bool, false)

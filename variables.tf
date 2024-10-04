@@ -96,9 +96,8 @@ variable "existing_kms_instance_crn" {
 
 variable "keys" {
   type = list(object({
-    key_ring_name         = string
-    existing_key_ring     = optional(bool, false)
-    force_delete_key_ring = optional(bool, false)
+    key_ring_name     = string
+    existing_key_ring = optional(bool, false)
     keys = list(object({
       key_name                 = string
       standard_key             = optional(bool, false)
