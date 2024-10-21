@@ -50,7 +50,7 @@ locals {
 module "key_protect" {
   count                             = var.create_key_protect_instance ? 1 : 0
   source                            = "terraform-ibm-modules/key-protect/ibm"
-  version                           = "2.8.5"
+  version                           = "2.8.6"
   key_protect_name                  = var.key_protect_instance_name
   region                            = var.region
   allowed_network                   = var.key_protect_allowed_network
@@ -75,19 +75,17 @@ locals {
     for key_ring in var.keys :
     key_ring.existing_key_ring ? [] : [{
       key_ring_name = key_ring.key_ring_name
-      force_delete  = key_ring.force_delete_key_ring
     }]
   ])
 }
 
 module "kms_key_rings" {
   source        = "terraform-ibm-modules/kms-key-ring/ibm"
-  version       = "v2.4.1"
+  version       = "v2.5.0"
   for_each      = { for obj in local.key_rings : obj.key_ring_name => obj }
   instance_id   = local.kms_guid
   endpoint_type = var.key_ring_endpoint_type
   key_ring_id   = each.value.key_ring_name
-  force_delete  = each.value.force_delete
 }
 
 moved {
@@ -172,7 +170,7 @@ locals {
 module "cbr_rule" {
   count            = length(var.cbr_rules)
   source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module"
-  version          = "1.27.0"
+  version          = "1.28.0"
   rule_description = var.cbr_rules[count.index].description
   enforcement_mode = var.cbr_rules[count.index].enforcement_mode
   rule_contexts    = var.cbr_rules[count.index].rule_contexts

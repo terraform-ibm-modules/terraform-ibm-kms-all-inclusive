@@ -24,8 +24,7 @@ module "key_protect_all_inclusive" {
   keys = [
     # Create one new Key Ring with multiple new Keys in it
     {
-      key_ring_name         = "${var.prefix}-slz-ring"
-      force_delete_key_ring = true # Setting it to true for testing purpose
+      key_ring_name = "${var.prefix}-slz-ring"
       keys = [
         {
           key_name     = "${var.prefix}-slz-key"
