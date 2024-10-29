@@ -41,7 +41,7 @@
         {
           "label": "Standard",
           "name": "standard",
-          "install_type": "fullstack",
+          "install_type": "extension",
           "working_directory": "solutions/standard",
           "compliance": {
             "authority": "scc-v3",
