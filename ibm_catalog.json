@@ -2,7 +2,7 @@
   "products": [
     {
       "name": "deploy-arch-ibm-kms",
-      "label": "Key Management Services",
+      "label": "Cloud automation for Key Management Services",
       "product_kind": "solution",
       "tags": [
         "ibm_created",
