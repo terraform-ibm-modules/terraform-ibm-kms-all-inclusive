@@ -66,10 +66,12 @@
               "key": "ibmcloud_api_key"
             },
             {
-              "key": "use_existing_resource_group"
+              "key": "use_existing_resource_group",
+              "required": true
             },
             {
-              "key": "resource_group_name"
+              "key": "resource_group_name",
+              "required": true
             },
             {
               "key": "region",
@@ -197,6 +199,10 @@
                 {
                   "dependency_input": "prefix",
                   "version_input": "prefix"
+                },
+                {
+                  "dependency_output": "workload_resource_group_name",
+                  "version_input": "resource_group_name"
                 }
               ],
               "name": "deploy-arch-ibm-account-infra-base",
