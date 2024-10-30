@@ -2,7 +2,7 @@
   "products": [
     {
       "name": "testing-deploy-arch-ibm-kms",
-      "label": "Testing - Key Management Services",
+      "label": "Testing - Cloud automation for Key Management Services",
       "product_kind": "solution",
       "tags": [
         "ibm_created",
