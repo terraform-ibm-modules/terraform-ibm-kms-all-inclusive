@@ -40,7 +40,7 @@ func TestDASolutionInSchematics(t *testing.T) {
 
 	options := testschematic.TestSchematicOptionsDefault(&testschematic.TestSchematicOptions{
 		Testing: t,
-		Prefix:  "kp-solution",
+		Prefix:  "kp-solu",
 		TarIncludePatterns: []string{
 			"*.tf",
 			solutionDADir + "/*.tf",
