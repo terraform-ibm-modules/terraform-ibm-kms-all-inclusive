@@ -16,7 +16,7 @@ This module combines the following key management service (KMS) modules to creat
 <!-- Below content is automatically populated via pre-commit hook -->
 <!-- BEGIN OVERVIEW HOOK -->
 ## Overview
-* [terraform-ibm-key-protect-all-inclusive](#terraform-ibm-key-protect-all-inclusive)
+* [terraform-ibm-kms-all-inclusive](#terraform-ibm-kms-all-inclusive)
 * [Examples](./examples)
     * [Advanced private only instance with CBRs](./examples/advanced)
     * [Basic example](./examples/basic)
