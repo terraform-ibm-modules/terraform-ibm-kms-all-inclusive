@@ -6,3 +6,4 @@ CRA_TARGETS:
     PROFILE_ID: "48279384-3d29-4089-8259-8ed354774b4a"         # SCC profile ID (currently set to 'CIS IBM Cloud Foundations Benchmark v1.1.0' '1.1.0' profile).
     CRA_ENVIRONMENT_VARIABLES:  # An optional map of environment variables for CRA, where the key is the variable name and value is the value. Useful for providing TF_VARs.
       TF_VAR_resource_group_name: "test"
+      TF_VAR_provider_visibility: "public"
