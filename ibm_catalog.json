@@ -207,6 +207,7 @@
               ],
               "name": "deploy-arch-ibm-account-infra-base",
               "optional": true,
+              "on_by_default": true,
               "version": "^1.11.6"
             }
           ],
