@@ -2,7 +2,7 @@
   "products": [
     {
       "name": "testing-deploy-arch-ibm-kms",
-      "label": "[Addon-ons Beta] Cloud automation for Key Management Services",
+      "label": "[Add-ons Beta] Cloud automation for Key Management Services",
       "product_kind": "solution",
       "tags": [
         "ibm_created",
