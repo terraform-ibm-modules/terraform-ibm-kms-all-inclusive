@@ -202,7 +202,7 @@
                 },
                 {
                   "version_input": "use_existing_resource_group",
-                  "use_existing_resource_group": true
+                  "value": true
                 }
               ],
               "name": "deploy-arch-ibm-account-infra-base",
