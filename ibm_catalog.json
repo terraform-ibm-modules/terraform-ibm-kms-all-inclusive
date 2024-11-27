@@ -2,7 +2,7 @@
   "products": [
     {
       "name": "testing-deploy-arch-ibm-kms",
-      "label": "Testing - Cloud automation for Key Management Services",
+      "label": "[Addon-ons Beta] Cloud automation for Key Management Services",
       "product_kind": "solution",
       "tags": [
         "ibm_created",
@@ -22,7 +22,7 @@
         "solution"
       ],
       "short_description": "Creates and configures IBM Cloud Key Management resources",
-      "long_description": "This architecture supports creating and configuring an IBM Key Protect instance, Key Rings, and Keys.",
+      "long_description": "Looking for the released version? Go [here](https://cloud.ibm.com/catalog/7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3/architecture/deploy-arch-ibm-kms-2cad4789-fa90-4886-9c9e-857081c273ee-global). Stay here if you want to try an experimental version with upcoming features. \n\nThis architecture supports creating and configuring an IBM Key Protect instance, Key Rings, and Keys.",
       "offering_docs_url": "https://github.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive/blob/main/solutions/standard/README.md",
       "offering_icon_url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive/main/images/key_protect_icon.svg",
       "provider_name": "IBM",
