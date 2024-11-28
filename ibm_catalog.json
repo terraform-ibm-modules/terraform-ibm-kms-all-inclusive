@@ -76,7 +76,6 @@
             {
               "key": "region",
               "required": true,
-              "default_value": "",
               "options": [
                 {
                   "displayname": "Dallas (us-south)",
@@ -190,6 +189,7 @@
           },
           "dependencies": [
             {
+              "name": "deploy-arch-ibm-account-infra-base",
               "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
               "flavors": [
                 "standard"
@@ -205,7 +205,27 @@
                   "value": true
                 }
               ],
+              "optional": true,
+              "on_by_default": true,
+              "version": "^1.11.6"
+            },
+            {
               "name": "deploy-arch-ibm-account-infra-base",
+              "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
+              "flavors": [
+                "standard"
+              ],
+              "id": "63641cec-6093-4b4f-b7b0-98d2f4185cd6-global",
+              "input_mapping": [
+                {
+                  "dependency_output": "security_resource_group_name",
+                  "version_input": "resource_group_name"
+                },
+                {
+                  "version_input": "use_existing_resource_group",
+                  "value": true
+                }
+              ],
               "optional": true,
               "on_by_default": true,
               "version": "^1.11.6"
