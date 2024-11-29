@@ -50,7 +50,7 @@ locals {
 module "key_protect" {
   count                             = var.create_key_protect_instance ? 1 : 0
   source                            = "terraform-ibm-modules/key-protect/ibm"
-  version                           = "2.8.7"
+  version                           = "2.8.8"
   key_protect_name                  = var.key_protect_instance_name
   region                            = var.region
   allowed_network                   = var.key_protect_allowed_network
@@ -170,7 +170,7 @@ locals {
 module "cbr_rule" {
   count            = length(var.cbr_rules)
   source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module"
-  version          = "1.28.1"
+  version          = "1.29.0"
   rule_description = var.cbr_rules[count.index].description
   enforcement_mode = var.cbr_rules[count.index].enforcement_mode
   rule_contexts    = var.cbr_rules[count.index].rule_contexts
