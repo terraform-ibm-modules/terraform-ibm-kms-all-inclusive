@@ -17,10 +17,16 @@ output "kms_guid" {
   value       = module.kms.kms_guid
 }
 
+output "kms_account_id" {
+  description = "The account ID of the KMS instance."
+  value       = module.kms.kms_account_id
+}
+
 output "key_protect_id" {
   description = "Key Protect instance ID when an instance is created, otherwise null"
   value       = module.kms.key_protect_id
 }
+
 output "kms_instance_crn" {
   value       = var.existing_kms_instance_crn == null ? module.kms.key_protect_crn : var.existing_kms_instance_crn
   description = "The CRN of the Hyper Protect Crypto Service instance or Key Protect instance"

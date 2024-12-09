@@ -7,6 +7,11 @@ output "kms_guid" {
   value       = local.kms_guid
 }
 
+output "kms_account_id" {
+  description = "The account ID of the KMS instance."
+  value       = local.kms_account_id
+}
+
 output "key_protect_id" {
   description = "Key Protect service instance ID when an instance is created, otherwise null"
   value       = can(module.key_protect[0].key_protect_id) ? module.key_protect[0].key_protect_id : null
