@@ -11,6 +11,7 @@ locals {
 
   parsed_existing_kms_instance_crn = var.existing_kms_instance_crn != null ? split(":", var.existing_kms_instance_crn) : []
   existing_kms_instance_guid       = length(local.parsed_existing_kms_instance_crn) > 0 ? local.parsed_existing_kms_instance_crn[7] : null
+  existing_kms_account_id          = length(local.parsed_existing_kms_instance_crn) > 0 ? split("/", local.parsed_existing_kms_instance_crn[6])[1] : null
 
   # variable validation around new instance vs existing
   instance_validate_condition = var.create_key_protect_instance && local.existing_kms_instance_guid != null
@@ -26,6 +27,9 @@ locals {
 
   # set key_protect_guid as either the ID of the passed in name of instance or the one created by this module
   kms_guid = var.create_key_protect_instance ? module.key_protect[0].key_protect_guid : local.existing_kms_instance_guid
+
+  # set kms_account_id as either the ID of the passed in instance or the one created by this module
+  kms_account_id = var.create_key_protect_instance ? module.key_protect[0].key_protect_account_id : local.existing_kms_account_id
 
   # set key_protect_crn as either the crn of the passed in name of instance or the one created by this module
   kms_crn = var.create_key_protect_instance ? module.key_protect[0].key_protect_crn : var.existing_kms_instance_crn
@@ -50,7 +54,7 @@ locals {
 module "key_protect" {
   count                             = var.create_key_protect_instance ? 1 : 0
   source                            = "terraform-ibm-modules/key-protect/ibm"
-  version                           = "2.8.8"
+  version                           = "2.9.0"
   key_protect_name                  = var.key_protect_instance_name
   region                            = var.region
   allowed_network                   = var.key_protect_allowed_network

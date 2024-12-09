@@ -17,6 +17,11 @@ output "key_protect_guid" {
   value       = module.key_protect_all_inclusive.kms_guid
 }
 
+output "key_protect_account_id" {
+  description = "The account ID of the Key Protect instance."
+  value       = module.key_protect_all_inclusive.kms_account_id
+}
+
 output "key_protect_name" {
   description = "Key Protect Name"
   value       = module.key_protect_all_inclusive.key_protect_name
