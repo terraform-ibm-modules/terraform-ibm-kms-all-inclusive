@@ -18,7 +18,7 @@ The `cbr_rules` input variable allows you to provide a list of rules for the tar
   - `description` (required): The description of the rule to create.
   - `account_id` (required): The IBM Cloud Account ID
   - `rule_contexts` (required): (List) The contexts the rule applies to
-      - `attributes` (optional): (List) Individual context attributes 
+      - `attributes` (optional): (List) Individual context attributes
         - `name` (required): The attribute name.
         - `value`(required): The attribute value.
 
@@ -41,7 +41,7 @@ cbr_rules = [
           }]
         }]
   enforcement_mode = "enabled"
-  operations = [{ 
+  operations = [{
     api_types = [{
      api_type_id = "crn:v1:bluemix:public:context-based-restrictions::::api-type:"
       }]
@@ -49,4 +49,3 @@ cbr_rules = [
   }
 ]
 ```
-

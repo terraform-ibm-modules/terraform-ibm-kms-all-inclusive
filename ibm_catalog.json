@@ -85,7 +85,7 @@
             {
               "key": "use_existing_resource_group"
             },
-            
+
             {
               "key": "resource_group_name"
             },
@@ -141,7 +141,7 @@
             },
             {
               "key":"cbr_rules"
-            }, 
+            },
             {
               "key": "key_protect_instance_name"
             },
