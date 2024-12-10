@@ -149,7 +149,7 @@ For more info, see [Understanding user roles and resources](https://cloud.ibm.co
 |------|--------|---------|
 | <a name="module_cbr_rule"></a> [cbr\_rule](#module\_cbr\_rule) | terraform-ibm-modules/cbr/ibm//modules/cbr-rule-module | 1.29.0 |
 | <a name="module_existing_key_ring_keys"></a> [existing\_key\_ring\_keys](#module\_existing\_key\_ring\_keys) | terraform-ibm-modules/kms-key/ibm | v1.2.4 |
-| <a name="module_key_protect"></a> [key\_protect](#module\_key\_protect) | terraform-ibm-modules/key-protect/ibm | 2.8.8 |
+| <a name="module_key_protect"></a> [key\_protect](#module\_key\_protect) | terraform-ibm-modules/key-protect/ibm | 2.9.0 |
 | <a name="module_kms_key_rings"></a> [kms\_key\_rings](#module\_kms\_key\_rings) | terraform-ibm-modules/kms-key-ring/ibm | v2.5.0 |
 | <a name="module_kms_keys"></a> [kms\_keys](#module\_kms\_keys) | terraform-ibm-modules/kms-key/ibm | v1.2.4 |
 
@@ -194,6 +194,7 @@ For more info, see [Understanding user roles and resources](https://cloud.ibm.co
 | <a name="output_key_protect_name"></a> [key\_protect\_name](#output\_key\_protect\_name) | Key Protect Name |
 | <a name="output_key_rings"></a> [key\_rings](#output\_key\_rings) | IDs of new Key Rings created by the module |
 | <a name="output_keys"></a> [keys](#output\_keys) | IDs of new Keys created by the module |
+| <a name="output_kms_account_id"></a> [kms\_account\_id](#output\_kms\_account\_id) | The account ID of the KMS instance. |
 | <a name="output_kms_guid"></a> [kms\_guid](#output\_kms\_guid) | KMS GUID |
 | <a name="output_kms_private_endpoint"></a> [kms\_private\_endpoint](#output\_kms\_private\_endpoint) | Key Management Service instance private endpoint URL |
 | <a name="output_kms_public_endpoint"></a> [kms\_public\_endpoint](#output\_kms\_public\_endpoint) | Key Management Service instance public endpoint URL |
