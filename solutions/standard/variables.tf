@@ -136,7 +136,7 @@ variable "cbr_rules" {
       }))
     })))
   }))
-  description = "(Optional, list) List of context-based restrictions rules to create"
+  description = "(Optional, list) List of context-based restrictions rules to create. [Learn more](https://github.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive/tree/main/solutions/standard/DA-types.md)"
   default     = []
   # Validation happens in the rule module
   # NOTE: Context-based restrictions rule applies to Key Protect instances and is not supported for HPCS instances
