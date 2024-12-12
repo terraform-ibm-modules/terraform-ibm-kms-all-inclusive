@@ -17,6 +17,7 @@ variable "use_existing_resource_group" {
 variable "resource_group_name" {
   type        = string
   description = "The name of a new or an existing resource group in which to provision key management resources to. If a prefix input variable is specified, it's added to the value in the `<prefix>-value` format."
+  default     = "kms-rg"
 }
 
 variable "region" {
@@ -27,8 +28,8 @@ variable "region" {
 
 variable "prefix" {
   type        = string
-  description = "(Optional) Prefix to append to all resources created by this solution."
-  default     = null
+  description = "Prefix to append to all resources created by this solution."
+  default     = ""
 }
 
 ########################################################################################################################

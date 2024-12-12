@@ -67,10 +67,14 @@
             },
             {
               "key": "use_existing_resource_group",
-              "required": true
+              "required": false
             },
             {
               "key": "resource_group_name",
+              "required": false
+            },
+            {
+              "key": "prefix",
               "required": true
             },
             {
@@ -118,9 +122,6 @@
                   "value": "us-east"
                 }
               ]
-            },
-            {
-              "key": "prefix"
             },
             {
               "key": "key_protect_instance_name"
