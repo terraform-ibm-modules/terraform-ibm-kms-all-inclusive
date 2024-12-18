@@ -54,5 +54,5 @@ output "kms_public_endpoint" {
 
 output "cbr_rule_ids" {
   description = "CBR rule ids created to restrict Key Protect"
-  value       = length(module.cbr_rule[*]) > 0 ? module.cbr_rule[*].rule_id : null
+  value       = length(module.key_protect[*]) > 0 ? module.key_protect[0].cbr_rule_ids : null
 }
