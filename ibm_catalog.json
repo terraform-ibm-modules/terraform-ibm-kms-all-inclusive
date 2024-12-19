@@ -139,9 +139,7 @@
             {
               "key": "prefix"
             },
-            {
-              "key":"cbr_rules"
-            },
+
             {
               "key": "key_protect_instance_name"
             },
@@ -182,6 +180,9 @@
             },
             {
               "key": "keys"
+            },
+            {
+              "key":"cbr_rules"
             }
           ],
           "architecture": {
