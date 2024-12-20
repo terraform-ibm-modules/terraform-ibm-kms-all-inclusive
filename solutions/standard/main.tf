@@ -40,4 +40,5 @@ module "kms" {
   resource_tags                     = var.resource_tags
   access_tags                       = var.access_tags
   keys                              = var.keys
+  cbr_rules                         = var.cbr_rules
 }
