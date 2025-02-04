@@ -5,7 +5,7 @@
 module "resource_group" {
   source                       = "terraform-ibm-modules/resource-group/ibm"
   version                      = "1.1.6"
-  resource_group_name          = var.use_existing_resource_group == false ? (var.prefix != null ? "${var.prefix}-${var.resource_group_name}" : var.resource_group_name) : null
+  resource_group_name          = var.use_existing_resource_group == false ? try("${local.prefix}-${var.resource_group_name}", var.resource_group_name) : null
   existing_resource_group_name = var.use_existing_resource_group == true ? var.resource_group_name : null
 }
 
@@ -18,6 +18,7 @@ locals {
   existing_kms_guid                = length(local.parsed_existing_kms_instance_crn) > 0 ? local.parsed_existing_kms_instance_crn[7] : null
   kp_endpoint_type                 = var.key_protect_allowed_network == "private-only" ? "private" : "public"
   kms_endpoint_type                = var.existing_kms_instance_crn != null ? var.kms_endpoint_type : local.kp_endpoint_type
+  prefix                           = var.prefix != null ? (var.prefix != "" ? var.prefix : null) : null
 }
 
 module "kms" {
@@ -26,7 +27,7 @@ module "kms" {
   region                            = var.region
   create_key_protect_instance       = local.existing_kms_guid != null ? false : true
   existing_kms_instance_crn         = var.existing_kms_instance_crn
-  key_protect_instance_name         = var.prefix != null ? "${var.prefix}-${var.key_protect_instance_name}" : var.key_protect_instance_name
+  key_protect_instance_name         = try("${local.prefix}-${var.key_protect_instance_name}", var.key_protect_instance_name)
   key_protect_plan                  = "tiered-pricing"
   rotation_enabled                  = true
   rotation_interval_month           = var.rotation_interval_month
