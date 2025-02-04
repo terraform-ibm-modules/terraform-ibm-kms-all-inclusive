@@ -85,7 +85,6 @@
             {
               "key": "use_existing_resource_group"
             },
-
             {
               "key": "resource_group_name"
             },
@@ -137,9 +136,10 @@
               ]
             },
             {
-              "key": "prefix"
+              "key": "prefix",
+              "required": true,
+              "description": "The prefix to add to all resources that this solution creates. To not use any prefix value, you can enter the string `__NULL__`."
             },
-
             {
               "key": "key_protect_instance_name"
             },
@@ -182,7 +182,7 @@
               "key": "keys"
             },
             {
-              "key":"cbr_rules"
+              "key": "cbr_rules"
             }
           ],
           "architecture": {
