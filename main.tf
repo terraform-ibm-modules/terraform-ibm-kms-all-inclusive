@@ -54,7 +54,7 @@ locals {
 module "key_protect" {
   count                             = var.create_key_protect_instance ? 1 : 0
   source                            = "terraform-ibm-modules/key-protect/ibm"
-  version                           = "2.9.0"
+  version                           = "2.10.0"
   key_protect_name                  = var.key_protect_instance_name
   region                            = var.region
   allowed_network                   = var.key_protect_allowed_network
@@ -123,7 +123,7 @@ locals {
 # Create Key Rings and Keys
 module "kms_keys" {
   source                   = "terraform-ibm-modules/kms-key/ibm"
-  version                  = "v1.3.0"
+  version                  = "v1.3.1"
   for_each                 = { for obj in local.key_ring_key_list : "${obj.key_ring_name}.${obj.key_name}" => obj }
   endpoint_type            = var.key_endpoint_type
   kms_instance_id          = local.kms_guid
@@ -143,7 +143,7 @@ moved {
 # Create Keys in existing Key Rings
 module "existing_key_ring_keys" {
   source                   = "terraform-ibm-modules/kms-key/ibm"
-  version                  = "v1.3.0"
+  version                  = "v1.3.1"
   for_each                 = { for obj in local.existing_key_ring_key_list : "existing-key-ring.${obj.key_name}" => obj }
   kms_instance_id          = local.kms_guid
   endpoint_type            = var.key_endpoint_type
