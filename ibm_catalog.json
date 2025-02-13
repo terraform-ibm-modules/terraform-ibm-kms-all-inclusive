@@ -163,6 +163,9 @@
               "key": "access_tags"
             },
             {
+              "key": "rotation_interval_month"
+            },
+            {
               "key": "existing_kms_instance_crn"
             },
             {
