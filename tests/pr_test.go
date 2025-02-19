@@ -2,9 +2,18 @@
 package test
 
 import (
+	"bytes"
+	"crypto/ecdsa"
+	"crypto/elliptic"
+	"crypto/rand"
+	"crypto/x509"
+	"crypto/x509/pkix"
+	"encoding/pem"
 	"log"
+	"math/big"
 	"os"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/common"
@@ -21,6 +30,7 @@ const advancedExampleTerraformDir = "examples/advanced"
 const yamlLocation = "../common-dev-assets/common-go-assets/common-permanent-resources.yaml"
 
 var permanentResources map[string]interface{}
+var kmipCert string
 
 func TestMain(m *testing.M) {
 	// Read the YAML file contents
@@ -28,6 +38,13 @@ func TestMain(m *testing.M) {
 	permanentResources, err = common.LoadMapFromYaml(yamlLocation)
 	if err != nil {
 		log.Fatal(err)
+	}
+
+	// generate certificate for KMIP
+	var certErr error
+	kmipCert, certErr = genNewTlsCert()
+	if certErr != nil {
+		log.Fatal(certErr)
 	}
 
 	os.Exit(m.Run())
@@ -58,7 +75,7 @@ func TestDASolutionInSchematics(t *testing.T) {
 		{Name: "resource_group_name", Value: options.Prefix, DataType: "string"},
 		{Name: "resource_tags", Value: options.Tags, DataType: "list(string)"},
 		{Name: "access_tags", Value: permanentResources["accessTags"], DataType: "list(string)"},
-		{Name: "keys", Value: []map[string]interface{}{{"key_ring_name": "my-key-ring", "keys": []map[string]interface{}{{"key_name": "some-key-name-1"}, {"key_name": "some-key-name-2"}}}}, DataType: "list(object)"},
+		{Name: "keys", Value: []map[string]interface{}{{"key_ring_name": "my-key-ring", "keys": []map[string]interface{}{{"key_name": "some-key-name-1", "kmip": []map[string]interface{}{{"name": "kmip-adapter-1", "certificates": []map[string]interface{}{{"certificate": kmipCert}}}}}, {"key_name": "some-key-name-2"}}}}, DataType: "list(object)"},
 		{Name: "prefix", Value: options.Prefix, DataType: "string"},
 	}
 
@@ -119,4 +136,46 @@ func TestRunAdvanceExample(t *testing.T) {
 
 	err := options.RunSchematicTest()
 	assert.Nil(t, err, "This should not have errored")
+}
+
+// helper function to create a valid self-signed TLS cert for https server
+// inspriation from this example: https://go.dev/src/crypto/tls/generate_cert.go
+// outputs: cert, error
+func genNewTlsCert() (string, error) {
+
+	// CREATE THE TLS CERT
+	cert := &x509.Certificate{
+		SerialNumber: big.NewInt(1658),
+		Subject: pkix.Name{
+			Organization: []string{"IBM"},
+		},
+		NotBefore:   time.Now(),
+		NotAfter:    time.Now().AddDate(0, 1, 0), // 1 month
+		ExtKeyUsage: []x509.ExtKeyUsage{x509.ExtKeyUsageServerAuth},
+		KeyUsage:    x509.KeyUsageDigitalSignature,
+		IsCA:        true,
+	}
+
+	certPrivKey, certPrivErr := ecdsa.GenerateKey(elliptic.P256(), rand.Reader)
+	if certPrivErr != nil {
+		return "", certPrivErr
+	}
+
+	// SELF SIGN THE CERT
+	certBytes, certBytesErr := x509.CreateCertificate(rand.Reader, cert, cert, &certPrivKey.PublicKey, certPrivKey)
+	if certBytesErr != nil {
+		return "", certBytesErr
+	}
+
+	// PEM ENCODE
+	certPEM := new(bytes.Buffer)
+	pemErr := pem.Encode(certPEM, &pem.Block{
+		Type:  "CERTIFICATE",
+		Bytes: certBytes,
+	})
+	if pemErr != nil {
+		return "", pemErr
+	}
+
+	return certPEM.String(), nil
 }

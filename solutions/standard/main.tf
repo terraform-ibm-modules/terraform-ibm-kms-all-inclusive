@@ -28,7 +28,7 @@ module "kms" {
   create_key_protect_instance       = local.existing_kms_guid != null ? false : true
   existing_kms_instance_crn         = var.existing_kms_instance_crn
   key_protect_instance_name         = try("${local.prefix}-${var.key_protect_instance_name}", var.key_protect_instance_name)
-  key_protect_plan                  = "tiered-pricing"
+  key_protect_plan                  = var.key_protect_plan
   rotation_enabled                  = true
   rotation_interval_month           = var.rotation_interval_month
   dual_auth_delete_enabled          = false
