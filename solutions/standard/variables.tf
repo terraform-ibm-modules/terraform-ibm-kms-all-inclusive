@@ -51,6 +51,13 @@ variable "key_protect_instance_name" {
   description = "The name to give the Key Protect instance that will be provisioned by this solution. Only used if not supplying an existing Key Protect or Hyper Protect Crypto Services instance. If a prefix input variable is specified, it's added to the value in the `<prefix>-value` format."
 }
 
+variable "key_protect_plan" {
+  type        = string
+  default     = "tiered-pricing"
+  description = "The service plan of the Key Protect instance that will be provisioned by this solution. Only used if not supplying an existing Key Protect or Hyper Protect Crypto Services instance."
+  # validation performed in root module
+}
+
 variable "key_protect_allowed_network" {
   type        = string
   description = "The type of the allowed network to be set for the Key Protect instance. Possible values: `private-only`, `public-and-private`. Applies only if an existing Key Protect or Hyper Protect Crypto Services instance is not specified."
@@ -110,9 +117,18 @@ variable "keys" {
       rotation_interval_month  = optional(number, 1)
       dual_auth_delete_enabled = optional(bool, false)
       force_delete             = optional(bool, true)
+      kmip = optional(list(object({
+        name        = string
+        description = optional(string)
+        certificates = optional(list(object({
+          name        = optional(string)
+          certificate = string
+        })), [])
+      })), [])
     }))
   }))
   description = "A list of key ring objects each containing one or more key objects. [Learn more](https://github.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive/tree/main/solutions/standard/DA-keys.md)."
+  sensitive   = true
   default     = []
 }
 
