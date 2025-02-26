@@ -57,7 +57,7 @@ func TestDASolutionInSchematics(t *testing.T) {
 		{Name: "ibmcloud_api_key", Value: options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
 		{Name: "resource_group_name", Value: options.Prefix, DataType: "string"},
 		{Name: "resource_tags", Value: options.Tags, DataType: "list(string)"},
-		{Name: "key_protect_access_tags", Value: permanentResources["accessTags"], DataType: "list(string)"},
+		{Name: "access_tags", Value: permanentResources["accessTags"], DataType: "list(string)"},
 		{Name: "keys", Value: []map[string]interface{}{{"key_ring_name": "my-key-ring", "keys": []map[string]interface{}{{"key_name": "some-key-name-1"}, {"key_name": "some-key-name-2"}}}}, DataType: "list(object)"},
 		{Name: "prefix", Value: options.Prefix, DataType: "string"},
 	}
