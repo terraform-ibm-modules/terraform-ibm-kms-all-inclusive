@@ -66,27 +66,12 @@
               "key": "ibmcloud_api_key"
             },
             {
-              "key": "provider_visibility",
-              "options": [
-                {
-                  "displayname": "private",
-                  "value": "private"
-                },
-                {
-                  "displayname": "public",
-                  "value": "public"
-                },
-                {
-                  "displayname": "public-and-private",
-                  "value": "public-and-private"
-                }
-              ]
+              "key": "use_existing_resource_group",
+              "required": true
             },
             {
-              "key": "use_existing_resource_group"
-            },
-            {
-              "key": "resource_group_name"
+              "key": "resource_group_name",
+              "required": true
             },
             {
               "key": "region",
@@ -141,6 +126,23 @@
               "description": "The prefix to add to all resources that this solution creates. To not use any prefix value, you can enter the string `__NULL__`."
             },
             {
+              "key": "provider_visibility",
+              "options": [
+                {
+                  "displayname": "private",
+                  "value": "private"
+                },
+                {
+                  "displayname": "public",
+                  "value": "public"
+                },
+                {
+                  "displayname": "public-and-private",
+                  "value": "public-and-private"
+                }
+              ]
+            },
+            {
               "key": "key_protect_instance_name"
             },
             {
@@ -157,10 +159,24 @@
               ]
             },
             {
-              "key": "resource_tags"
+              "key": "key_protect_resource_tags",
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "type": "string"
+                }
+              }
             },
             {
-              "key": "access_tags"
+              "key": "key_protect_access_tags",
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "type": "string"
+                }
+              }
             },
             {
               "key": "rotation_interval_month"
@@ -185,7 +201,7 @@
               "key": "keys"
             },
             {
-              "key": "cbr_rules"
+              "key": "key_protect_instance_cbr_rules"
             }
           ],
           "architecture": {

@@ -38,8 +38,8 @@ module "kms" {
   key_protect_allowed_network       = var.key_protect_allowed_network
   key_ring_endpoint_type            = local.kms_endpoint_type
   key_endpoint_type                 = local.kms_endpoint_type
-  resource_tags                     = var.resource_tags
-  access_tags                       = var.access_tags
+  resource_tags                     = var.key_protect_resource_tags
+  access_tags                       = var.key_protect_access_tags
   keys                              = var.keys
-  cbr_rules                         = var.cbr_rules
+  cbr_rules                         = var.key_protect_instance_cbr_rules
 }
