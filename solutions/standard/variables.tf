@@ -37,7 +37,7 @@ variable "region" {
 
 variable "prefix" {
   type        = string
-  description = "The prefix to add to all resources that this solution creates.If prefix input variable is specified, it's added to the resource name in the `<prefix>-value` format.To not use any prefix value, you can set this value to `null` or an empty string."
+  description = "The prefix to add to all resources that this solution creates. If prefix input variable is specified, it's added to the resource name in the `<prefix>-name` format. To not use any prefix value, you can set this value to `null` or an empty string."
   default     = "dev"
 }
 
