@@ -37,7 +37,7 @@ variable "region" {
 
 variable "prefix" {
   type        = string
-  description = "The prefix to add to all resources that this solution creates. To not use any prefix value, you can set this value to `null` or an empty string."
+  description = "The prefix to add to all resources that this solution creates.If prefix input variable is specified, it's added to the resource name in the `<prefix>-value` format.To not use any prefix value, you can set this value to `null` or an empty string."
   default     = "dev"
 }
 
@@ -61,13 +61,13 @@ variable "key_protect_allowed_network" {
   }
 }
 
-variable "resource_tags" {
+variable "key_protect_resource_tags" {
   type        = list(string)
   description = "Optional list of tags to be added to the Key Protect instance. Only used if not supplying an existing Key Protect or Hyper Protect Crypto Services instance."
   default     = []
 }
 
-variable "access_tags" {
+variable "key_protect_access_tags" {
   type        = list(string)
   description = "Optional list of access tags to apply to the Key Protect instance. Only used if not supplying an existing Key Protect or Hyper Protect Crypto Services instance."
   default     = []
@@ -120,7 +120,7 @@ variable "keys" {
 # Context-based restriction (CBR)
 ##############################################################
 
-variable "cbr_rules" {
+variable "key_protect_instance_cbr_rules" {
   type = list(object({
     description = string
     account_id  = string
