@@ -47,7 +47,7 @@ variable "prefix" {
 
 variable "key_protect_instance_name" {
   type        = string
-  default     = "base-security-services-kms"
+  default     = "key-protect"
   description = "The name to give the Key Protect instance that will be provisioned by this solution. Only used if not supplying an existing Key Protect or Hyper Protect Crypto Services instance. If a prefix input variable is specified, it's added to the value in the `<prefix>-value` format."
 }
 
