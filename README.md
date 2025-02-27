@@ -59,10 +59,6 @@ To achieve compliance, you can write logic to call the module multiple times for
 
 One emerging pattern is to use one KMS instance per VPC. All workloads in the VPC access the KMS instance through a VPE binding. This simple approach ensures network segmentation. A drawback is that this approach creates more KMS instances than necessary, in some case.
 
-### Key Protect service plans
-
-The Key protect service offers two service plans for service instances, `tiered-pricing` and `cross-region-resiliency`. For more details on the available service plans, see [Key Protect pricing plan](https://cloud.ibm.com/docs/key-protect?topic=key-protect-pricing-plan).
-
 ### Usage
 
 ```hcl

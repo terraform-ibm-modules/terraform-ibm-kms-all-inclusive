@@ -55,7 +55,16 @@ variable "key_protect_plan" {
   type        = string
   default     = "tiered-pricing"
   description = "The service plan of the Key Protect instance that will be provisioned by this solution. Only used if not supplying an existing Key Protect or Hyper Protect Crypto Services instance."
-  # validation performed in root module
+
+  validation {
+    condition     = contains(["tiered-pricing", "cross-region-resiliency"], var.key_protect_plan)
+    error_message = "`key_protect_plan` must be one of: 'tiered-pricing', 'cross-region-resiliency'."
+  }
+
+  validation {
+    condition     = var.key_protect_plan == "tiered-pricing" ? true : (var.key_protect_plan == "cross-region-resiliency" && contains(["us-south", "eu-de", "jp-tok"], var.region))
+    error_message = "'cross-region-resiliency' is only available for the following regions: 'us-south', 'eu-de', 'jp-tok'."
+  }
 }
 
 variable "key_protect_allowed_network" {

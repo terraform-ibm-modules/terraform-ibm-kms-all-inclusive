@@ -2,18 +2,9 @@
 package test
 
 import (
-	"bytes"
-	"crypto/ecdsa"
-	"crypto/elliptic"
-	"crypto/rand"
-	"crypto/x509"
-	"crypto/x509/pkix"
-	"encoding/pem"
 	"log"
-	"math/big"
 	"os"
 	"testing"
-	"time"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/common"
@@ -30,7 +21,6 @@ const advancedExampleTerraformDir = "examples/advanced"
 const yamlLocation = "../common-dev-assets/common-go-assets/common-permanent-resources.yaml"
 
 var permanentResources map[string]interface{}
-var kmipCert string
 
 func TestMain(m *testing.M) {
 	// Read the YAML file contents
@@ -38,13 +28,6 @@ func TestMain(m *testing.M) {
 	permanentResources, err = common.LoadMapFromYaml(yamlLocation)
 	if err != nil {
 		log.Fatal(err)
-	}
-
-	// generate certificate for KMIP
-	var certErr error
-	kmipCert, certErr = genNewTlsCert()
-	if certErr != nil {
-		log.Fatal(certErr)
 	}
 
 	os.Exit(m.Run())
@@ -114,7 +97,7 @@ func TestRunAdvanceExample(t *testing.T) {
 
 	options := testschematic.TestSchematicOptionsDefault(&testschematic.TestSchematicOptions{
 		Testing: t,
-		Prefix:  "kms-all-inc-advanced",
+		Prefix:  "kms-all-inc-adv",
 		TarIncludePatterns: []string{
 			"*.tf",
 			advancedExampleTerraformDir + "/*.tf",
@@ -132,50 +115,10 @@ func TestRunAdvanceExample(t *testing.T) {
 		{Name: "region", Value: options.Region, DataType: "string"},
 		{Name: "prefix", Value: options.Prefix, DataType: "string"},
 		{Name: "resource_group", Value: options.ResourceGroup, DataType: "string"},
+		{Name: "existing_secrets_manager_crn", Value: permanentResources["secretsManagerCRN"], DataType: "string"},
+		{Name: "existing_cert_template_name", Value: permanentResources["privateCertTemplateName"], DataType: "string"},
 	}
 
 	err := options.RunSchematicTest()
 	assert.Nil(t, err, "This should not have errored")
-}
-
-// helper function to create a valid self-signed TLS cert for https server
-// inspriation from this example: https://go.dev/src/crypto/tls/generate_cert.go
-// outputs: cert, error
-func genNewTlsCert() (string, error) {
-
-	// CREATE THE TLS CERT
-	cert := &x509.Certificate{
-		SerialNumber: big.NewInt(1658),
-		Subject: pkix.Name{
-			Organization: []string{"IBM"},
-		},
-		NotBefore:   time.Now(),
-		NotAfter:    time.Now().AddDate(0, 1, 0), // 1 month
-		ExtKeyUsage: []x509.ExtKeyUsage{x509.ExtKeyUsageServerAuth},
-		KeyUsage:    x509.KeyUsageDigitalSignature,
-		IsCA:        true,
-	}
-
-	certPrivKey, certPrivErr := ecdsa.GenerateKey(elliptic.P256(), rand.Reader)
-	if certPrivErr != nil {
-		return "", certPrivErr
-	}
-
-	// SELF SIGN THE CERT
-	certBytes, certBytesErr := x509.CreateCertificate(rand.Reader, cert, cert, &certPrivKey.PublicKey, certPrivKey)
-	if certBytesErr != nil {
-		return "", certBytesErr
-	}
-
-	// PEM ENCODE
-	certPEM := new(bytes.Buffer)
-	pemErr := pem.Encode(certPEM, &pem.Block{
-		Type:  "CERTIFICATE",
-		Bytes: certBytes,
-	})
-	if pemErr != nil {
-		return "", pemErr
-	}
-
-	return certPEM.String(), nil
 }
