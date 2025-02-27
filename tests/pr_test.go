@@ -73,9 +73,9 @@ func TestDASolutionInSchematics(t *testing.T) {
 	options.TerraformVars = []testschematic.TestSchematicTerraformVar{
 		{Name: "ibmcloud_api_key", Value: options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
 		{Name: "resource_group_name", Value: options.Prefix, DataType: "string"},
-		{Name: "resource_tags", Value: options.Tags, DataType: "list(string)"},
-		{Name: "access_tags", Value: permanentResources["accessTags"], DataType: "list(string)"},
-		{Name: "keys", Value: []map[string]interface{}{{"key_ring_name": "my-key-ring", "keys": []map[string]interface{}{{"key_name": "some-key-name-1", "kmip": []map[string]interface{}{{"name": "kmip-adapter-1", "certificates": []map[string]interface{}{{"certificate": kmipCert}}}}}, {"key_name": "some-key-name-2"}}}}, DataType: "list(object)"},
+		{Name: "key_protect_resource_tags", Value: options.Tags, DataType: "list(string)"},
+		{Name: "key_protect_access_tags", Value: permanentResources["accessTags"], DataType: "list(string)"},
+		{Name: "keys", Value: []map[string]interface{}{{"key_ring_name": "my-key-ring", "keys": []map[string]interface{}{{"key_name": "some-key-name-1"}, {"key_name": "some-key-name-2"}}}}, DataType: "list(object)"},
 		{Name: "prefix", Value: options.Prefix, DataType: "string"},
 	}
 
@@ -98,7 +98,7 @@ func TestRunUpgradeDASolution(t *testing.T) {
 		"provider_visibility":       "public",
 		"existing_kms_instance_crn": permanentResources["hpcs_south_crn"],
 		"keys":                      []map[string]interface{}{{"key_ring_name": "my-key-ring", "keys": []map[string]interface{}{{"key_name": "some-key-name-1"}, {"key_name": "some-key-name-2"}}}},
-		"resource_tags":             []string{"kms-da-upg"},
+		"key_protect_resource_tags": []string{"kms-da-upg"},
 	}
 
 	options.TerraformVars = terraformVars
