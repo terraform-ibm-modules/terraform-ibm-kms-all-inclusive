@@ -33,3 +33,15 @@ variable "access_tags" {
   description = "A list of access tags to apply to the Key Protect instance created by the module."
   default     = []
 }
+
+variable "existing_secrets_manager_crn" {
+  type        = string
+  description = "CRN of an existing Secrets Manager instance"
+  default     = null
+}
+
+variable "existing_cert_template_name" {
+  type        = string
+  description = "Name of an existing Private Certificate template to use, required if providing a value for `existing_secrets_manager_crn`"
+  default     = null
+}

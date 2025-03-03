@@ -97,7 +97,7 @@ func TestRunAdvanceExample(t *testing.T) {
 
 	options := testschematic.TestSchematicOptionsDefault(&testschematic.TestSchematicOptions{
 		Testing: t,
-		Prefix:  "kms-all-inc-advanced",
+		Prefix:  "kms-all-inc-adv",
 		TarIncludePatterns: []string{
 			"*.tf",
 			advancedExampleTerraformDir + "/*.tf",
@@ -115,6 +115,8 @@ func TestRunAdvanceExample(t *testing.T) {
 		{Name: "region", Value: options.Region, DataType: "string"},
 		{Name: "prefix", Value: options.Prefix, DataType: "string"},
 		{Name: "resource_group", Value: options.ResourceGroup, DataType: "string"},
+		{Name: "existing_secrets_manager_crn", Value: permanentResources["secretsManagerCRN"], DataType: "string"},
+		{Name: "existing_cert_template_name", Value: permanentResources["privateCertTemplateName"], DataType: "string"},
 	}
 
 	err := options.RunSchematicTest()

@@ -87,7 +87,7 @@ locals {
 module "kms_key_rings" {
   source        = "terraform-ibm-modules/kms-key-ring/ibm"
   version       = "v2.5.0"
-  for_each      = { for obj in local.key_rings : obj.key_ring_name => obj }
+  for_each      = { for obj in nonsensitive(local.key_rings) : obj.key_ring_name => obj }
   instance_id   = local.kms_guid
   endpoint_type = var.key_ring_endpoint_type
   key_ring_id   = each.value.key_ring_name
@@ -124,7 +124,7 @@ locals {
 module "kms_keys" {
   source                   = "terraform-ibm-modules/kms-key/ibm"
   version                  = "v1.4.0"
-  for_each                 = { for obj in local.key_ring_key_list : "${obj.key_ring_name}.${obj.key_name}" => obj }
+  for_each                 = { for obj in nonsensitive(local.key_ring_key_list) : "${obj.key_ring_name}.${obj.key_name}" => obj }
   endpoint_type            = var.key_endpoint_type
   kms_instance_id          = local.kms_guid
   key_name                 = each.value.key_name
@@ -133,6 +133,7 @@ module "kms_keys" {
   standard_key             = each.value.standard_key
   rotation_interval_month  = each.value.rotation_interval_month
   dual_auth_delete_enabled = each.value.dual_auth_delete_enabled
+  kmip                     = each.value.kmip
 }
 
 moved {
@@ -144,7 +145,7 @@ moved {
 module "existing_key_ring_keys" {
   source                   = "terraform-ibm-modules/kms-key/ibm"
   version                  = "v1.4.0"
-  for_each                 = { for obj in local.existing_key_ring_key_list : "existing-key-ring.${obj.key_name}" => obj }
+  for_each                 = { for obj in nonsensitive(local.existing_key_ring_key_list) : "existing-key-ring.${obj.key_name}" => obj }
   kms_instance_id          = local.kms_guid
   endpoint_type            = var.key_endpoint_type
   key_name                 = each.value.key_name
@@ -153,6 +154,7 @@ module "existing_key_ring_keys" {
   standard_key             = each.value.standard_key
   rotation_interval_month  = each.value.rotation_interval_month
   dual_auth_delete_enabled = each.value.dual_auth_delete_enabled
+  kmip                     = each.value.kmip
 }
 
 ##############################################################################

@@ -146,6 +146,19 @@
               "key": "key_protect_instance_name"
             },
             {
+              "key": "key_protect_plan",
+              "options": [
+                {
+                  "displayname": "Tiered Pricing",
+                  "value": "tiered-pricing"
+                },
+                {
+                  "displayname": "Cross Region Resiliency",
+                  "value": "cross-region-resiliency"
+                }
+              ]
+            },
+            {
               "key": "key_protect_allowed_network",
               "options": [
                 {

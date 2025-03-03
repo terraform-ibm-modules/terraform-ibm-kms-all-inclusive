@@ -27,13 +27,9 @@ variable "key_protect_instance_name" {
 
 variable "key_protect_plan" {
   type        = string
-  description = "Plan for the Key Protect instance. Currently only 'tiered-pricing' is supported. Only used if 'create_key_protect_instance' is true."
+  description = "Plan for the Key Protect instance. Supported values are 'tiered-pricing' and 'cross-region-resiliency'. Only used if 'create_key_protect_instance' is true."
   default     = "tiered-pricing"
-
-  validation {
-    condition     = can(regex("^tiered-pricing$", var.key_protect_plan))
-    error_message = "Currently the only supported value for plan is 'tiered-pricing'."
-  }
+  # validation performed in terraform-ibm-key-protect module
 }
 
 variable "rotation_enabled" {
@@ -104,9 +100,18 @@ variable "keys" {
       rotation_interval_month  = optional(number, 1)
       dual_auth_delete_enabled = optional(bool, false)
       force_delete             = optional(bool, false)
+      kmip = optional(list(object({
+        name        = string
+        description = optional(string)
+        certificates = optional(list(object({
+          name        = optional(string)
+          certificate = string
+        })), [])
+      })), [])
     }))
   }))
   description = "A list of objects which contain the key ring name, a flag indicating if this key ring already exists, and a flag to enable force deletion of the key ring. In addition, this object contains a list of keys with all of the information on the keys to be created in that key ring."
+  sensitive   = true
   default     = []
 }
 

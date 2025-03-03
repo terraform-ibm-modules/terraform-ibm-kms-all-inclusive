@@ -59,7 +59,6 @@ To achieve compliance, you can write logic to call the module multiple times for
 
 One emerging pattern is to use one KMS instance per VPC. All workloads in the VPC access the KMS instance through a VPE binding. This simple approach ensures network segmentation. A drawback is that this approach creates more KMS instances than necessary, in some case.
 
-
 ### Usage
 
 ```hcl
@@ -72,6 +71,7 @@ module "kms_all_inclusive" {
   source                    = "terraform-ibm-modules/kms-all-inclusive/ibm"
   version                   = "X.X.X" # replace "X.X.X" with a release version to lock into a specific release
   key_protect_instance_name = "my-key-protect-instance"
+  key_protect_plan          = "tiered-pricing" # or "cross-region-resiliency"
   resource_group_id         = "xxXXxxXXxXxXXXXxxXxxxXXXXxXXXXX"
   region                    = "us-south"
   keys = [
@@ -173,9 +173,9 @@ For more info, see [Understanding user roles and resources](https://cloud.ibm.co
 | <a name="input_key_endpoint_type"></a> [key\_endpoint\_type](#input\_key\_endpoint\_type) | The type of endpoint to be used for creating keys. Accepts 'public' or 'private' | `string` | `"public"` | no |
 | <a name="input_key_protect_allowed_network"></a> [key\_protect\_allowed\_network](#input\_key\_protect\_allowed\_network) | The type of the allowed network to be set for the Key Protect instance. Possible values are 'private-only', or 'public-and-private'. Only used if 'create\_key\_protect\_instance' is true. | `string` | `"public-and-private"` | no |
 | <a name="input_key_protect_instance_name"></a> [key\_protect\_instance\_name](#input\_key\_protect\_instance\_name) | The name to give the Key Protect instance that will be provisioned by this module. Only used if 'create\_key\_protect\_instance' is true. | `string` | `"key-protect"` | no |
-| <a name="input_key_protect_plan"></a> [key\_protect\_plan](#input\_key\_protect\_plan) | Plan for the Key Protect instance. Currently only 'tiered-pricing' is supported. Only used if 'create\_key\_protect\_instance' is true. | `string` | `"tiered-pricing"` | no |
+| <a name="input_key_protect_plan"></a> [key\_protect\_plan](#input\_key\_protect\_plan) | Plan for the Key Protect instance. Supported values are 'tiered-pricing' and 'cross-region-resiliency'. Only used if 'create\_key\_protect\_instance' is true. | `string` | `"tiered-pricing"` | no |
 | <a name="input_key_ring_endpoint_type"></a> [key\_ring\_endpoint\_type](#input\_key\_ring\_endpoint\_type) | The type of endpoint to be used for creating key rings. Accepts 'public' or 'private' | `string` | `"public"` | no |
-| <a name="input_keys"></a> [keys](#input\_keys) | A list of objects which contain the key ring name, a flag indicating if this key ring already exists, and a flag to enable force deletion of the key ring. In addition, this object contains a list of keys with all of the information on the keys to be created in that key ring. | <pre>list(object({<br/>    key_ring_name     = string<br/>    existing_key_ring = optional(bool, false)<br/>    keys = list(object({<br/>      key_name                 = string<br/>      standard_key             = optional(bool, false)<br/>      rotation_interval_month  = optional(number, 1)<br/>      dual_auth_delete_enabled = optional(bool, false)<br/>      force_delete             = optional(bool, false)<br/>    }))<br/>  }))</pre> | `[]` | no |
+| <a name="input_keys"></a> [keys](#input\_keys) | A list of objects which contain the key ring name, a flag indicating if this key ring already exists, and a flag to enable force deletion of the key ring. In addition, this object contains a list of keys with all of the information on the keys to be created in that key ring. | <pre>list(object({<br/>    key_ring_name     = string<br/>    existing_key_ring = optional(bool, false)<br/>    keys = list(object({<br/>      key_name                 = string<br/>      standard_key             = optional(bool, false)<br/>      rotation_interval_month  = optional(number, 1)<br/>      dual_auth_delete_enabled = optional(bool, false)<br/>      force_delete             = optional(bool, false)<br/>      kmip = optional(list(object({<br/>        name        = string<br/>        description = optional(string)<br/>        certificates = optional(list(object({<br/>          name        = optional(string)<br/>          certificate = string<br/>        })), [])<br/>      })), [])<br/>    }))<br/>  }))</pre> | `[]` | no |
 | <a name="input_region"></a> [region](#input\_region) | The IBM Cloud region where all resources will be provisioned. | `string` | n/a | yes |
 | <a name="input_resource_group_id"></a> [resource\_group\_id](#input\_resource\_group\_id) | The ID of the Resource Group to provision the Key Protect instance in. Not required if 'create\_key\_protect\_instance' is false. | `string` | `null` | no |
 | <a name="input_resource_tags"></a> [resource\_tags](#input\_resource\_tags) | Optional list of tags to be added to the Key Protect instance. Only used if 'create\_key\_protect\_instance' is true. | `list(string)` | `[]` | no |
