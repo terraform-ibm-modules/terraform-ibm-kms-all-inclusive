@@ -18,15 +18,12 @@ variable "provider_visibility" {
     error_message = "Invalid visibility option. Allowed values are 'public', 'private', or 'public-and-private'."
   }
 }
-variable "use_existing_resource_group" {
-  type        = bool
-  description = "Whether to use an existing resource group."
-  default     = false
-}
 
-variable "resource_group_name" {
+variable "existing_resource_group_name" {
   type        = string
   description = "The name of a new or an existing resource group in which to provision key management resources to. If a prefix input variable is specified, it's added to the value in the `<prefix>-value` format."
+  default     = "Default"
+  nullable    = false
 }
 
 variable "region" {
@@ -102,7 +99,7 @@ variable "rotation_interval_month" {
 variable "existing_kms_instance_crn" {
   type        = string
   default     = null
-  description = "The CRN of the existed Hyper Protect Crypto Services or Key Protect instance. If not supplied, a new instance will be created."
+  description = "The CRN of the existing Hyper Protect Crypto Services or Key Protect instance. If not supplied, a new instance will be created."
 }
 
 variable "kms_endpoint_type" {
