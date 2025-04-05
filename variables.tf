@@ -17,6 +17,17 @@ variable "create_key_protect_instance" {
   type        = bool
   description = "A flag to control whether a Key Protect instance is created, defaults to true."
   default     = true
+
+  validation {
+    condition     = var.create_key_protect_instance ? var.resource_group_id != null : true
+    error_message = "Must provide a value for `resource_group_id` if `create_key_protect_instance` is true."
+  }
+
+  validation {
+    condition     = (var.create_key_protect_instance && var.existing_kms_instance_crn == null) || (!var.create_key_protect_instance && var.existing_kms_instance_crn != null)
+    error_message = "`existing_kms_instance_crn` must be null if `create_key_protect_instance` is true."
+  }
+
 }
 
 variable "key_protect_instance_name" {
@@ -171,4 +182,10 @@ variable "cbr_rules" {
   default     = []
   # Validation happens in the rule module
   # NOTE: Context-based restrictions rule applies to Key Protect instances and is not supported for HPCS instances
+
+  validation {
+    # condition     = (length(regexall(".*hs-crypto.*", var.existing_kms_instance_crn)) > 0 && length(var.cbr_rules) == 0) || (length(regexall(".*kms.*", var.existing_kms_instance_crn)) > 0) || (var.existing_kms_instance_crn == null)
+    condition     = var.existing_kms_instance_crn == null ? true : length(regexall(".*hscrypto.*", var.existing_kms_instance_crn)) > 0 ? length(var.cbr_rules) == 0 : true
+    error_message = "When passing an HPCS instance as value for `existing_kms_instance_crn` you cannot provid `cbr_rules`. Context-based restrictions is not supported for HPCS instances. For more information, see https://cloud.ibm.com/docs/account?topic=account-context-restrictions-whatis#cbr-adopters for the services that supports CBR."
+  }
 }
