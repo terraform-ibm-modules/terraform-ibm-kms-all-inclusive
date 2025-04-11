@@ -2,19 +2,20 @@
 package test
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/common"
-	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testhelper"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testschematic"
 )
 
 // Use existing resource group for tests
 const resourceGroup = "geretain-test-key-protect-all-inclusive"
-const solutionDADir = "solutions/standard"
+const fullyConfigurableDADir = "solutions/fully-configurable"
+const securityEnforcedDADir = "solutions/security-enforced"
 const advancedExampleTerraformDir = "examples/advanced"
 
 // Define a struct with fields that match the structure of the YAML data
@@ -33,88 +34,72 @@ func TestMain(m *testing.M) {
 	os.Exit(m.Run())
 }
 
-func TestDASolutionInSchematics(t *testing.T) {
-	t.Parallel()
-
-	const region = "us-south"
-
+func setupSchematicOptions(t *testing.T, prefix string, dir string) *testschematic.TestSchematicOptions {
 	options := testschematic.TestSchematicOptionsDefault(&testschematic.TestSchematicOptions{
-		Testing: t,
-		Prefix:  "kp-solution",
-		TarIncludePatterns: []string{
-			"*.tf",
-			solutionDADir + "/*.tf",
-		},
-		ResourceGroup:          resourceGroup,
-		TemplateFolder:         solutionDADir,
+		Testing:                t,
+		TarIncludePatterns:     []string{"*.tf", fmt.Sprintf("%s/*.tf", dir)},
+		TemplateFolder:         dir,
+		Prefix:                 prefix,
 		Tags:                   []string{"test-schematic"},
 		DeleteWorkspaceOnFail:  false,
 		WaitJobCompleteMinutes: 60,
-		Region:                 region,
 	})
 
 	options.TerraformVars = []testschematic.TestSchematicTerraformVar{
 		{Name: "ibmcloud_api_key", Value: options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
-		{Name: "resource_group_name", Value: options.Prefix, DataType: "string"},
+		{Name: "existing_resource_group_name", Value: resourceGroup, DataType: "string"},
 		{Name: "key_protect_resource_tags", Value: options.Tags, DataType: "list(string)"},
 		{Name: "key_protect_access_tags", Value: permanentResources["accessTags"], DataType: "list(string)"},
 		{Name: "keys", Value: []map[string]interface{}{{"key_ring_name": "my-key-ring", "keys": []map[string]interface{}{{"key_name": "some-key-name-1"}, {"key_name": "some-key-name-2"}}}}, DataType: "list(object)"},
 		{Name: "prefix", Value: options.Prefix, DataType: "string"},
+		{Name: "region", Value: options.Region, DataType: "string"},
 	}
+
+	return options
+}
+
+func TestRunFullyConfigurableDA(t *testing.T) {
+	t.Parallel()
+
+	options := setupSchematicOptions(t, "kms-fc-da", fullyConfigurableDADir)
 
 	err := options.RunSchematicTest()
-	assert.Nil(t, err, "This should not have errored")
+	assert.NoError(t, err, "Schematic Test had an unexpected error")
 }
 
-func TestRunUpgradeDASolution(t *testing.T) {
+func TestRunUpgradeFullyConfigurableDA(t *testing.T) {
 	t.Parallel()
 
-	options := testhelper.TestOptionsDefault(&testhelper.TestOptions{
-		Testing:      t,
-		TerraformDir: solutionDADir,
-		Prefix:       "kms-da-upg",
-	})
+	options := setupSchematicOptions(t, "kms-fc-da-upg", fullyConfigurableDADir)
 
-	terraformVars := map[string]interface{}{
-		"resource_group_name":       options.Prefix,
-		"kms_endpoint_type":         "public",
-		"provider_visibility":       "public",
-		"existing_kms_instance_crn": permanentResources["hpcs_south_crn"],
-		"keys":                      []map[string]interface{}{{"key_ring_name": "my-key-ring", "keys": []map[string]interface{}{{"key_name": "some-key-name-1"}, {"key_name": "some-key-name-2"}}}},
-		"key_protect_resource_tags": []string{"kms-da-upg"},
-	}
-
-	options.TerraformVars = terraformVars
-	output, err := options.RunTestUpgrade()
+	err := options.RunSchematicUpgradeTest()
 	if !options.UpgradeTestSkipped {
-		assert.Nil(t, err, "This should not have errored")
-		assert.NotNil(t, output, "Expected some output")
+		assert.NoError(t, err, "Schematic Test had an unexpected error")
 	}
 }
 
-func TestRunAdvanceExample(t *testing.T) {
+func TestRunSecurityEnforcedDA(t *testing.T) {
 	t.Parallel()
 
-	options := testschematic.TestSchematicOptionsDefault(&testschematic.TestSchematicOptions{
-		Testing: t,
-		Prefix:  "kms-all-inc-adv",
-		TarIncludePatterns: []string{
-			"*.tf",
-			advancedExampleTerraformDir + "/*.tf",
-		},
+	options := setupSchematicOptions(t, "kms-se-da", securityEnforcedDADir)
+	options.TarIncludePatterns = append(options.TarIncludePatterns, fmt.Sprintf("%s/*.tf", fullyConfigurableDADir))
+	additionalOptions := []testschematic.TestSchematicTerraformVar{
+		{Name: "existing_kms_instance_crn", Value: permanentResources["hpcs_south_crn"], DataType: "string"},
+	}
+	options.TerraformVars = append(options.TerraformVars, additionalOptions...)
 
-		ResourceGroup:          resourceGroup,
-		TemplateFolder:         advancedExampleTerraformDir,
-		Tags:                   []string{"test-schematic"},
-		DeleteWorkspaceOnFail:  false,
-		WaitJobCompleteMinutes: 60,
-	})
+	err := options.RunSchematicTest()
+	assert.NoError(t, err, "Schematic Test had an unexpected error")
+}
 
+func TestRunAdvancedExample(t *testing.T) {
+	t.Parallel()
+
+	options := setupSchematicOptions(t, "kms-adv", advancedExampleTerraformDir)
 	options.TerraformVars = []testschematic.TestSchematicTerraformVar{
 		{Name: "ibmcloud_api_key", Value: options.RequiredEnvironmentVars["TF_VAR_ibmcloud_api_key"], DataType: "string", Secure: true},
 		{Name: "region", Value: options.Region, DataType: "string"},
 		{Name: "prefix", Value: options.Prefix, DataType: "string"},
-		{Name: "resource_group", Value: options.ResourceGroup, DataType: "string"},
 		{Name: "existing_secrets_manager_crn", Value: permanentResources["secretsManagerCRN"], DataType: "string"},
 		{Name: "existing_cert_template_name", Value: permanentResources["privateCertTemplateName"], DataType: "string"},
 	}
