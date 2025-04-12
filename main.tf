@@ -86,7 +86,7 @@ locals {
 
 module "kms_key_rings" {
   source        = "terraform-ibm-modules/kms-key-ring/ibm"
-  version       = "v2.5.0"
+  version       = "v2.6.0"
   for_each      = { for obj in nonsensitive(local.key_rings) : obj.key_ring_name => obj }
   instance_id   = local.kms_guid
   endpoint_type = var.key_ring_endpoint_type
