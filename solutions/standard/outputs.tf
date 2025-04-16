@@ -13,7 +13,7 @@ output "resource_group_id" {
 }
 
 output "kms_guid" {
-  description = "Key Protect instance GUID or the KMS instance GUID if an existing KMS GUID was set"
+  description = "Key Protect instance GUID or the KMS instance GUID if existing_kms_instance_crn was set"
   value       = module.kms.kms_guid
 }
 
@@ -43,7 +43,7 @@ output "key_protect_instance_policies" {
 }
 
 output "key_rings" {
-  description = "IDs of Key Rings created by the solution"
+  description = "Key Rings created by the solution"
   value       = module.kms.key_rings
 }
 
