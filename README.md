@@ -191,10 +191,10 @@ For more info, see [Understanding user roles and resources](https://cloud.ibm.co
 | <a name="output_key_protect_id"></a> [key\_protect\_id](#output\_key\_protect\_id) | Key Protect service instance ID when an instance is created, otherwise null |
 | <a name="output_key_protect_instance_policies"></a> [key\_protect\_instance\_policies](#output\_key\_protect\_instance\_policies) | Instance Polices of the Key Protect instance |
 | <a name="output_key_protect_name"></a> [key\_protect\_name](#output\_key\_protect\_name) | Key Protect Name |
-| <a name="output_key_rings"></a> [key\_rings](#output\_key\_rings) | IDs of new Key Rings created by the module |
-| <a name="output_keys"></a> [keys](#output\_keys) | IDs of new Keys created by the module |
-| <a name="output_kms_account_id"></a> [kms\_account\_id](#output\_kms\_account\_id) | The account ID of the KMS instance. |
-| <a name="output_kms_guid"></a> [kms\_guid](#output\_kms\_guid) | KMS GUID |
+| <a name="output_key_rings"></a> [key\_rings](#output\_key\_rings) | Key Rings created by the module |
+| <a name="output_keys"></a> [keys](#output\_keys) | Keys created by the module |
+| <a name="output_kms_account_id"></a> [kms\_account\_id](#output\_kms\_account\_id) | The account ID of the Key Management Service instance. |
+| <a name="output_kms_guid"></a> [kms\_guid](#output\_kms\_guid) | Key Management Service GUID |
 | <a name="output_kms_private_endpoint"></a> [kms\_private\_endpoint](#output\_kms\_private\_endpoint) | Key Management Service instance private endpoint URL |
 | <a name="output_kms_public_endpoint"></a> [kms\_public\_endpoint](#output\_kms\_public\_endpoint) | Key Management Service instance public endpoint URL |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
