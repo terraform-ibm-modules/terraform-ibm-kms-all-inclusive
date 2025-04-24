@@ -3,12 +3,12 @@
 ##############################################################################
 
 output "kms_guid" {
-  description = "KMS GUID"
+  description = "Key Management Service GUID"
   value       = local.kms_guid
 }
 
 output "kms_account_id" {
-  description = "The account ID of the KMS instance."
+  description = "The account ID of the Key Management Service instance."
   value       = local.kms_account_id
 }
 
@@ -33,12 +33,12 @@ output "key_protect_instance_policies" {
 }
 
 output "key_rings" {
-  description = "IDs of new Key Rings created by the module"
+  description = "Key Rings created by the module"
   value       = module.kms_key_rings
 }
 
 output "keys" {
-  description = "IDs of new Keys created by the module"
+  description = "Keys created by the module"
   value       = merge(module.kms_keys, module.existing_key_ring_keys)
 }
 
