@@ -17,6 +17,11 @@ variable "create_key_protect_instance" {
   type        = bool
   description = "A flag to control whether a Key Protect instance is created, defaults to true."
   default     = true
+
+  validation {
+    condition     = !var.create_key_protect_instance || var.resource_group_id != null
+    error_message = "A value must be passed for 'resource_group_id' when 'create_key_protect_instance' is true"
+  }
 }
 
 variable "key_protect_instance_name" {
@@ -88,6 +93,16 @@ variable "existing_kms_instance_crn" {
   type        = string
   description = "The CRN of an existing Key Protect or Hyper Protect Crypto Services instance. Required if 'create_key_protect_instance' is false."
   default     = null
+
+  validation {
+    condition     = !(var.create_key_protect_instance && var.existing_kms_instance_crn != null)
+    error_message = "'create_key_protect_instance' cannot be true when passing a value for 'existing_kms_instance_crn'"
+  }
+
+  validation {
+    condition     = var.create_key_protect_instance || var.existing_kms_instance_crn != null
+    error_message = "A value must be provided for 'existing_kms_instance_crn' when 'create_key_protect_instance' is false"
+  }
 }
 
 variable "keys" {
