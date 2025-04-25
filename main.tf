@@ -3,9 +3,11 @@
 ##############################################################################
 
 locals {
+
   parsed_existing_kms_instance_crn = var.existing_kms_instance_crn != null ? split(":", var.existing_kms_instance_crn) : []
   existing_kms_instance_guid       = length(local.parsed_existing_kms_instance_crn) > 0 ? local.parsed_existing_kms_instance_crn[7] : null
   existing_kms_account_id          = length(local.parsed_existing_kms_instance_crn) > 0 ? split("/", local.parsed_existing_kms_instance_crn[6])[1] : null
+
   # set key_protect_guid as either the ID of the passed in name of instance or the one created by this module
   kms_guid = var.create_key_protect_instance ? module.key_protect[0].key_protect_guid : local.existing_kms_instance_guid
   # set kms_account_id as either the ID of the passed in instance or the one created by this module
