@@ -186,4 +186,10 @@ variable "cbr_rules" {
   default     = []
   # Validation happens in the rule module
   # NOTE: Context-based restrictions rule applies to Key Protect instances and is not supported for HPCS instances
+
+  validation {
+    # condition     = (length(regexall(".*hs-crypto.*", var.existing_kms_instance_crn)) > 0 && length(var.cbr_rules) == 0) || (length(regexall(".*kms.*", var.existing_kms_instance_crn)) > 0) || (var.existing_kms_instance_crn == null)
+    condition     = var.existing_kms_instance_crn == null ? true : length(regexall(".*hscrypto.*", var.existing_kms_instance_crn)) > 0 ? length(var.cbr_rules) == 0 : true
+    error_message = "When passing an HPCS instance as value for `existing_kms_instance_crn` you cannot provide `cbr_rules`. Context-based restrictions is not supported for HPCS instances. For more information, see https://cloud.ibm.com/docs/account?topic=account-context-restrictions-whatis#cbr-adopters for the services that supports CBR."
+  }
 }

@@ -10,14 +10,8 @@ locals {
 
   # set key_protect_guid as either the ID of the passed in name of instance or the one created by this module
   kms_guid = var.create_key_protect_instance ? module.key_protect[0].key_protect_guid : local.existing_kms_instance_guid
-
   # set kms_account_id as either the ID of the passed in instance or the one created by this module
   kms_account_id = var.create_key_protect_instance ? module.key_protect[0].key_protect_account_id : local.existing_kms_account_id
-
-  # set key_protect_crn as either the crn of the passed in name of instance or the one created by this module
-  kms_crn = var.create_key_protect_instance ? module.key_protect[0].key_protect_crn : var.existing_kms_instance_crn
-  # tflint-ignore: terraform_unused_declarations
-  cbr_validation = length(regexall(".*hs-crypto.*", local.kms_crn)) > 0 && length(var.cbr_rules) > 0 ? tobool("When passing an HPCS instance as value for `existing_kms_instance_crn` you cannot provide `cbr_rules`. Context-based restrictions is not supported for HPCS instances. For more information, see https://cloud.ibm.com/docs/account?topic=account-context-restrictions-whatis#cbr-adopters for the services that supports CBR") : true
 }
 
 ##############################################################################

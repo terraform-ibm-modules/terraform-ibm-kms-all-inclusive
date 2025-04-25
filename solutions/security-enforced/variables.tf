@@ -18,15 +18,12 @@ variable "provider_visibility" {
     error_message = "Invalid visibility option. Allowed values are 'public', 'private', or 'public-and-private'."
   }
 }
-variable "use_existing_resource_group" {
-  type        = bool
-  description = "Whether to use an existing resource group."
-  default     = false
-}
 
-variable "resource_group_name" {
+variable "existing_resource_group_name" {
   type        = string
   description = "The name of a new or an existing resource group in which to provision key management resources to. If a prefix input variable is specified, it's added to the value in the `<prefix>-value` format."
+  default     = "Default"
+  nullable    = false
 }
 
 variable "region" {
@@ -38,7 +35,7 @@ variable "region" {
 variable "prefix" {
   type        = string
   description = "The prefix to add to all resources that this solution creates. To not use any prefix value, you can set this value to `null` or an empty string."
-  default     = "dev"
+  default     = null
 }
 
 ########################################################################################################################
@@ -67,16 +64,6 @@ variable "key_protect_plan" {
   }
 }
 
-variable "key_protect_allowed_network" {
-  type        = string
-  description = "The type of the allowed network to be set for the Key Protect instance. Possible values: `private-only`, `public-and-private`. Applies only if an existing Key Protect or Hyper Protect Crypto Services instance is not specified."
-  default     = "private-only"
-  validation {
-    condition     = can(regex("private-only|public-and-private", var.key_protect_allowed_network))
-    error_message = "The key_protect_allowed_network value must be 'private-only' or 'public-and-private'."
-  }
-}
-
 variable "key_protect_resource_tags" {
   type        = list(string)
   description = "Optional list of tags to be added to the Key Protect instance. Only used if not supplying an existing Key Protect or Hyper Protect Crypto Services instance."
@@ -102,14 +89,7 @@ variable "rotation_interval_month" {
 variable "existing_kms_instance_crn" {
   type        = string
   default     = null
-  description = "The CRN of the existed Hyper Protect Crypto Services or Key Protect instance. If not supplied, a new instance will be created."
-}
-
-variable "kms_endpoint_type" {
-  type        = string
-  description = "The type of endpoint to use for creating keys and key rings in the existing Hyper Protect Crypto Services or Key Protect instance. Possible values: `public`, `private`. Applies only if an existing Hyper Protect Crypto Services or Key Protect instance is specified."
-  default     = "private"
-  # validation is performed in root module
+  description = "The CRN of the existing Hyper Protect Crypto Services or Key Protect instance. If not supplied, a new instance will be created."
 }
 
 ########################################################################################################################
