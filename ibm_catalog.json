@@ -242,7 +242,44 @@
                 "description": "This architecture supports creating and configuring IBM Key Management resources"
               }
             ]
+          },
+          "dependencies": [
+          {
+            "name": "deploy-arch-ibm-account-infra-base",
+            "description": "Use Accounts Base as a general base layer module for setting up resource groups. If not using this, then provide existing resource groups.",
+            "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
+            "flavors": [
+              "resource-group-only"
+            ],
+            "id": "63641cec-6093-4b4f-b7b0-98d2f4185cd6-global",
+            "input_mapping": [
+              {
+                "dependency_output": "global_resource_group_name",
+                "version_input": "existing_resource_group_name"
+              },
+              {
+                "dependency_input": "global_resource_group_name",
+                "value": "security-rg"
+              },
+              {
+                "dependency_input": "provider_visibility",
+                "version_input": "provider_visibility",
+                "reference_version": true
+              },
+              {
+                "version_input": "use_existing_resource_group",
+                "value": true
+              }
+            ],
+            "ignore_auto_referencing": [
+              "*"
+            ],
+            "optional": true,
+            "on_by_default": true,
+            "version": "v2.2.3"
           }
+        ],
+          "dependency_version_2": true
         },
         {
           "label": "Security enforced",
