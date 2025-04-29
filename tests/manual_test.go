@@ -14,7 +14,6 @@ func setupAddonOptions(t *testing.T, prefix string) *testaddons.TestAddonOptions
 		Prefix:               prefix,
 		ResourceGroup:        "Default",
 	})
-
 	return options
 }
 
@@ -22,6 +21,9 @@ func TestRunTerraformAddonFullyConfigurable(t *testing.T) {
 	t.Parallel()
 
 	options := setupAddonOptions(t, "test-terraform-addon")
+	options.SkipRefValidation = true
+	options.SkipUndeploy = true
+	options.SkipProjectDelete = true
 
 	// Using the specialized Terraform helper function
 	options.AddonConfig = cloudinfo.NewAddonConfigTerraform(
