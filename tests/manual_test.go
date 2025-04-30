@@ -10,9 +10,9 @@ import (
 
 func setupAddonOptions(t *testing.T, prefix string) *testaddons.TestAddonOptions {
 	options := testaddons.TestAddonsOptionsDefault(&testaddons.TestAddonOptions{
-		Testing:              t,
-		Prefix:               prefix,
-		ResourceGroup:        "Default",
+		Testing:       t,
+		Prefix:        prefix,
+		ResourceGroup: "Default",
 	})
 	return options
 }
@@ -28,11 +28,11 @@ func TestRunTerraformAddonFullyConfigurable(t *testing.T) {
 	// Using the specialized Terraform helper function
 	options.AddonConfig = cloudinfo.NewAddonConfigTerraform(
 		options.Prefix,        // prefix for unique resource naming
-		"deploy-arch-ibm-kms",           // offering name
-		"fully-configurable",          // offering flavor
+		"deploy-arch-ibm-kms", // offering name
+		"fully-configurable",  // offering flavor
 		map[string]interface{}{ // inputs
-			"prefix": options.Prefix,
-			"region": "us-south",
+			"prefix":                       options.Prefix,
+			"region":                       "us-south",
 			"existing_resource_group_name": options.ResourceGroup,
 		},
 	)
@@ -40,4 +40,3 @@ func TestRunTerraformAddonFullyConfigurable(t *testing.T) {
 	err := options.RunAddonTest()
 	assert.Nil(t, err, "This should not have errored")
 }
-
