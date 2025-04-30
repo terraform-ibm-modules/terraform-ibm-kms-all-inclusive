@@ -129,6 +129,13 @@
               "required": true
             },
             {
+              "key": "global_resource_group_name",
+              "required": false,
+              "default_value": "__NULL__",
+              "display_name": "Global Resource Group Name",
+              "description": "Provide Global Resource Group Name if you want to use the single resource group across your project configuration. If not, then default resource groups will be used."
+            },
+            {
               "key": "provider_visibility",
               "options": [
                 {
@@ -202,6 +209,7 @@
             },
             {
               "key": "kms_endpoint_type",
+              "hidden": true,
               "options": [
                 {
                   "displayname": "Public",
@@ -219,6 +227,7 @@
             {
               "key": "key_protect_instance_cbr_rules"
             }
+
           ],
           "architecture": {
             "descriptions": "This architecture supports creating and configuring an Key Protect instance.",
@@ -246,20 +255,27 @@
           "dependencies": [
           {
             "name": "deploy-arch-ibm-account-infra-base",
-            "description": "Use Accounts Base as a general base layer module for setting up resource groups. If not using this, then provide existing resource groups.",
+            "description": "Use Accounts Base as a general base layer module for setting up resource groups. If not using this, then manually configure resource groups.",
             "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
             "flavors": [
-              "resource-group-only"
+              "resource-group-only", "fully-configurable"
             ],
+            "default_flavor": "resource-group-only",
             "id": "63641cec-6093-4b4f-b7b0-98d2f4185cd6-global",
             "input_mapping": [
               {
-                "dependency_output": "global_resource_group_name",
+                "dependency_output": "security_resource_group_name",
                 "version_input": "existing_resource_group_name"
               },
               {
                 "dependency_input": "global_resource_group_name",
-                "value": "security-rg"
+                "version_input": "global_resource_group_name",
+                "reference_version": true
+              },
+              {
+                "dependency_input": "prefix",
+                "version_input": "prefix",
+                "reference_version": true
               },
               {
                 "dependency_input": "provider_visibility",
@@ -271,232 +287,10 @@
                 "value": true
               }
             ],
-            "ignore_auto_referencing": [
-              "*"
-            ],
-            "optional": true,
-            "on_by_default": true,
+            "optional": false,
             "version": "v2.2.3"
           }
         ],
-          "dependency_version_2": true
-        },
-        {
-          "label": "Security enforced",
-          "name": "security-enforced",
-          "install_type": "fullstack",
-          "working_directory": "solutions/security-enforced",
-          "compliance": {
-            "authority": "scc-v3",
-            "profiles": [
-              {
-                "profile_name": "CIS IBM Cloud Foundations Benchmark v1.1.0",
-                "profile_version": "1.1.0"
-              }
-            ]
-          },
-          "iam_permissions": [
-            {
-              "role_crns": [
-                "crn:v1:bluemix:public:iam::::serviceRole:Manager",
-                "crn:v1:bluemix:public:iam::::role:Editor"
-              ],
-              "service_name": "kms"
-            }
-          ],
-          "configuration": [
-            {
-              "key": "ibmcloud_api_key"
-            },
-            {
-              "key": "existing_resource_group_name",
-              "required": true,
-              "custom_config": {
-                "type": "resource_group",
-                "grouping": "deployment",
-                "original_grouping": "deployment",
-                "config_constraints": {
-                  "identifier": "rg_name"
-                }
-              }
-            },
-            {
-              "key": "region",
-              "required": true,
-              "default_value": "",
-              "options": [
-                {
-                  "displayname": "Dallas (us-south)",
-                  "value": "us-south"
-                },
-                {
-                  "displayname": "Frankfurt (eu-de)",
-                  "value": "eu-de"
-                },
-                {
-                  "displayname": "London (eu-gb)",
-                  "value": "eu-gb"
-                },
-                {
-                  "displayname": "Madrid (eu-es)",
-                  "value": "eu-es"
-                },
-                {
-                  "displayname": "Osaka (jp-osa)",
-                  "value": "jp-osa"
-                },
-                {
-                  "displayname": "Sao Paulo (br-sao)",
-                  "value": "br-sao"
-                },
-                {
-                  "displayname": "Sydney (au-syd)",
-                  "value": "au-syd"
-                },
-                {
-                  "displayname": "Tokyo (jp-tok)",
-                  "value": "jp-tok"
-                },
-                {
-                  "displayname": "Toronto (ca-tor)",
-                  "value": "ca-tor"
-                },
-                {
-                  "displayname": "Washington (us-east)",
-                  "value": "us-east"
-                }
-              ]
-            },
-            {
-              "key": "prefix",
-              "required": true,
-              "description": "The prefix to add to all resources that this solution creates. To not use any prefix value, you can enter the string `__NULL__`."
-            },
-            {
-              "key": "provider_visibility",
-              "options": [
-                {
-                  "displayname": "private",
-                  "value": "private"
-                },
-                {
-                  "displayname": "public",
-                  "value": "public"
-                },
-                {
-                  "displayname": "public-and-private",
-                  "value": "public-and-private"
-                }
-              ]
-            },
-            {
-              "key": "key_protect_instance_name"
-            },
-            {
-              "key": "key_protect_plan",
-              "options": [
-                {
-                  "displayname": "Tiered Pricing",
-                  "value": "tiered-pricing"
-                },
-                {
-                  "displayname": "Cross Region Resiliency",
-                  "value": "cross-region-resiliency"
-                }
-              ]
-            },
-            {
-              "key": "key_protect_resource_tags",
-              "custom_config": {
-                "grouping": "deployment",
-                "original_grouping": "deployment",
-                "config_constraints": {
-                  "type": "string"
-                }
-              }
-            },
-            {
-              "key": "key_protect_access_tags",
-              "custom_config": {
-                "grouping": "deployment",
-                "original_grouping": "deployment",
-                "config_constraints": {
-                  "type": "string"
-                }
-              }
-            },
-            {
-              "key": "rotation_interval_month"
-            },
-            {
-              "key": "existing_kms_instance_crn"
-            },
-            {
-              "key": "keys"
-            },
-            {
-              "key": "key_protect_instance_cbr_rules"
-            }
-          ],
-          "architecture": {
-            "descriptions": "This architecture supports creating and configuring an Key Protect instance.",
-            "features": [
-              {
-                "title": "Creates a Key Protect instance.",
-                "description": "Creates and configures a Key Protect instance."
-              },
-              {
-                "title": "Creates Key Rings and Keys",
-                "description": "Creates Key Rings and Keys in a KMS instance (Key Protect or HPCS)."
-              }
-            ],
-            "diagrams": [
-              {
-                "diagram": {
-                  "caption": "IBM Key Management Services",
-                  "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive/main/reference-architecture/key_protect.svg",
-                  "type": "image/svg+xml"
-                },
-                "description": "This architecture supports creating and configuring IBM Key Management resources"
-              }
-            ]
-          },
-          "dependencies": [
-            {
-              "name": "deploy-arch-ibm-account-infra-base",
-              "description": "Use Accounts Base as a general base layer module for setting up resource groups. If not using this, then provide existing resource groups.",
-              "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
-              "flavors": [
-                "resource-group-only"
-              ],
-              "id": "63641cec-6093-4b4f-b7b0-98d2f4185cd6-global",
-              "input_mapping": [
-                {
-                  "dependency_output": "global_resource_group_name",
-                  "version_input": "existing_resource_group_name"
-                },
-                {
-                  "dependency_input": "global_resource_group_name",
-                  "value": "security-rg"
-                },
-                {
-                  "dependency_input": "provider_visibility",
-                  "version_input": "provider_visibility",
-                  "reference_version": true
-                },
-                {
-                  "version_input": "use_existing_resource_group",
-                  "value": true
-                }
-              ],
-              "ignore_auto_referencing": [
-                "*"
-              ],
-              "optional": true,
-              "on_by_default": true,
-              "version": "v2.2.3"
-            }
-          ],
           "dependency_version_2": true
         }
       ]
