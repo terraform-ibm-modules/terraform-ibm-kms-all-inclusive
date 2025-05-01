@@ -133,7 +133,8 @@
               "display_name": "Single Resource Group",
               "required": false,
               "default_value": "Default",
-              "description": "Provide Global Resource Group Name if you want to use the single resource group across your project configuration. If not, then default resource groups will be used."
+              "description": "Provide Global Resource Group Name if you want to use the single resource group across your project configuration. If not, then default resource groups will be used.",
+              "virtual": true
             },
             {
               "key": "provider_visibility",
