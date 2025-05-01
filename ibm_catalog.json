@@ -2,7 +2,7 @@
   "products": [
     {
       "name": "deploy-arch-ibm-kms",
-      "label": "Cloud automation for Key Management Services",
+      "label": "Cloud automation for Key Protect",
       "product_kind": "solution",
       "tags": [
         "ibm_created",
@@ -67,7 +67,7 @@
             },
             {
               "key": "existing_resource_group_name",
-              "required": true,
+              "required": false,
               "custom_config": {
                 "type": "resource_group",
                 "grouping": "deployment",
@@ -130,9 +130,9 @@
             },
             {
               "key": "global_resource_group_name",
+              "display_name": "Single Resource Group",
               "required": false,
-              "default_value": "__NULL__",
-              "display_name": "Global Resource Group Name",
+              "default_value": "Default",
               "description": "Provide Global Resource Group Name if you want to use the single resource group across your project configuration. If not, then default resource groups will be used."
             },
             {
@@ -255,7 +255,7 @@
           "dependencies": [
           {
             "name": "deploy-arch-ibm-account-infra-base",
-            "description": "Use Accounts Base as a general base layer module for setting up resource groups. If not using this, then manually configure resource groups.",
+            "description": "Use Accounts Base as a general base layer module for setting up resource groups. If not using this, then manually configure resource groups.\n- **Resource Groups Only Variation**: Only deploys or manages resource groups for this DA\n- **Fully Configurable**: Deploys or manages resource groups for this DA and configures xyz on the account ",
             "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
             "flavors": [
               "resource-group-only", "fully-configurable"
