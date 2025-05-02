@@ -77,7 +77,7 @@
                   "identifier": "rg_name"
                 }
               },
-              "hidden": true
+              "hidden": false
             },
             {
               "key": "resource_group_name",
