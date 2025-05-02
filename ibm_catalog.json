@@ -257,7 +257,7 @@
           "dependencies": [
           {
             "name": "deploy-arch-ibm-account-infra-base",
-            "description": "<p>Sets up foundational infrastructure in your IBM Cloud account to organize and secure your environment.</p><ul>  <li><strong>Resource groups only</strong> – Creates structured resource groups for organizing cloud resources.</li>  <li><strong>Resource groups with Account Settings</strong> – Also configures IAM, access control, and security policies.</li></ul><p><a href=\"https://github.com/terraform-ibm-modules/terraform-ibm-account-infrastructure-base/tree/main\" target=\"_blank\">Learn more</a></p>",
+            "description": "Sets up foundational infrastructure in your IBM Cloud account to organize and secure your environment. It has 2 variations. 'Resource groups only' creates structured resource groups for organizing cloud resources, and 'Resource groups with Account Settings' also configures IAM, access control, and security policies.",
             "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
             "flavors": [
               "resource-group-only", "fully-configurable"
