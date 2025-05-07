@@ -21,7 +21,7 @@ variable "provider_visibility" {
 
 variable "existing_resource_group_name" {
   type        = string
-  description = "The name of a new or an existing resource group in which to provision key management resources to. If a prefix input variable is specified, it's added to the value in the `<prefix>-value` format."
+  description = "The name of an existing resource group in which the Key Protect instance will be provisioned."
   default     = "Default"
   nullable    = false
 }
