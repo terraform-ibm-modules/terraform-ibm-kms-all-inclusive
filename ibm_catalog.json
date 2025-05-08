@@ -237,7 +237,7 @@
             }
           ],
           "architecture": {
-            "descriptions": "This architecture supports creating and configuring an Key Protect instance.",
+            "description": "This architecture supports creating and configuring an Key Protect instance.",
             "features": [
               {
                 "title": "Key Protect instance",
