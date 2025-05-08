@@ -6,8 +6,10 @@ CRA_TARGETS:
     PROFILE_ID: "48279384-3d29-4089-8259-8ed354774b4a"         # SCC profile ID (currently set to 'CIS IBM Cloud Foundations Benchmark v1.1.0' '1.1.0' profile).
     CRA_ENVIRONMENT_VARIABLES:  # An optional map of environment variables for CRA, where the key is the variable name and value is the value. Useful for providing TF_VARs.
       TF_VAR_provider_visibility: "public"
+      TF_VAR_prefix: "kms-fc"
   - CRA_TARGET: "solutions/security-enforced" # Target directory for CRA scan. If not provided, the CRA Scan will not be run.
     CRA_IGNORE_RULES_FILE: "cra-tf-validate-ignore-rules.json" # CRA Ignore file to use. If not provided, it checks the repo root directory for `cra-tf-validate-ignore-rules.json`
     PROFILE_ID: "48279384-3d29-4089-8259-8ed354774b4a"         # SCC profile ID (currently set to 'CIS IBM Cloud Foundations Benchmark v1.1.0' '1.1.0' profile).
     CRA_ENVIRONMENT_VARIABLES:  # An optional map of environment variables for CRA, where the key is the variable name and value is the value. Useful for providing TF_VARs.
       TF_VAR_provider_visibility: "public"
+      TF_VAR_prefix: "kms-se"
