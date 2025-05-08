@@ -237,7 +237,7 @@
             }
           ],
           "architecture": {
-            "description": "This architecture supports creating and configuring an Key Protect instance.",
+            "description": "This architecture supports creating and configuring a Key Protect instance.",
             "features": [
               {
                 "title": "Key Protect instance",
@@ -296,11 +296,11 @@
             ],
             "optional": true,
             "on_by_default": false,
-            "version": "v3.0.2"
+            "version": "v3.0.3"
           }
         ],
           "dependency_version_2": true,
-          "terraform_version": "1.9.0"
+          "terraform_version": "1.10.5"
         }
       ]
     }
