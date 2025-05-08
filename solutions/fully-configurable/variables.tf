@@ -157,7 +157,7 @@ variable "key_protect_instance_cbr_rules" {
       }))
     })))
   }))
-  description = "List of Context-Based Restriction rules to create for Key Protect instance. [Learn more](https://github.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive/blob/main/solutions/fully-configurable/DA-cbr_rules.md)"
+  description = "List of Context-Based Restriction rules to create for Key Protect instance. [Learn more](https://github.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive/blob/main/solutions/fully-configurable/DA-cbr_rules.md)."
   default     = []
   # NOTE: Context-based restrictions rule applies to Key Protect instances and is not supported for HPCS instances
 }
