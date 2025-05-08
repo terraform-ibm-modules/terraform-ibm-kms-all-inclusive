@@ -246,6 +246,10 @@
               {
                 "title": "Key Rings and Keys",
                 "description": "Creates Key Rings and Keys for either Key Protect or Hyper Protect Crypto Services instances."
+              },
+              {
+                "title": "Context-Based Restriction rules",
+                "description": "Creates Context-Based Restriction rules for Key Protect instance."
               }
             ],
             "diagrams": [
