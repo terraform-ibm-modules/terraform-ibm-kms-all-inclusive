@@ -21,7 +21,7 @@ variable "provider_visibility" {
 
 variable "existing_resource_group_name" {
   type        = string
-  description = "The name of a new or an existing resource group in which to provision key management resources to. If a prefix input variable is specified, it's added to the value in the `<prefix>-value` format."
+  description = "The name of an existing resource group in which the Key Protect instance will be provisioned."
   default     = "Default"
   nullable    = false
 }
@@ -35,7 +35,6 @@ variable "region" {
 variable "prefix" {
   type        = string
   description = "The prefix to add to all resources that this solution creates. To not use any prefix value, you can set this value to `null` or an empty string."
-  default     = null
 }
 
 ########################################################################################################################
@@ -99,7 +98,7 @@ variable "rotation_interval_month" {
 variable "existing_kms_instance_crn" {
   type        = string
   default     = null
-  description = "The CRN of the existing Hyper Protect Crypto Services or Key Protect instance. If not supplied, a new instance will be created."
+  description = "The CRN of the existing Key Protect or Hyper Protect Crypto Services instance. If not supplied, a new instance will be created."
 }
 
 variable "kms_endpoint_type" {
@@ -133,7 +132,7 @@ variable "keys" {
       })), [])
     }))
   }))
-  description = "A list of key ring objects each containing one or more key objects. [Learn more](https://github.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive/tree/main/solutions/standard/DA-keys.md)."
+  description = "A list of Key Ring objects each containing one or more Key objects. [Learn more](https://github.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive/blob/main/solutions/fully-configurable/DA-keys.md)."
   sensitive   = true
   default     = []
 }
@@ -158,7 +157,7 @@ variable "key_protect_instance_cbr_rules" {
       }))
     })))
   }))
-  description = "(Optional, list) List of context-based restrictions rules to create. [Learn more](https://github.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive/tree/main/solutions/standard/DA-cbr_rules.md)"
+  description = "List of Context-Based Restriction rules to create for Key Protect instance. [Learn more](https://github.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive/blob/main/solutions/fully-configurable/DA-cbr_rules.md)."
   default     = []
   # NOTE: Context-based restrictions rule applies to Key Protect instances and is not supported for HPCS instances
 }
