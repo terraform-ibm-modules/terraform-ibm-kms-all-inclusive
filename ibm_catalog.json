@@ -255,11 +255,11 @@
             "diagrams": [
               {
                 "diagram": {
-                  "caption": "IBM Key Management Services",
+                  "caption": "IBM Key Protect architecture",
                   "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive/main/reference-architecture/key_protect.svg",
                   "type": "image/svg+xml"
                 },
-                "description": ""
+                "description": "This architecture supports creating and configuring IBM Key Protect resources"
               }
             ]
           },
