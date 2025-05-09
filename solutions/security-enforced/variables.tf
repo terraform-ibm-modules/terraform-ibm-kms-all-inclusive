@@ -78,7 +78,7 @@ variable "key_protect_access_tags" {
 variable "rotation_interval_month" {
   type        = number
   description = "Specifies the key rotation time interval in months. Possible values: `1` through `12`. Applies only if an existing Key Protect or Hyper Protect Crypto Services instance is not specified."
-  default     = 3
+  default     = 12
 }
 
 ########################################################################################################################

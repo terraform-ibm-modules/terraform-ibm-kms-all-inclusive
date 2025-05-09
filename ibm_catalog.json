@@ -183,7 +183,8 @@
               "key": "keys"
             },
             {
-              "key": "rotation_interval_month"
+              "key": "rotation_interval_month",
+              "default_value": 3
             },
             {
               "key": "kms_endpoint_type",
