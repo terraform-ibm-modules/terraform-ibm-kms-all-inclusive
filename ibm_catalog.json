@@ -446,33 +446,6 @@
               "key": "rotation_interval_month"
             },
             {
-              "key": "kms_endpoint_type",
-              "hidden": true,
-              "options": [
-                {
-                  "displayname": "Public",
-                  "value": "public"
-                },
-                {
-                  "displayname": "Private",
-                  "value": "private"
-                }
-              ]
-            },
-            {
-              "key": "key_protect_allowed_network",
-              "options": [
-                {
-                  "displayname": "Public and private",
-                  "value": "public-and-private"
-                },
-                {
-                  "displayname": "Private only",
-                  "value": "private-only"
-                }
-              ]
-            },
-            {
               "key": "key_protect_resource_tags",
               "custom_config": {
                 "grouping": "deployment",
