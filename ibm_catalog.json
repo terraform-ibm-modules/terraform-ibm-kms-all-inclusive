@@ -301,6 +301,229 @@
         ],
           "dependency_version_2": true,
           "terraform_version": "1.10.5"
+        },
+        {
+          "label": "Security Enforced",
+          "name": "security-enforced",
+          "install_type": "fullstack",
+          "working_directory": "solutions/security-enforced",
+          "compliance": {
+            "authority": "scc-v3",
+            "profiles": [
+              {
+                "profile_name": "CIS IBM Cloud Foundations Benchmark v1.1.0",
+                "profile_version": "1.1.0"
+              }
+            ]
+          },
+          "iam_permissions": [
+            {
+              "role_crns": [
+                "crn:v1:bluemix:public:iam::::serviceRole:Manager",
+                "crn:v1:bluemix:public:iam::::role:Editor"
+              ],
+              "service_name": "kms",
+              "notes": "[Optional] Required if you are creating a new Key Protect Instance."
+            },
+            {
+              "role_crns": [
+                "crn:v1:bluemix:public:iam::::role:Administrator"
+              ],
+              "service_name": "iam-identity",
+              "notes": "[Optional] Required if Cloud automation for account configuration is enabled."
+            }
+          ],
+          "configuration": [
+            {
+              "key": "ibmcloud_api_key"
+            },
+            {
+              "key": "existing_resource_group_name",
+              "display_name": "resource_group",
+              "required": false,
+              "default_value": "Default",
+              "custom_config": {
+                "type": "resource_group",
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "identifier": "rg_name"
+                }
+              }
+            },
+            {
+              "key": "region",
+              "required": true,
+              "default_value": "",
+              "options": [
+                {
+                  "displayname": "Dallas (us-south)",
+                  "value": "us-south"
+                },
+                {
+                  "displayname": "Frankfurt (eu-de)",
+                  "value": "eu-de"
+                },
+                {
+                  "displayname": "London (eu-gb)",
+                  "value": "eu-gb"
+                },
+                {
+                  "displayname": "Madrid (eu-es)",
+                  "value": "eu-es"
+                },
+                {
+                  "displayname": "Osaka (jp-osa)",
+                  "value": "jp-osa"
+                },
+                {
+                  "displayname": "Sao Paulo (br-sao)",
+                  "value": "br-sao"
+                },
+                {
+                  "displayname": "Sydney (au-syd)",
+                  "value": "au-syd"
+                },
+                {
+                  "displayname": "Tokyo (jp-tok)",
+                  "value": "jp-tok"
+                },
+                {
+                  "displayname": "Toronto (ca-tor)",
+                  "value": "ca-tor"
+                },
+                {
+                  "displayname": "Washington (us-east)",
+                  "value": "us-east"
+                }
+              ]
+            },
+            {
+              "key": "prefix",
+              "required": true
+            },
+            {
+              "key": "provider_visibility",
+              "options": [
+                {
+                  "displayname": "private",
+                  "value": "private"
+                },
+                {
+                  "displayname": "public",
+                  "value": "public"
+                },
+                {
+                  "displayname": "public-and-private",
+                  "value": "public-and-private"
+                }
+              ],
+              "hidden": true
+            },
+            {
+              "key": "key_protect_instance_name"
+            },
+            {
+              "key": "existing_kms_instance_crn"
+            },
+            {
+              "key": "key_protect_plan",
+              "options": [
+                {
+                  "displayname": "Tiered Pricing",
+                  "value": "tiered-pricing"
+                },
+                {
+                  "displayname": "Cross Region Resiliency",
+                  "value": "cross-region-resiliency"
+                }
+              ]
+            },
+            {
+              "key": "keys"
+            },
+            {
+              "key": "rotation_interval_month"
+            },
+            {
+              "key": "kms_endpoint_type",
+              "hidden": true,
+              "options": [
+                {
+                  "displayname": "Public",
+                  "value": "public"
+                },
+                {
+                  "displayname": "Private",
+                  "value": "private"
+                }
+              ]
+            },
+            {
+              "key": "key_protect_allowed_network",
+              "options": [
+                {
+                  "displayname": "Public and private",
+                  "value": "public-and-private"
+                },
+                {
+                  "displayname": "Private only",
+                  "value": "private-only"
+                }
+              ]
+            },
+            {
+              "key": "key_protect_resource_tags",
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "key": "key_protect_access_tags",
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "key": "key_protect_instance_cbr_rules"
+            }
+          ],
+          "architecture": {
+            "description": "This architecture supports creating and configuring a Key Protect instance.",
+            "features": [
+              {
+                "title": "Key Protect instance",
+                "description": "Creates and configures a Key Protect instance."
+              },
+              {
+                "title": "Key Rings and Keys",
+                "description": "Creates Key Rings and Keys for either Key Protect or Hyper Protect Crypto Services instances."
+              },
+              {
+                "title": "Context-Based Restriction rules",
+                "description": "Creates Context-Based Restriction rules for Key Protect instance."
+              }
+            ],
+            "diagrams": [
+              {
+                "diagram": {
+                  "caption": "IBM Key Protect architecture",
+                  "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive/main/reference-architecture/key_protect.svg",
+                  "type": "image/svg+xml"
+                },
+                "description": "This architecture supports creating and configuring IBM Key Protect resources"
+              }
+            ]
+          },
+          "terraform_version": "1.10.5"
         }
       ]
     }
