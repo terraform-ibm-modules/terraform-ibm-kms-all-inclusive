@@ -295,7 +295,7 @@
               ],
               "optional": true,
               "on_by_default": false,
-              "version": "v3.0.4"
+              "version": "v3.0.7"
             }
           ],
           "dependency_version_2": true,
