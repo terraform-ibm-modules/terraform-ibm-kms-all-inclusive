@@ -303,7 +303,7 @@
           "terraform_version": "1.10.5"
         },
         {
-          "label": "Security Enforced",
+          "label": "Security-enforced",
           "name": "security-enforced",
           "install_type": "fullstack",
           "working_directory": "solutions/security-enforced",
