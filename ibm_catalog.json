@@ -237,7 +237,6 @@
             }
           ],
           "architecture": {
-            "description": "This architecture supports creating and configuring a Key Protect instance.",
             "features": [
               {
                 "title": "Key Protect instance",
@@ -264,41 +263,41 @@
             ]
           },
           "dependencies": [
-          {
-            "name": "deploy-arch-ibm-account-infra-base",
-            "description": "This module prepares your IBM Cloud account with the necessary configurations to ensure a secure and organized environment for your architecture.",
-            "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
-            "flavors": [
-              "resource-group-only",
-              "resource-groups-with-account-settings"
-            ],
-            "default_flavor": "resource-group-only",
-            "id": "63641cec-6093-4b4f-b7b0-98d2f4185cd6-global",
-            "input_mapping": [
-              {
-                "dependency_output": "security_resource_group_name",
-                "version_input": "existing_resource_group_name"
-              },
-              {
-                "dependency_input": "prefix",
-                "version_input": "prefix",
-                "reference_version": true
-              },
-              {
-                "dependency_input": "provider_visibility",
-                "version_input": "provider_visibility",
-                "reference_version": true
-              },
-              {
-                "version_input": "use_existing_resource_group",
-                "value": true
-              }
-            ],
-            "optional": true,
-            "on_by_default": false,
-            "version": "v3.0.4"
-          }
-        ],
+            {
+              "name": "deploy-arch-ibm-account-infra-base",
+              "description": "This module prepares your IBM Cloud account with the necessary configurations to ensure a secure and organized environment for your architecture.",
+              "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
+              "flavors": [
+                "resource-group-only",
+                "resource-groups-with-account-settings"
+              ],
+              "default_flavor": "resource-group-only",
+              "id": "63641cec-6093-4b4f-b7b0-98d2f4185cd6-global",
+              "input_mapping": [
+                {
+                  "dependency_output": "security_resource_group_name",
+                  "version_input": "existing_resource_group_name"
+                },
+                {
+                  "dependency_input": "prefix",
+                  "version_input": "prefix",
+                  "reference_version": true
+                },
+                {
+                  "dependency_input": "provider_visibility",
+                  "version_input": "provider_visibility",
+                  "reference_version": true
+                },
+                {
+                  "version_input": "use_existing_resource_group",
+                  "value": true
+                }
+              ],
+              "optional": true,
+              "on_by_default": false,
+              "version": "v3.0.4"
+            }
+          ],
           "dependency_version_2": true,
           "terraform_version": "1.10.5"
         }
