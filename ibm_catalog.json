@@ -63,7 +63,7 @@
                 "crn:v1:bluemix:public:iam::::role:Editor"
               ],
               "service_name": "kms",
-              "notes": "[Optional] Required if you are creating a new Key Protect instance and provisioning associated resources like key rings and keys."
+              "notes": "[Optional] Required if you are creating a new Key Protect instance or provisioning associated resources like key rings and keys."
             },
             {
               "role_crns": [
@@ -76,19 +76,6 @@
           "configuration": [
             {
               "key": "ibmcloud_api_key"
-            },
-            {
-              "key": "existing_resource_group_name",
-              "display_name": "resource_group",
-              "required": false,
-              "custom_config": {
-                "type": "resource_group",
-                "grouping": "deployment",
-                "original_grouping": "deployment",
-                "config_constraints": {
-                  "identifier": "rg_name"
-                }
-              }
             },
             {
               "key": "region",
@@ -159,6 +146,18 @@
               "hidden": true
             },
             {
+              "key": "existing_resource_group_name",
+              "display_name": "resource_group",
+              "custom_config": {
+                "type": "resource_group",
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "identifier": "rg_name"
+                }
+              }
+            },
+            {
               "key": "key_protect_instance_name"
             },
             {
@@ -166,7 +165,6 @@
             },
             {
               "key": "key_protect_plan",
-              "required": true,
               "options": [
                 {
                   "displayname": "Tiered Pricing",
@@ -336,19 +334,6 @@
               "key": "ibmcloud_api_key"
             },
             {
-              "key": "existing_resource_group_name",
-              "display_name": "resource_group",
-              "required": false,
-              "custom_config": {
-                "type": "resource_group",
-                "grouping": "deployment",
-                "original_grouping": "deployment",
-                "config_constraints": {
-                  "identifier": "rg_name"
-                }
-              }
-            },
-            {
               "key": "region",
               "required": true,
               "options": [
@@ -417,6 +402,18 @@
               "hidden": true
             },
             {
+              "key": "existing_resource_group_name",
+              "display_name": "resource_group",
+              "custom_config": {
+                "type": "resource_group",
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "identifier": "rg_name"
+                }
+              }
+            },
+            {
               "key": "key_protect_instance_name"
             },
             {
@@ -424,7 +421,6 @@
             },
             {
               "key": "key_protect_plan",
-              "required": true,
               "options": [
                 {
                   "displayname": "Tiered Pricing",
