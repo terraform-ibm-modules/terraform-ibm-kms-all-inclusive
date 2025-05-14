@@ -63,7 +63,15 @@
                 "crn:v1:bluemix:public:iam::::role:Editor"
               ],
               "service_name": "kms",
-              "notes": "[Optional] Required if you are creating a new Key Protect Instance."
+              "notes": "[Optional] Required if you are creating a new Key Protect instance or provisioning associated resources like key rings and keys."
+            },
+            {
+              "role_crns": [
+                "crn:v1:bluemix:public:iam::::serviceRole:Manager",
+                "crn:v1:bluemix:public:iam::::role:Editor"
+              ],
+              "service_name": "hs-crypto",
+              "notes": "[Optional] Required if you are provisioning resources like key rings and keys for an existing Hyper Protect Crypto Services (HPCS) instance."
             },
             {
               "role_crns": [
@@ -78,23 +86,8 @@
               "key": "ibmcloud_api_key"
             },
             {
-              "key": "existing_resource_group_name",
-              "display_name": "resource_group",
-              "required": false,
-              "default_value": "Default",
-              "custom_config": {
-                "type": "resource_group",
-                "grouping": "deployment",
-                "original_grouping": "deployment",
-                "config_constraints": {
-                  "identifier": "rg_name"
-                }
-              }
-            },
-            {
               "key": "region",
               "required": true,
-              "default_value": "",
               "options": [
                 {
                   "displayname": "Dallas (us-south)",
@@ -143,6 +136,20 @@
               "required": true
             },
             {
+              "key": "key_protect_plan",
+              "required": true,
+              "options": [
+                {
+                  "displayname": "Tiered Pricing",
+                  "value": "tiered-pricing"
+                },
+                {
+                  "displayname": "Cross Region Resiliency",
+                  "value": "cross-region-resiliency"
+                }
+              ]
+            },
+            {
               "key": "provider_visibility",
               "options": [
                 {
@@ -161,24 +168,24 @@
               "hidden": true
             },
             {
+              "key": "existing_resource_group_name",
+              "display_name": "resource_group",
+              "custom_config": {
+                "type": "resource_group",
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "identifier": "rg_name"
+                }
+              }
+            },
+            {
               "key": "key_protect_instance_name"
             },
             {
               "key": "existing_kms_instance_crn"
             },
-            {
-              "key": "key_protect_plan",
-              "options": [
-                {
-                  "displayname": "Tiered Pricing",
-                  "value": "tiered-pricing"
-                },
-                {
-                  "displayname": "Cross Region Resiliency",
-                  "value": "cross-region-resiliency"
-                }
-              ]
-            },
+
             {
               "key": "keys"
             },
@@ -265,7 +272,7 @@
           "dependencies": [
             {
               "name": "deploy-arch-ibm-account-infra-base",
-              "description": "This module prepares your IBM Cloud account with the necessary configurations to ensure a secure and organized environment for your architecture.",
+              "description": "Cloud automation for Account Configuration organizes your IBM Cloud account with a ready-made set of resource groups by default—and, when you enable the \"with Account Settings\" option, it also applies baseline security and governance settings.",
               "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
               "flavors": [
                 "resource-group-only",
@@ -299,6 +306,208 @@
             }
           ],
           "dependency_version_2": true,
+          "terraform_version": "1.10.5"
+        },
+        {
+          "label": "Security-enforced",
+          "name": "security-enforced",
+          "install_type": "fullstack",
+          "working_directory": "solutions/security-enforced",
+          "compliance": {
+            "authority": "scc-v3",
+            "profiles": [
+              {
+                "profile_name": "CIS IBM Cloud Foundations Benchmark v1.1.0",
+                "profile_version": "1.1.0"
+              }
+            ]
+          },
+          "iam_permissions": [
+            {
+              "role_crns": [
+                "crn:v1:bluemix:public:iam::::serviceRole:Manager",
+                "crn:v1:bluemix:public:iam::::role:Editor"
+              ],
+              "service_name": "kms",
+              "notes": "[Optional] Required if you are creating a new Key Protect instance or provisioning associated resources like key rings and keys."
+            },
+            {
+              "role_crns": [
+                "crn:v1:bluemix:public:iam::::serviceRole:Manager",
+                "crn:v1:bluemix:public:iam::::role:Editor"
+              ],
+              "service_name": "hs-crypto",
+              "notes": "[Optional] Required if you are provisioning resources like key rings and keys for an existing Hyper Protect Crypto Services (HPCS) instance."
+            },
+            {
+              "role_crns": [
+                "crn:v1:bluemix:public:iam::::role:Administrator"
+              ],
+              "service_name": "iam-identity",
+              "notes": "[Optional] Required if Cloud automation for account configuration is enabled."
+            }
+          ],
+          "configuration": [
+            {
+              "key": "ibmcloud_api_key"
+            },
+            {
+              "key": "region",
+              "required": true,
+              "options": [
+                {
+                  "displayname": "Dallas (us-south)",
+                  "value": "us-south"
+                },
+                {
+                  "displayname": "Frankfurt (eu-de)",
+                  "value": "eu-de"
+                },
+                {
+                  "displayname": "London (eu-gb)",
+                  "value": "eu-gb"
+                },
+                {
+                  "displayname": "Madrid (eu-es)",
+                  "value": "eu-es"
+                },
+                {
+                  "displayname": "Osaka (jp-osa)",
+                  "value": "jp-osa"
+                },
+                {
+                  "displayname": "Sao Paulo (br-sao)",
+                  "value": "br-sao"
+                },
+                {
+                  "displayname": "Sydney (au-syd)",
+                  "value": "au-syd"
+                },
+                {
+                  "displayname": "Tokyo (jp-tok)",
+                  "value": "jp-tok"
+                },
+                {
+                  "displayname": "Toronto (ca-tor)",
+                  "value": "ca-tor"
+                },
+                {
+                  "displayname": "Washington (us-east)",
+                  "value": "us-east"
+                }
+              ]
+            },
+            {
+              "key": "prefix",
+              "required": true
+            },
+            {
+              "key": "key_protect_plan",
+              "required": true,
+              "options": [
+                {
+                  "displayname": "Tiered Pricing",
+                  "value": "tiered-pricing"
+                },
+                {
+                  "displayname": "Cross Region Resiliency",
+                  "value": "cross-region-resiliency"
+                }
+              ]
+            },
+            {
+              "key": "provider_visibility",
+              "options": [
+                {
+                  "displayname": "private",
+                  "value": "private"
+                },
+                {
+                  "displayname": "public",
+                  "value": "public"
+                },
+                {
+                  "displayname": "public-and-private",
+                  "value": "public-and-private"
+                }
+              ],
+              "hidden": true
+            },
+            {
+              "key": "existing_resource_group_name",
+              "display_name": "resource_group",
+              "custom_config": {
+                "type": "resource_group",
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "identifier": "rg_name"
+                }
+              }
+            },
+            {
+              "key": "key_protect_instance_name"
+            },
+            {
+              "key": "existing_kms_instance_crn"
+            },
+            {
+              "key": "keys"
+            },
+            {
+              "key": "rotation_interval_month"
+            },
+            {
+              "key": "key_protect_resource_tags",
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "key": "key_protect_access_tags",
+              "custom_config": {
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "key": "key_protect_instance_cbr_rules"
+            }
+          ],
+          "architecture": {
+            "description": "This architecture supports creating and configuring a Key Protect instance.",
+            "features": [
+              {
+                "title": "Key Protect instance",
+                "description": "Creates and configures a Key Protect instance."
+              },
+              {
+                "title": "Key Rings and Keys",
+                "description": "Creates Key Rings and Keys for either Key Protect or Hyper Protect Crypto Services instances."
+              },
+              {
+                "title": "Context-Based Restriction rules",
+                "description": "Creates Context-Based Restriction rules for Key Protect instance."
+              }
+            ],
+            "diagrams": [
+              {
+                "diagram": {
+                  "caption": "IBM Key Protect architecture",
+                  "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive/main/reference-architecture/key_protect.svg",
+                  "type": "image/svg+xml"
+                },
+                "description": "This architecture supports creating and configuring IBM Key Protect resources"
+              }
+            ]
+          },
           "terraform_version": "1.10.5"
         }
       ]
