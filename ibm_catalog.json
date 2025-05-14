@@ -63,7 +63,7 @@
                 "crn:v1:bluemix:public:iam::::role:Editor"
               ],
               "service_name": "kms",
-              "notes": "[Optional] Required if you are creating a new Key Protect Instance."
+              "notes": "[Optional] Required if you are creating a new Key Protect instance and provisioning associated resources like key rings and keys."
             },
             {
               "role_crns": [
