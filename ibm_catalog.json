@@ -128,6 +128,20 @@
               "required": true
             },
             {
+              "key": "key_protect_plan",
+              "required": true,
+              "options": [
+                {
+                  "displayname": "Tiered Pricing",
+                  "value": "tiered-pricing"
+                },
+                {
+                  "displayname": "Cross Region Resiliency",
+                  "value": "cross-region-resiliency"
+                }
+              ]
+            },
+            {
               "key": "provider_visibility",
               "options": [
                 {
@@ -163,19 +177,7 @@
             {
               "key": "existing_kms_instance_crn"
             },
-            {
-              "key": "key_protect_plan",
-              "options": [
-                {
-                  "displayname": "Tiered Pricing",
-                  "value": "tiered-pricing"
-                },
-                {
-                  "displayname": "Cross Region Resiliency",
-                  "value": "cross-region-resiliency"
-                }
-              ]
-            },
+
             {
               "key": "keys"
             },
@@ -384,6 +386,20 @@
               "required": true
             },
             {
+              "key": "key_protect_plan",
+              "required": true,
+              "options": [
+                {
+                  "displayname": "Tiered Pricing",
+                  "value": "tiered-pricing"
+                },
+                {
+                  "displayname": "Cross Region Resiliency",
+                  "value": "cross-region-resiliency"
+                }
+              ]
+            },
+            {
               "key": "provider_visibility",
               "options": [
                 {
@@ -418,19 +434,6 @@
             },
             {
               "key": "existing_kms_instance_crn"
-            },
-            {
-              "key": "key_protect_plan",
-              "options": [
-                {
-                  "displayname": "Tiered Pricing",
-                  "value": "tiered-pricing"
-                },
-                {
-                  "displayname": "Cross Region Resiliency",
-                  "value": "cross-region-resiliency"
-                }
-              ]
             },
             {
               "key": "keys"
