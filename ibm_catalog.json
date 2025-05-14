@@ -166,6 +166,17 @@
             },
             {
               "key": "key_protect_plan",
+              "required": true,
+              "options": [
+                {
+                  "displayname": "Tiered Pricing",
+                  "value": "tiered-pricing"
+                },
+                {
+                  "displayname": "Cross Region Resiliency",
+                  "value": "cross-region-resiliency"
+                }
+              ]
             },
             {
               "key": "keys"
@@ -413,6 +424,7 @@
             },
             {
               "key": "key_protect_plan",
+              "required": true,
               "options": [
                 {
                   "displayname": "Tiered Pricing",
