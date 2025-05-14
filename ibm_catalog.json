@@ -67,6 +67,14 @@
             },
             {
               "role_crns": [
+                "crn:v1:bluemix:public:iam::::serviceRole:Manager",
+                "crn:v1:bluemix:public:iam::::role:Editor"
+              ],
+              "service_name": "hs-crypto",
+              "notes": "[Optional] Required if you are provisioning resources like key rings and keys for an existing Hyper Protect Crypto Services (HPCS) instance."
+            },
+            {
+              "role_crns": [
                 "crn:v1:bluemix:public:iam::::role:Administrator"
               ],
               "service_name": "iam-identity",
@@ -322,6 +330,14 @@
               ],
               "service_name": "kms",
               "notes": "[Optional] Required if you are creating a new Key Protect instance or provisioning associated resources like key rings and keys."
+            },
+            {
+              "role_crns": [
+                "crn:v1:bluemix:public:iam::::serviceRole:Manager",
+                "crn:v1:bluemix:public:iam::::role:Editor"
+              ],
+              "service_name": "hs-crypto",
+              "notes": "[Optional] Required if you are provisioning resources like key rings and keys for an existing Hyper Protect Crypto Services (HPCS) instance."
             },
             {
               "role_crns": [
