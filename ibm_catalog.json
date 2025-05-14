@@ -93,7 +93,6 @@
             {
               "key": "region",
               "required": true,
-              "default_value": "",
               "options": [
                 {
                   "displayname": "Dallas (us-south)",
@@ -167,6 +166,7 @@
             },
             {
               "key": "key_protect_plan",
+              "required": true,
               "options": [
                 {
                   "displayname": "Tiered Pricing",
@@ -351,7 +351,6 @@
             {
               "key": "region",
               "required": true,
-              "default_value": "",
               "options": [
                 {
                   "displayname": "Dallas (us-south)",
@@ -425,6 +424,7 @@
             },
             {
               "key": "key_protect_plan",
+              "required": true,
               "options": [
                 {
                   "displayname": "Tiered Pricing",
