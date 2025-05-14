@@ -81,7 +81,6 @@
               "key": "existing_resource_group_name",
               "display_name": "resource_group",
               "required": false,
-              "default_value": "Default",
               "custom_config": {
                 "type": "resource_group",
                 "grouping": "deployment",
@@ -265,7 +264,7 @@
           "dependencies": [
             {
               "name": "deploy-arch-ibm-account-infra-base",
-              "description": "This module prepares your IBM Cloud account with the necessary configurations to ensure a secure and organized environment for your architecture.",
+              "description": "Cloud automation for Account Configuration organises your IBM Cloud account with a ready-made set of resource groups by default—and, when you enable the \"with Account Settings\" option, it also applies baseline security and governance settings.",
               "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
               "flavors": [
                 "resource-group-only",
@@ -340,7 +339,6 @@
               "key": "existing_resource_group_name",
               "display_name": "resource_group",
               "required": false,
-              "default_value": "Default",
               "custom_config": {
                 "type": "resource_group",
                 "grouping": "deployment",
