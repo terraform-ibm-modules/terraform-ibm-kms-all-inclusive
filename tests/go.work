@@ -1,0 +1,5 @@
+go 1.23.0
+use (
+    .
+)
+replace github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper => /Users/wesleyhoffler/Desktop/Projects/CloudPlatform/goldeneye/publicRepos/ibmcloud-terratest-wrapper
