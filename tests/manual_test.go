@@ -34,6 +34,7 @@ func TestRunTerraformAddonFullyConfigurable(t *testing.T) {
 			"prefix":                       options.Prefix,
 			"region":                       "us-south",
 			"existing_resource_group_name": options.ResourceGroup,
+			"rotation_interval_month":      1,
 		},
 	)
 
