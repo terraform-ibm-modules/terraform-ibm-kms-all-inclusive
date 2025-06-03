@@ -289,11 +289,6 @@
                   "dependency_input": "prefix",
                   "version_input": "prefix",
                   "reference_version": true
-                },
-                {
-                  "dependency_input": "provider_visibility",
-                  "version_input": "provider_visibility",
-                  "reference_version": true
                 }
               ],
               "optional": true,
