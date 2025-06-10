@@ -21,10 +21,11 @@ func TestRunTerraformAddonFullyConfigurable(t *testing.T) {
 	t.Parallel()
 
 	options := setupAddonOptions(t, "test-terraform-addon")
-	options.SkipRefValidation = true
-	options.SkipUndeploy = true
-	options.SkipProjectDelete = true
+	options.LocalChangesIgnorePattern = []string{
+		"common-dev-assets", // Ignore changes in common-dev-assets
+		"tests",             // Ignore changes in tests directory
 
+	}
 	// Using the specialized Terraform helper function
 	options.AddonConfig = cloudinfo.NewAddonConfigTerraform(
 		options.Prefix,        // prefix for unique resource naming
