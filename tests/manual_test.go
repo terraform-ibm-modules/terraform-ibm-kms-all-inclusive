@@ -20,7 +20,7 @@ func setupAddonOptions(t *testing.T, prefix string) *testaddons.TestAddonOptions
 func TestRunTerraformAddonFullyConfigurable(t *testing.T) {
 	t.Parallel()
 
-	options := setupAddonOptions(t, "test-terraform-addon")
+	options := setupAddonOptions(t, "addon")
 	options.SkipRefValidation = true
 	options.SkipUndeploy = true
 	options.SkipProjectDelete = true
