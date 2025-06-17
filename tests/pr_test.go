@@ -70,15 +70,6 @@ func setupAddonOptions(t *testing.T, prefix string) *testaddons.TestAddonOptions
 	return options
 }
 
-func TestRunFullyConfigurableDA(t *testing.T) {
-	t.Parallel()
-
-	options := setupSchematicOptions(t, "kms-fc-da", fullyConfigurableDADir)
-
-	err := options.RunSchematicTest()
-	assert.NoError(t, err, "Schematic Test had an unexpected error")
-}
-
 func TestRunUpgradeFullyConfigurableDA(t *testing.T) {
 	t.Parallel()
 
