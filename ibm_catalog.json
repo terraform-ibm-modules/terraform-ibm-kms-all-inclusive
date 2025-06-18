@@ -33,7 +33,7 @@
         },
         {
           "title": "Create secure key rings and keys",
-          "description": "To leave more about how key rings and keys are configured, see [the architecture](https://github.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive/blob/main/solutions/fully-configurable/DA-keys.md)."
+          "description": "To learn more about how key rings and keys are configured, see [the architecture](https://github.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive/blob/main/solutions/fully-configurable/DA-keys.md)."
         },
         {
           "title": "Create context-based restrictions for the instance",
