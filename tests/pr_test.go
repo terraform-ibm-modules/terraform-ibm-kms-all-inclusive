@@ -7,8 +7,11 @@ import (
 	"os"
 	"testing"
 
+	"github.com/IBM/go-sdk-core/v5/core"
 	"github.com/stretchr/testify/assert"
+	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/cloudinfo"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/common"
+	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testaddons"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testschematic"
 )
 
@@ -58,13 +61,13 @@ func setupSchematicOptions(t *testing.T, prefix string, dir string) *testschemat
 	return options
 }
 
-func TestRunFullyConfigurableDA(t *testing.T) {
-	t.Parallel()
-
-	options := setupSchematicOptions(t, "kms-fc-da", fullyConfigurableDADir)
-
-	err := options.RunSchematicTest()
-	assert.NoError(t, err, "Schematic Test had an unexpected error")
+func setupAddonOptions(t *testing.T, prefix string) *testaddons.TestAddonOptions {
+	options := testaddons.TestAddonsOptionsDefault(&testaddons.TestAddonOptions{
+		Testing:       t,
+		Prefix:        prefix,
+		ResourceGroup: resourceGroup,
+	})
+	return options
 }
 
 func TestRunUpgradeFullyConfigurableDA(t *testing.T) {
@@ -106,4 +109,75 @@ func TestRunAdvancedExample(t *testing.T) {
 
 	err := options.RunSchematicTest()
 	assert.Nil(t, err, "This should not have errored")
+}
+
+// AddonTestCase defines the structure for addon test cases
+type AddonTestCase struct {
+	name         string
+	prefix       string
+	dependencies []cloudinfo.AddonConfig
+}
+
+// TestRunAddonTests runs addon tests in parallel using a matrix approach
+// No cost for the KMS instance and its quick to run, so we can run these in parallel and fully deploy each time
+// This can be used as an example of how to run multiple addon tests in parallel
+func TestRunAddonTests(t *testing.T) {
+	t.Parallel()
+
+	testCases := []AddonTestCase{
+		{
+			name:   "Defaults",
+			prefix: "kmsadd",
+		},
+		{
+			name:   "ResourceGroupOnly",
+			prefix: "kmsadd",
+			dependencies: []cloudinfo.AddonConfig{
+				{
+					OfferingName:   "deploy-arch-ibm-account-infra-base",
+					OfferingFlavor: "resource-group-only",
+					Enabled:        core.BoolPtr(true),
+				},
+			},
+		},
+		{
+			name:   "ResourceGroupWithAccountSettings",
+			prefix: "kmsadd",
+			dependencies: []cloudinfo.AddonConfig{
+				{
+					OfferingName:   "deploy-arch-ibm-account-infra-base",
+					OfferingFlavor: "resource-groups-with-account-settings",
+					Enabled:        core.BoolPtr(true),
+				},
+			},
+		},
+	}
+
+	for _, tc := range testCases {
+		tc := tc // Capture loop variable for parallel execution
+		t.Run(tc.name, func(t *testing.T) {
+			t.Parallel()
+
+			options := setupAddonOptions(t, tc.prefix)
+
+			// Using the specialized Terraform helper function
+			options.AddonConfig = cloudinfo.NewAddonConfigTerraform(
+				options.Prefix,        // prefix for unique resource naming
+				"deploy-arch-ibm-kms", // offering name
+				"fully-configurable",  // offering flavor
+				map[string]interface{}{ // inputs
+					"prefix": options.Prefix,
+					"region": "us-south",
+				},
+			)
+
+			// Set dependencies if provided
+			if tc.dependencies != nil {
+				options.AddonConfig.Dependencies = tc.dependencies
+			}
+
+			err := options.RunAddonTest()
+			assert.NoError(t, err, "Addon Test had an unexpected error")
+		})
+	}
 }
