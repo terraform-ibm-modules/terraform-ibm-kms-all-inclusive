@@ -158,14 +158,6 @@ func TestRunAddonTests(t *testing.T) {
 
 			options := setupAddonOptions(t, tc.prefix)
 
-			// Ignore certain local changes that are not relevant to the addon tests
-			options.LocalChangesIgnorePattern = []string{
-				"common-dev-assets", // Ignore changes in common-dev-assets
-				"tests",             // Ignore changes in tests directory
-				"*.json",            // Ignore JSON files created by CRA
-				"*.out",             // Ignore output files created by CRA
-			}
-
 			// Using the specialized Terraform helper function
 			options.AddonConfig = cloudinfo.NewAddonConfigTerraform(
 				options.Prefix,        // prefix for unique resource naming
