@@ -61,15 +61,6 @@ func setupSchematicOptions(t *testing.T, prefix string, dir string) *testschemat
 	return options
 }
 
-func setupAddonOptions(t *testing.T, prefix string) *testaddons.TestAddonOptions {
-	options := testaddons.TestAddonsOptionsDefault(&testaddons.TestAddonOptions{
-		Testing:       t,
-		Prefix:        prefix,
-		ResourceGroup: resourceGroup,
-	})
-	return options
-}
-
 func TestRunUpgradeFullyConfigurableDA(t *testing.T) {
 	t.Parallel()
 
@@ -111,28 +102,20 @@ func TestRunAdvancedExample(t *testing.T) {
 	assert.Nil(t, err, "This should not have errored")
 }
 
-// AddonTestCase defines the structure for addon test cases
-type AddonTestCase struct {
-	name         string
-	prefix       string
-	dependencies []cloudinfo.AddonConfig
-}
-
 // TestRunAddonTests runs addon tests in parallel using a matrix approach
 // No cost for the KMS instance and its quick to run, so we can run these in parallel and fully deploy each time
 // This can be used as an example of how to run multiple addon tests in parallel
 func TestRunAddonTests(t *testing.T) {
-	t.Parallel()
 
-	testCases := []AddonTestCase{
+	testCases := []testaddons.AddonTestCase{
 		{
-			name:   "Defaults",
-			prefix: "kmsadd",
+			Name:   "Defaults",
+			Prefix: "kmsadd",
 		},
 		{
-			name:   "ResourceGroupOnly",
-			prefix: "kmsadd",
-			dependencies: []cloudinfo.AddonConfig{
+			Name:   "ResourceGroupOnly",
+			Prefix: "kmsadd",
+			Dependencies: []cloudinfo.AddonConfig{
 				{
 					OfferingName:   "deploy-arch-ibm-account-infra-base",
 					OfferingFlavor: "resource-group-only",
@@ -141,9 +124,9 @@ func TestRunAddonTests(t *testing.T) {
 			},
 		},
 		{
-			name:   "ResourceGroupWithAccountSettings",
-			prefix: "kmsadd",
-			dependencies: []cloudinfo.AddonConfig{
+			Name:   "ResourceGroupWithAccountSettings",
+			Prefix: "kmsadd",
+			Dependencies: []cloudinfo.AddonConfig{
 				{
 					OfferingName:   "deploy-arch-ibm-account-infra-base",
 					OfferingFlavor: "resource-groups-with-account-settings",
@@ -153,31 +136,27 @@ func TestRunAddonTests(t *testing.T) {
 		},
 	}
 
-	for _, tc := range testCases {
-		tc := tc // Capture loop variable for parallel execution
-		t.Run(tc.name, func(t *testing.T) {
-			t.Parallel()
-
-			options := setupAddonOptions(t, tc.prefix)
-
-			// Using the specialized Terraform helper function
-			options.AddonConfig = cloudinfo.NewAddonConfigTerraform(
-				options.Prefix,        // prefix for unique resource naming
-				"deploy-arch-ibm-kms", // offering name
-				"fully-configurable",  // offering flavor
-				map[string]interface{}{ // inputs
+	matrix := testaddons.AddonTestMatrix{
+		TestCases: testCases,
+		BaseSetupFunc: func(testCase testaddons.AddonTestCase) *testaddons.TestAddonOptions {
+			return testaddons.TestAddonsOptionsDefault(&testaddons.TestAddonOptions{
+				Testing:       t,
+				Prefix:        testCase.Prefix,
+				ResourceGroup: resourceGroup,
+			})
+		},
+		AddonConfigFunc: func(options *testaddons.TestAddonOptions, testCase testaddons.AddonTestCase) cloudinfo.AddonConfig {
+			return cloudinfo.NewAddonConfigTerraform(
+				options.Prefix,
+				"deploy-arch-ibm-kms",
+				"fully-configurable",
+				map[string]interface{}{
 					"prefix": options.Prefix,
 					"region": "us-south",
 				},
 			)
-
-			// Set dependencies if provided
-			if tc.dependencies != nil {
-				options.AddonConfig.Dependencies = tc.dependencies
-			}
-
-			err := options.RunAddonTest()
-			assert.NoError(t, err, "Addon Test had an unexpected error")
-		})
+		},
 	}
+
+	testaddons.RunAddonTestMatrix(t, matrix)
 }
