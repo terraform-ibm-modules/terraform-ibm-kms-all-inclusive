@@ -105,16 +105,18 @@ func TestRunAdvancedExample(t *testing.T) {
 // TestRunAddonTests runs addon tests in parallel using a matrix approach
 // No cost for the KMS instance and its quick to run, so we can run these in parallel and fully deploy each time
 // This can be used as an example of how to run multiple addon tests in parallel
+// TestRunAddonTests runs addon tests in parallel using a matrix approach
+// No cost for the KMS instance and its quick to run, so we can run these in parallel and fully deploy each time
+// This can be used as an example of how to run multiple addon tests in parallel
 func TestRunAddonTests(t *testing.T) {
-
 	testCases := []testaddons.AddonTestCase{
 		{
-			Name:   "Defaults",
-			Prefix: "kmsadd",
+			Name:   "KMS-Default-Configuration",
+			Prefix: "kmsaddon",
 		},
 		{
-			Name:   "ResourceGroupOnly",
-			Prefix: "kmsadd",
+			Name:   "KMS-With-Resource-Group-Only",
+			Prefix: "kadrgonl",
 			Dependencies: []cloudinfo.AddonConfig{
 				{
 					OfferingName:   "deploy-arch-ibm-account-infra-base",
@@ -122,10 +124,11 @@ func TestRunAddonTests(t *testing.T) {
 					Enabled:        core.BoolPtr(true),
 				},
 			},
+			SkipInfrastructureDeployment: true, // Skip infrastructure deployment for this test case
 		},
 		{
-			Name:   "ResourceGroupWithAccountSettings",
-			Prefix: "kmsadd",
+			Name:   "KMS-With-Resource-Group-And-Account-Settings",
+			Prefix: "krgwaccs",
 			Dependencies: []cloudinfo.AddonConfig{
 				{
 					OfferingName:   "deploy-arch-ibm-account-infra-base",
@@ -133,17 +136,24 @@ func TestRunAddonTests(t *testing.T) {
 					Enabled:        core.BoolPtr(true),
 				},
 			},
+			SkipInfrastructureDeployment: true, // Skip infrastructure deployment for this test case
 		},
 	}
+	// Define common options that apply to all test cases
+	baseOptions := testaddons.TestAddonsOptionsDefault(&testaddons.TestAddonOptions{
+		Testing:              t,
+		Prefix:               "kms-matrix", // Test cases will override with their own prefixes
+		ResourceGroup:        resourceGroup,
+		SkipLocalChangeCheck: true, // Skip local change check for addon tests
+	})
 
 	matrix := testaddons.AddonTestMatrix{
-		TestCases: testCases,
-		BaseSetupFunc: func(testCase testaddons.AddonTestCase) *testaddons.TestAddonOptions {
-			return testaddons.TestAddonsOptionsDefault(&testaddons.TestAddonOptions{
-				Testing:       t,
-				Prefix:        testCase.Prefix,
-				ResourceGroup: resourceGroup,
-			})
+		TestCases:   testCases,
+		BaseOptions: baseOptions,
+		BaseSetupFunc: func(baseOptions *testaddons.TestAddonOptions, testCase testaddons.AddonTestCase) *testaddons.TestAddonOptions {
+			// The framework automatically handles prefix assignment from testCase.Prefix
+			// You can add any custom logic here if needed
+			return baseOptions
 		},
 		AddonConfigFunc: func(options *testaddons.TestAddonOptions, testCase testaddons.AddonTestCase) cloudinfo.AddonConfig {
 			return cloudinfo.NewAddonConfigTerraform(
@@ -158,5 +168,5 @@ func TestRunAddonTests(t *testing.T) {
 		},
 	}
 
-	testaddons.RunAddonTestMatrix(t, matrix)
+	baseOptions.RunAddonTestMatrix(matrix)
 }
