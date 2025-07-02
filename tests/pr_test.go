@@ -105,9 +105,6 @@ func TestRunAdvancedExample(t *testing.T) {
 // TestRunAddonTests runs addon tests in parallel using a matrix approach
 // No cost for the KMS instance and its quick to run, so we can run these in parallel and fully deploy each time
 // This can be used as an example of how to run multiple addon tests in parallel
-// TestRunAddonTests runs addon tests in parallel using a matrix approach
-// No cost for the KMS instance and its quick to run, so we can run these in parallel and fully deploy each time
-// This can be used as an example of how to run multiple addon tests in parallel
 func TestRunAddonTests(t *testing.T) {
 	testCases := []testaddons.AddonTestCase{
 		{
