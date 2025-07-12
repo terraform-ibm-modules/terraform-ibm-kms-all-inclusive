@@ -2,12 +2,12 @@ module github.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive
 
 go 1.23.0
 
-toolchain go1.24.4
+toolchain go1.24.5
 
 require (
 	github.com/IBM/go-sdk-core/v5 v5.20.1
 	github.com/stretchr/testify v1.10.0
-	github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.55.3
+	github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.55.5
 )
 
 require (
