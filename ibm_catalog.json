@@ -9,7 +9,8 @@
         "target_terraform",
         "terraform",
         "solution",
-        "security"
+        "security",
+        "converged_infra"
       ],
       "keywords": [
         "KMS",
@@ -189,7 +190,6 @@
             {
               "key": "existing_kms_instance_crn"
             },
-
             {
               "key": "keys"
             },
