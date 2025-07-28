@@ -28,13 +28,35 @@ variable "existing_resource_group_name" {
 
 variable "region" {
   type        = string
+  description = "The region to provision all resources in. [Learn more](https://terraform-ibm-modules.github.io/documentation/#/region) about how to select different regions for different services."
   default     = "us-south"
-  description = "The region in which to provision key management resources. If using an existing Key Protect or Hyper Protect Crypto Services instance, set this to the region where it was provisioned."
 }
 
 variable "prefix" {
   type        = string
-  description = "The prefix to add to all resources that this solution creates. To not use any prefix value, you can set this value to `null` or an empty string."
+  nullable    = true
+  description = "The prefix to be added to all resources created by this solution. To skip using a prefix, set this value to null or an empty string. The prefix must begin with a lowercase letter and may contain only lowercase letters, digits, and hyphens '-'. It should not exceed 16 characters, must not end with a hyphen('-'), and can not contain consecutive hyphens ('--'). Example: prod-045-kms. [Learn more](https://terraform-ibm-modules.github.io/documentation/#/prefix.md)."
+
+  validation {
+    # - null and empty string is allowed
+    # - Must not contain consecutive hyphens (--): length(regexall("--", var.prefix)) == 0
+    # - Starts with a lowercase letter: [a-z]
+    # - Contains only lowercase letters (a–z), digits (0–9), and hyphens (-)
+    # - Must not end with a hyphen (-): [a-z0-9]
+    condition = (var.prefix == null || var.prefix == "" ? true :
+      alltrue([
+        can(regex("^[a-z][-a-z0-9]*[a-z0-9]$", var.prefix)),
+        length(regexall("--", var.prefix)) == 0
+      ])
+    )
+    error_message = "Prefix must begin with a lowercase letter and may contain only lowercase letters, digits, and hyphens '-'. It must not end with a hyphen('-'), and cannot contain consecutive hyphens ('--')."
+  }
+
+  validation {
+    # must not exceed 16 characters in length
+    condition     = var.prefix == null || var.prefix == "" ? true : length(var.prefix) <= 16
+    error_message = "Prefix must not exceed 16 characters."
+  }
 }
 
 ########################################################################################################################
@@ -44,7 +66,7 @@ variable "prefix" {
 variable "key_protect_instance_name" {
   type        = string
   default     = "key-protect"
-  description = "The name to give the Key Protect instance that will be provisioned by this solution. Only used if not supplying an existing Key Protect or Hyper Protect Crypto Services instance. If a prefix input variable is specified, it's added to the value in the `<prefix>-value` format."
+  description = "The name to give the Key Protect instance that will be provisioned by this solution. Only used if not supplying an existing Key Protect or Hyper Protect Crypto Services instance. If a prefix input variable is specified, the prefix is added to the name in the `<prefix>-<instance_name>` format."
 }
 
 variable "key_protect_plan" {

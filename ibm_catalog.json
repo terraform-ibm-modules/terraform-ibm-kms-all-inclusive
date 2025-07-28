@@ -29,15 +29,15 @@
       "provider_name": "IBM",
       "features": [
         {
-          "title": "Creates a Key Protect instance",
+          "title": "Key Protect instance",
           "description": "For more details on Key Protect instances, [see here](https://cloud.ibm.com/catalog/services/key-protect#about)."
         },
         {
-          "title": "Creates Key Rings and Keys",
+          "title": "Key Rings and Keys",
           "description": "For more details on Key Rings and Keys in a KMS instance (Key Protect or HPCS), [see here](https://github.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive/blob/main/solutions/fully-configurable/DA-keys.md)."
         },
         {
-          "title": "Creates Context-Based Restriction rules for Key Protect instance",
+          "title": "Context-Based Restriction rules for Key Protect instance",
           "description": "For more details on Context-Based Restriction rules, [see here](https://github.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive/blob/main/solutions/fully-configurable/DA-cbr_rules.md)."
         }
       ],
@@ -46,6 +46,7 @@
         {
           "label": "Fully configurable",
           "name": "fully-configurable",
+          "index": 1,
           "install_type": "fullstack",
           "working_directory": "solutions/fully-configurable",
           "compliance": {
@@ -191,7 +192,13 @@
               "key": "existing_kms_instance_crn"
             },
             {
-              "key": "keys"
+              "key": "keys",
+              "type": "array",
+              "custom_config": {
+                "type": "textarea",
+                "grouping": "deployment",
+                "original_grouping": "deployment"
+              }
             },
             {
               "key": "rotation_interval_month"
@@ -244,22 +251,20 @@
               }
             },
             {
-              "key": "key_protect_instance_cbr_rules"
+              "key": "key_protect_instance_cbr_rules",
+              "type": "array",
+              "custom_config": {
+                "type": "textarea",
+                "grouping": "deployment",
+                "original_grouping": "deployment"
+              }
             }
           ],
           "architecture": {
             "features": [
               {
-                "title": "Key Protect instance",
-                "description": "Creates and configures a Key Protect instance."
-              },
-              {
-                "title": "Key Rings and Keys",
-                "description": "Creates Key Rings and Keys for either Key Protect or Hyper Protect Crypto Services instances."
-              },
-              {
-                "title": "Context-Based Restriction rules",
-                "description": "Creates Context-Based Restriction rules for Key Protect instance."
+                "title": "",
+                "description": "Configured to use IBM secure by default standards, but can be edited to fit your use case."
               }
             ],
             "diagrams": [
@@ -311,6 +316,7 @@
         {
           "label": "Security-enforced",
           "name": "security-enforced",
+          "index": 2,
           "install_type": "fullstack",
           "working_directory": "solutions/security-enforced",
           "compliance": {
@@ -456,7 +462,13 @@
               "key": "existing_kms_instance_crn"
             },
             {
-              "key": "keys"
+              "key": "keys",
+              "type": "array",
+              "custom_config": {
+                "type": "textarea",
+                "grouping": "deployment",
+                "original_grouping": "deployment"
+              }
             },
             {
               "key": "rotation_interval_month"
@@ -482,23 +494,21 @@
               }
             },
             {
-              "key": "key_protect_instance_cbr_rules"
+              "key": "key_protect_instance_cbr_rules",
+              "type": "array",
+              "custom_config": {
+                "type": "textarea",
+                "grouping": "deployment",
+                "original_grouping": "deployment"
+              }
             }
           ],
           "architecture": {
             "description": "This architecture supports creating and configuring a Key Protect instance.",
             "features": [
               {
-                "title": "Key Protect instance",
-                "description": "Creates and configures a Key Protect instance."
-              },
-              {
-                "title": "Key Rings and Keys",
-                "description": "Creates Key Rings and Keys for either Key Protect or Hyper Protect Crypto Services instances."
-              },
-              {
-                "title": "Context-Based Restriction rules",
-                "description": "Creates Context-Based Restriction rules for Key Protect instance."
+                "title": "",
+                "description": "Configured to use IBM secure by default standards that can't be changed."
               }
             ],
             "diagrams": [
