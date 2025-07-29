@@ -28,7 +28,7 @@ variable "existing_resource_group_name" {
 
 variable "region" {
   type        = string
-  description = "The region to provision all resources in. [Learn more](https://terraform-ibm-modules.github.io/documentation/#/region) about how to select different regions for different services."
+  description = "The region to provision all resources in if using this deployable architecture to provision them. If using an existing key, this input will be optional. [Learn more](https://terraform-ibm-modules.github.io/documentation/#/region) about how to select different regions for different services. "
   default     = "us-south"
 }
 
