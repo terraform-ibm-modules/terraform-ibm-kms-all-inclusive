@@ -29,7 +29,7 @@ variable "existing_resource_group_name" {
 variable "region" {
   type        = string
   default     = "us-south"
-  description = "The region in which to provision key management resources. If using an existing Key Protect or Hyper Protect Crypto Services instance, set this to the region where it was provisioned."
+  description = "The region to provision all resources in if using this deployable architecture to provision them. If using an existing key, this input will be not required. [Learn more](https://terraform-ibm-modules.github.io/documentation/#/region) about how to select different regions for different services. "
 }
 
 variable "prefix" {
