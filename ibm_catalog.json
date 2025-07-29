@@ -23,7 +23,7 @@
         "solution"
       ],
       "short_description": "Creates and configures IBM Cloud Key Management resources",
-      "long_description": "This architecture supports creating and configuring an IBM Key Protect instance, Key Rings, and Keys. For more details on Key Protect, [see here](https://cloud.ibm.com/docs/key-protect/index.html).",
+      "long_description": "This architecture provides a comprehensive framework for creating and configuring an IBM Key Protect instance, which serves as a centralized service for managing encryption keys used to protect sensitive data across IBM Cloud services. Within the instance, Key Rings are created to logically organize and group encryption keys for better administration and separation of responsibilities. Finally, Keys are provisioned inside these key rings, enabling secure data encryption, key rotation, and lifecycle management in alignment with enterprise security and compliance requirements. For additional details and in-depth guidance, refer to the official documentation - [see here](https://cloud.ibm.com/docs/key-protect/index.html)",
       "offering_docs_url": "https://github.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive/blob/main/solutions/fully-configurable/README.md",
       "offering_icon_url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive/main/images/key_protect_icon.svg",
       "provider_name": "IBM",
@@ -504,7 +504,7 @@
             }
           ],
           "architecture": {
-            "description": "This architecture supports creating and configuring a Key Protect instance.",
+            "description": "This architecture supports creating and configuring a Key Protect instance, key rings and keys.",
             "features": [
               {
                 "title": "",
