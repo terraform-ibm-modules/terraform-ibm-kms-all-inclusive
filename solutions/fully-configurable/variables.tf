@@ -22,8 +22,7 @@ variable "provider_visibility" {
 variable "existing_resource_group_name" {
   type        = string
   description = "The name of an existing resource group in which the Key Protect instance will be provisioned."
-  default     = "Default"
-  nullable    = false
+  default     = null
 }
 
 variable "region" {
