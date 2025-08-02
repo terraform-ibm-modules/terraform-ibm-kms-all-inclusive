@@ -64,7 +64,7 @@ func setupSchematicOptions(t *testing.T, prefix string, dir string) *testschemat
 func TestRunUpgradeFullyConfigurableDA(t *testing.T) {
 	t.Parallel()
 
-	options := setupSchematicOptions(t, "kms-fc-da-upg", fullyConfigurableDADir)
+	options := setupSchematicOptions(t, "kms-fc-up", fullyConfigurableDADir)
 
 	err := options.RunSchematicUpgradeTest()
 	if !options.UpgradeTestSkipped {
@@ -75,7 +75,7 @@ func TestRunUpgradeFullyConfigurableDA(t *testing.T) {
 func TestRunSecurityEnforcedDA(t *testing.T) {
 	t.Parallel()
 
-	options := setupSchematicOptions(t, "kms-se-da", securityEnforcedDADir)
+	options := setupSchematicOptions(t, "kms-se", securityEnforcedDADir)
 	options.TarIncludePatterns = append(options.TarIncludePatterns, fmt.Sprintf("%s/*.tf", fullyConfigurableDADir))
 	additionalOptions := []testschematic.TestSchematicTerraformVar{
 		{Name: "existing_kms_instance_crn", Value: permanentResources["hpcs_south_crn"], DataType: "string"},
