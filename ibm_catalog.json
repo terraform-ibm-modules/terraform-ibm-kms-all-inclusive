@@ -9,7 +9,8 @@
         "target_terraform",
         "terraform",
         "solution",
-        "security"
+        "security",
+        "converged_infra"
       ],
       "keywords": [
         "KMS",
@@ -122,6 +123,10 @@
                   "value": "jp-tok"
                 },
                 {
+                  "displayname": "Montreal (ca-mon)",
+                  "value": "ca-mon"
+                },
+                {
                   "displayname": "Toronto (ca-tor)",
                   "value": "ca-tor"
                 },
@@ -185,7 +190,6 @@
             {
               "key": "existing_kms_instance_crn"
             },
-
             {
               "key": "keys"
             },
@@ -382,6 +386,10 @@
                 {
                   "displayname": "Tokyo (jp-tok)",
                   "value": "jp-tok"
+                },
+                {
+                  "displayname": "Montreal (ca-mon)",
+                  "value": "ca-mon"
                 },
                 {
                   "displayname": "Toronto (ca-tor)",
