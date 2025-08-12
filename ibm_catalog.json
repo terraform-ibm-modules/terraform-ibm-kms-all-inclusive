@@ -345,6 +345,20 @@
           "iam_permissions": [
             {
               "role_crns": [
+                "crn:v1:bluemix:public:iam::::role:Administrator"
+              ],
+              "service_name": "All Account Management services",
+              "notes": "Administrator access is required for resource group creation and deletion."
+            },
+            {
+              "role_crns": [
+                "crn:v1:bluemix:public:iam::::role:Administrator"
+              ],
+              "service_name": "All Identity and Access enabled services",
+              "notes": "[Optional] Required if creating Context-Based Restrictions."
+            },
+            {
+              "role_crns": [
                 "crn:v1:bluemix:public:iam::::serviceRole:Manager",
                 "crn:v1:bluemix:public:iam::::role:Editor"
               ],
