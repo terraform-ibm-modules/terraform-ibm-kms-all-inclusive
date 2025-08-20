@@ -24,9 +24,6 @@ This module combines the following key management service (KMS) modules to creat
 * [Contributing](#contributing)
 <!-- END OVERVIEW HOOK -->
 
-## Reference architectures
-- [KMS standard solution](https://github.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive/tree/main/solutions/standard)
-
 ## terraform-ibm-kms-all-inclusive
 
 The module takes a list, called `keys`, that supports hierarchical "key rings" for a single key management service (KMS) instance. Because access to key rings is managed in the KMS, you can comply with controls around least privilege (for example, [NIST AC-6](https://csrc.nist.gov/Projects/risk-management/sp800-53-controls/release-search#/control?version=4.0&number=AC-6)) and can reduce the number of access groups you need to assign. For more information about key rings, see [Grouping keys together using key rings](https://cloud.ibm.com/docs/key-protect?topic=key-protect-grouping-keys).
