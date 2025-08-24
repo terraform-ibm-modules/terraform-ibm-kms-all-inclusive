@@ -6,7 +6,7 @@ toolchain go1.25.0
 
 require (
 	github.com/IBM/go-sdk-core/v5 v5.21.0
-	github.com/stretchr/testify v1.10.0
+	github.com/stretchr/testify v1.11.0
 	github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper v1.59.1
 )
 
