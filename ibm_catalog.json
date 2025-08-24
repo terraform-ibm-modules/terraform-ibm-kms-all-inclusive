@@ -37,7 +37,7 @@
           "description": "Creates Key Rings and Keys in the Key Protect instance for the data encryption. For more details on Key Rings and Keys in a KMS instance (Key Protect or HPCS), [see here](https://github.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive/blob/main/solutions/fully-configurable/DA-keys.md)."
         },
         {
-          "title": "Context-Based Restriction rules for Key Protect instance",
+          "title": "Context-Based restrictions for Key Protect instance",
           "description": "For more details on Context-Based Restriction rules, [see here](https://github.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive/blob/main/solutions/fully-configurable/DA-cbr_rules.md)."
         }
       ],
