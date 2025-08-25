@@ -30,11 +30,11 @@
       "features": [
         {
           "title": "Key Protect instance",
-          "description": "Provisions Key Protect Instance to protect data in IBM cloud services. For more details on Key Protect instances, [see here](https://cloud.ibm.com/catalog/services/key-protect#about)."
+          "description": "Provisions a Key Protect instance to protect data used by supported IBM Cloud services. [Learn more](https://cloud.ibm.com/catalog/services/key-protect#about) about IBM Key Protect."
         },
         {
           "title": "Key Rings and Keys",
-          "description": "Creates Key Rings and Keys in the Key Protect Instance for the data encryption. For more details on Key Rings and Keys in a KMS instance (Key Protect or HPCS), [see here](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-managing-key-rings&interface=ui)."
+          "description": "Creates Key Rings and Keys in the Key Protect Instance for the data encryption. For more details on Key Rings and Keys in a KMS instance (Key Protect or HPCS), [see here](https://github.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive/blob/main/solutions/fully-configurable/DA-keys.md)."
         },
         {
           "title": "Context-Based Restriction rules for Key Protect instance",
@@ -64,14 +64,14 @@
                 "crn:v1:bluemix:public:iam::::role:Administrator"
               ],
               "service_name": "All Account Management services",
-              "notes": "Administrator access is required for resource group creation and deletion."
+              "notes": "[Optional] Required to deploy Cloud automation for account configuration, which creates foundational IBM Cloud account resources, like IAM settings, trusted profiles, access groups, and resource groups."
             },
             {
               "role_crns": [
                 "crn:v1:bluemix:public:iam::::role:Administrator"
               ],
               "service_name": "All Identity and Access enabled services",
-              "notes": "[Optional] Required if creating Context-Based Restrictions."
+              "notes": "[Optional] Required to deploy Cloud automation for account configuration, which creates foundational IBM Cloud account resources, like IAM settings, trusted profiles, access groups, and resource group with account settings."
             },
             {
               "role_crns": [
