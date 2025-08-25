@@ -142,7 +142,7 @@ module "key_protect_all_inclusive" {
       ]
     }
   ]
-  # CBR rule only allowing the Key Protect instance to be accessbile from Schematics
+  # CBR rule only allowing the Key Protect instance to be accessible from Schematics
   cbr_rules = [{
     description      = "key-protect access only from schematics"
     enforcement_mode = "enabled"
