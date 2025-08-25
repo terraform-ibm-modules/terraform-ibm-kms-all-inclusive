@@ -34,7 +34,7 @@
         },
         {
           "title": "Key Rings and Keys",
-          "description": "Creates Key Rings and Keys in the Key Protect Instance for the data encryption. For more details on Key Rings and Keys in a KMS instance (Key Protect or HPCS), [see here](https://github.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive/blob/main/solutions/fully-configurable/DA-keys.md)."
+          "description": "Creates Key Rings and Keys in the Key Protect Instance for the data encryption. For more details on Key Rings and Keys in a KMS instance (Key Protect or HPCS), [see here](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-managing-key-rings&interface=ui)."
         },
         {
           "title": "Context-Based Restriction rules for Key Protect instance",
@@ -285,7 +285,7 @@
               {
                 "diagram": {
                   "caption": "IBM Key Protect architecture",
-                  "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive/main/reference-architecture/key_protect.svg",
+                  "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive/main/reference-architecture/deployable-architecture-key_protect.svg",
                   "type": "image/svg+xml"
                 },
                 "description": "This architecture provisions an IBM Key Protect instance to securely manage encryption keys, creates key rings to logically organize them, and generates or imports keys with options for rotation policies. It also configures context-based restrictions (CBR) to enforce security and compliance."
@@ -543,7 +543,7 @@
               {
                 "diagram": {
                   "caption": "IBM Key Protect architecture",
-                  "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive/main/reference-architecture/key_protect.svg",
+                  "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive/main/reference-architecture/deployable-architecture-key_protect.svg",
                   "type": "image/svg+xml"
                 },
                 "description": "This architecture provisions an IBM Key Protect instance to securely manage encryption keys, creates key rings to logically organize them, and generates or imports keys with options for rotation policies. It also configures context-based restrictions (CBR) to enforce security and compliance."
