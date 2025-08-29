@@ -108,7 +108,7 @@ variable "key_protect_access_tags" {
 
 variable "rotation_interval_month" {
   type        = number
-  description = "Specifies the key rotation time interval in months. Possible values: `1` through `12`. Only apply if a key protect instance is created by this DA."
+  description = "Specifies the key rotation time interval in months. Applicable only if a Key Protect instance is created by this solution."
   default     = 3
 }
 
