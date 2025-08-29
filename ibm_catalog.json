@@ -288,7 +288,7 @@
                   "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive/main/reference-architecture/deployable-architecture-key_protect.svg",
                   "type": "image/svg+xml"
                 },
-                "description": "This architecture provisions an IBM Key Protect instance to securely manage encryption keys, creates key rings to logically organize them, and generates or imports keys with options for rotation policies. It also configures context-based restrictions (CBR) to enforce security and compliance."
+                "description": "This architecture provisions an IBM Key Protect instance to securely manage encryption keys, creates key rings to logically organize them, and generates or imports keys with options for rotation policies. It also configures Context-Based Restrictions (CBR) to enforce security and compliance."
               }
             ]
           },
