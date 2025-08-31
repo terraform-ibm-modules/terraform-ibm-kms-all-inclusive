@@ -23,7 +23,7 @@
         "solution"
       ],
       "short_description": "Creates and configures IBM Cloud Key Management resources",
-      "long_description": "This architecture provides a comprehensive framework for creating and configuring an IBM Key Protect instance, which serves as a centralized service for managing encryption keys used to protect sensitive data across IBM Cloud services. Within the instance, Key Rings are created to logically organize and group encryption keys for better administration and separation of responsibilities. Finally, Keys are provisioned inside these key rings, enabling secure data encryption, key rotation, and lifecycle management in alignment with enterprise security and compliance requirements. For additional details and in-depth guidance please refer the official [documentation](https://cloud.ibm.com/docs/key-protect/index.html). \n\nℹ️ This Terraform-based automation is part of a broader suite of IBM-maintained Infrastructure as Code (IaC) assets, each following the naming pattern \"Cloud automation for *servicename*\" and focusing on single IBM Cloud service. These single-service deployable architectures can be used on their own to streamline and automate service deployments through an [IaC approach](https://cloud.ibm.com/docs/secure-enterprise?topic=secure-enterprise-understanding-projects), or assembled together into a broader [automated IaC stack](https://cloud.ibm.com/docs/secure-enterprise?topic=secure-enterprise-config-stack) to automate the deployment of an end-to-end solution architecture.",
+      "long_description": "This architecture provides a comprehensive framework for creating and configuring an IBM Key Protect instance, which serves as a centralized service for managing encryption keys used to protect sensitive data across IBM Cloud services. Within the instance, Key Rings are created to logically organize and group encryption keys for better administration and separation of responsibilities. Finally, Keys are provisioned inside these Key Rings, enabling secure data encryption, key rotation, and lifecycle management in alignment with enterprise security and compliance requirements. For additional details and in-depth guidance please refer the official [documentation](https://cloud.ibm.com/docs/key-protect/index.html). \n\nℹ️ This Terraform-based automation is part of a broader suite of IBM-maintained Infrastructure as Code (IaC) assets, each following the naming pattern \"Cloud automation for *servicename*\" and focusing on single IBM Cloud service. These single-service deployable architectures can be used on their own to streamline and automate service deployments through an [IaC approach](https://cloud.ibm.com/docs/secure-enterprise?topic=secure-enterprise-understanding-projects), or assembled together into a broader [automated IaC stack](https://cloud.ibm.com/docs/secure-enterprise?topic=secure-enterprise-config-stack) to automate the deployment of an end-to-end solution architecture.",
       "offering_docs_url": "https://github.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive/blob/main/solutions/fully-configurable/README.md",
       "offering_icon_url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive/main/images/key_protect_icon.svg",
       "provider_name": "IBM",
@@ -34,11 +34,11 @@
         },
         {
           "title": "Key Rings and Keys",
-          "description": "Creates Key Rings and Keys in the Key Protect Instance for the data encryption. For more details on Key Rings and Keys in a KMS instance (Key Protect or HPCS), [see here](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-managing-key-rings&interface=ui)."
+          "description": "Creates Key Rings and Keys in the Key Protect Instance for the data encryption. For more details on Key Rings and Keys in a Key Management Service instance (Key Protect or HPCS), [see here](https://cloud.ibm.com/docs/key-protect?topic=key-protect-getting-started-tutorial)."
         },
         {
-          "title": "Context-Based Restriction rules for Key Protect instance",
-          "description": "For more details on Context-Based Restriction rules, [see here](https://cloud.ibm.com/docs/key-protect?topic=key-protect-access-control-with-cbr)."
+          "title": "Context Based Restriction rules for Key Protect instance",
+          "description": "For more details on Context Based Restriction rules, [see here](https://cloud.ibm.com/docs/key-protect?topic=key-protect-access-control-with-cbr)."
         }
       ],
       "support_details": "This product is in the community registry, as such support is handled through the [original repo](https://github.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive). If you experience issues please open an issue [here](https://github.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive/issues). Please note this product is not supported via the IBM Cloud Support Center.",
@@ -79,7 +79,7 @@
                 "crn:v1:bluemix:public:iam::::role:Editor"
               ],
               "service_name": "kms",
-              "notes": "Required if you are creating a new Key Protect instance or provisioning associated resources like key rings and keys."
+              "notes": "Required if you are creating a new Key Protect instance or provisioning associated resources like Key Rings and Keys."
             },
             {
               "role_crns": [
@@ -87,7 +87,7 @@
                 "crn:v1:bluemix:public:iam::::role:Editor"
               ],
               "service_name": "hs-crypto",
-              "notes": "[Optional] Required if you are provisioning resources like key rings and keys for an existing Hyper Protect Crypto Services (HPCS) instance."
+              "notes": "[Optional] Required if you are provisioning resources like Key Rings and Keys for an existing Hyper Protect Crypto Services (HPCS) instance."
             },
             {
               "role_crns": [
@@ -285,10 +285,10 @@
               {
                 "diagram": {
                   "caption": "IBM Key Protect architecture",
-                  "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive/main/reference-architecture/deployable-architecture-key_protect.svg",
+                  "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive/main/reference-architecture/deployable-architecture-key-protect.svg",
                   "type": "image/svg+xml"
                 },
-                "description": "This architecture provisions an IBM Key Protect instance to securely manage encryption keys, creates key rings to logically organize them, and generates or imports keys with options for rotation policies. It also configures Context-Based Restrictions (CBR) to enforce security and compliance."
+                "description": "This architecture provisions an IBM Key Protect instance to securely manage encryption keys, creates Key Rings to logically organize them, and generates or imports keys with options for rotation policies. It also configures Context Based Restrictions (CBR) to enforce security and compliance."
               }
             ]
           },
@@ -355,7 +355,7 @@
                 "crn:v1:bluemix:public:iam::::role:Administrator"
               ],
               "service_name": "All Identity and Access enabled services",
-              "notes": "[Optional] Required if creating Context-Based Restrictions."
+              "notes": "[Optional] Required if creating Context Based Restrictions."
             },
             {
               "role_crns": [
@@ -371,7 +371,7 @@
                 "crn:v1:bluemix:public:iam::::role:Editor"
               ],
               "service_name": "hs-crypto",
-              "notes": "[Optional] Required if you are provisioning resources like key rings and keys for an existing Hyper Protect Crypto Services (HPCS) instance."
+              "notes": "[Optional] Required if you are provisioning resources like Key Rings and Keys for an existing Hyper Protect Crypto Services (HPCS) instance."
             },
             {
               "role_crns": [
@@ -532,7 +532,7 @@
             }
           ],
           "architecture": {
-            "description": "This architecture supports creating and configuring a Key Protect instance, key rings and keys.",
+            "description": "This architecture supports creating and configuring a Key Protect instance, Key Rings and Keys.",
             "features": [
               {
                 "title": "",
@@ -543,10 +543,10 @@
               {
                 "diagram": {
                   "caption": "IBM Key Protect architecture",
-                  "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive/main/reference-architecture/deployable-architecture-key_protect.svg",
+                  "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive/main/reference-architecture/deployable-architecture-key-protect.svg",
                   "type": "image/svg+xml"
                 },
-                "description": "This architecture provisions an IBM Key Protect instance to securely manage encryption keys, creates key rings to logically organize them, and generates or imports keys with options for rotation policies. It also configures Context-Based Restrictions (CBR) to enforce security and compliance."
+                "description": "This architecture provisions an IBM Key Protect instance to securely manage encryption keys, creates Key Rings to logically organize them, and generates or imports keys with options for rotation policies. It also configures Context Based Restrictions (CBR) to enforce security and compliance."
               }
             ]
           },
