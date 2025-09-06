@@ -44,7 +44,7 @@ module "cbr_zone" {
 module "secrets_manager" {
   count                = var.existing_secrets_manager_crn == null ? 1 : 0
   source               = "terraform-ibm-modules/secrets-manager/ibm"
-  version              = "2.8.8"
+  version              = "2.8.9"
   secrets_manager_name = "${var.prefix}-secrets-manager"
   sm_service_plan      = "trial"
   resource_group_id    = module.resource_group.resource_group_id
