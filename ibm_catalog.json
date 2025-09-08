@@ -278,7 +278,7 @@
             "features": [
               {
                 "title": "",
-                "description": "Configured to use IBM secure by default standards, but can be edited to fit your use case."
+                "description": "Configured to use IBM secure-by-default standards, but can be edited to fit your use case."
               }
             ],
             "diagrams": [
