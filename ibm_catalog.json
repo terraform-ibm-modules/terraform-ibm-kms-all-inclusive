@@ -507,7 +507,7 @@
               "key": "key_protect_instance_cbr_rules",
               "type": "array",
               "custom_config": {
-                "type": "textarea",
+                "type": "code_editor",
                 "grouping": "deployment",
                 "original_grouping": "deployment"
               }
