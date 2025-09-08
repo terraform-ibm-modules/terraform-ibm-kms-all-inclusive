@@ -36,7 +36,7 @@ The `key_protect_instance_cbr_rules` input variable allows you to provide a rule
 [
   {
   description = "KMS can be accessed from xyz"
-  account_id = "defc0df06b644a9cabc6e44f55b3880s."
+  account_id = "defc0df06b644a9cabc6e44f55b3880s"
   rule_contexts= [{
       attributes = [
                 {

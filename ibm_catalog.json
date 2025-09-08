@@ -209,7 +209,7 @@
               "key": "keys",
               "type": "array",
               "custom_config": {
-                "type": "textarea",
+                "type": "code_editor",
                 "grouping": "deployment",
                 "original_grouping": "deployment"
               }
@@ -532,7 +532,6 @@
             }
           ],
           "architecture": {
-            "description": "This architecture supports creating and configuring a Key Protect instance, Key Rings and Keys.",
             "features": [
               {
                 "title": "",
@@ -546,7 +545,7 @@
                   "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive/main/reference-architecture/deployable-architecture-key-protect.svg",
                   "type": "image/svg+xml"
                 },
-                "description": "This architecture provisions an IBM Key Protect instance to securely manage encryption keys, creates Key Rings to logically organize them, and generates or imports keys with options for rotation policies. It also configures Context Based Restrictions (CBR) to enforce security and compliance."
+                "description": "This architecture provisions an IBM Key Protect instance with private only networks allowed to securely manage encryption keys. It creates Key Rings with private endpoints to logically organize them, and generates or imports keys with options for rotation policies. It also configures Context Based Restrictions (CBR) to enforce security and compliance."
               }
             ]
           },
