@@ -536,7 +536,7 @@
             "features": [
               {
                 "title": "",
-                "description": "Configured to use IBM secure by default standards that can't be changed."
+                "description": "Configured to use IBM secure-by-default standards that can't be changed."
               }
             ],
             "diagrams": [
