@@ -4,18 +4,18 @@
 
 variable "resource_group_id" {
   type        = string
-  description = "The ID of the Resource Group to provision the Key Protect instance in. Not required if 'create_key_protect_instance' is false."
+  description = "The ID of the resource group in which you want to provision your instance of Key Protext. Not required if 'create_key_protect_instance' is set to false."
   default     = null
 }
 
 variable "region" {
   type        = string
-  description = "The IBM Cloud region where all resources will be provisioned."
+  description = "The IBM Cloud region in which your resources will be provisioned."
 }
 
 variable "create_key_protect_instance" {
   type        = bool
-  description = "A flag to control whether a Key Protect instance is created, defaults to true."
+  description = "A boolean that determines whether a Key Protect instance is created. By default, this is set to true."
   default     = true
 
   validation {
@@ -26,44 +26,44 @@ variable "create_key_protect_instance" {
 
 variable "key_protect_instance_name" {
   type        = string
-  description = "The name to give the Key Protect instance that will be provisioned by this module. Only used if 'create_key_protect_instance' is true."
+  description = "The name to give the Key Protect instance that will be provisioned by this module. Not required if 'create_key_protect_instance' is set to false."
   default     = "key-protect"
 }
 
 variable "key_protect_plan" {
   type        = string
-  description = "Plan for the Key Protect instance. Supported values are 'tiered-pricing' and 'cross-region-resiliency'. Only used if 'create_key_protect_instance' is true."
+  description = "The pricing plan for the Key Protect instance. Supported values are 'tiered-pricing' and 'cross-region-resiliency'. Not required if 'create_key_protect_instance' is set to false."
   default     = "tiered-pricing"
   # validation performed in terraform-ibm-key-protect module
 }
 
 variable "rotation_enabled" {
   type        = bool
-  description = "If set to true, Key Protect enables a rotation policy on the Key Protect instance. Only used if 'create_key_protect_instance' is true."
+  description = "If set to true, Key Protect enables a rotation policy for the instance. Not required if 'create_key_protect_instance' is set to false."
   default     = true
 }
 
 variable "rotation_interval_month" {
   type        = number
-  description = "Specifies the key rotation time interval in months. Must be between 1 and 12 inclusive. Only used if 'create_key_protect_instance' is true."
+  description = "Specifies the key rotation time interval in months. Must be between 1 and 12 inclusive. Not required if 'create_key_protect_instance' is set to false."
   default     = 1
 }
 
 variable "dual_auth_delete_enabled" {
   type        = bool
-  description = "If set to true, Key Protect enables a dual authorization policy on the instance. Note: Once the dual authorization policy is set on the instance, it cannot be reverted. An instance with dual authorization policy enabled cannot be destroyed using Terraform. Only used if 'create_key_protect_instance' is true."
+  description = "If set to true, Key Protect enables a dual authorization policy on the instance. Once the dual authorization policy is set it cannot be reverted. An instance with dual authorization policy enabled cannot be destroyed by using Terraform. Not required if 'create_key_protect_instance' is set to false."
   default     = false
 }
 
 variable "enable_metrics" {
   type        = bool
-  description = "Set to true to enable metrics on the Key Protect instance. Only used if 'create_key_protect_instance' is true. In order to view metrics, you will need a Monitoring (Sysdig) instance that is located in the same region as the Key Protect instance. Once you provision the Monitoring instance, you will need to enable platform metrics."
+  description = "Set to true to enable metrics on the instance. Not required if 'create_key_protect_instance' is set to false. To view metrics, you will need a Monitoring instance that is located in the same region as the Key Protect instance. Once you provision the Monitoring instance, you will need to enable platform metrics."
   default     = true
 }
 
 variable "key_create_import_access_enabled" {
   type        = bool
-  description = "If set to true, Key Protect enables a key create import access policy on the instance. Only used if 'create_key_protect_instance' is true."
+  description = "If set to true, Key Protect enables a key create import access policy on the instance. Not required if 'create_key_protect_instance' is set to false."
   default     = true
 }
 
@@ -75,33 +75,33 @@ variable "key_create_import_access_settings" {
     import_standard_key = optional(bool, true)
     enforce_token       = optional(bool, false)
   })
-  description = "Key create import access policy settings to configure if 'enable_key_create_import_access_policy' is true. Only used if 'create_key_protect_instance' is true. For more info see https://cloud.ibm.com/docs/key-protect?topic=key-protect-manage-keyCreateImportAccess"
+  description = "Key create import access policy settings to configure if 'enable_key_create_import_access_policy' is true. Not required if 'create_key_protect_instance' is set to false. For more information see https://cloud.ibm.com/docs/key-protect?topic=key-protect-manage-keyCreateImportAccess"
   default     = {}
 }
 
 variable "key_protect_allowed_network" {
   type        = string
-  description = "The type of the allowed network to be set for the Key Protect instance. Possible values are 'private-only', or 'public-and-private'. Only used if 'create_key_protect_instance' is true."
+  description = "The type of the network connection that is allowed for the instance. Supported values are 'private-only', or 'public-and-private'. Not required if 'create_key_protect_instance' is set to false."
   default     = "public-and-private"
   validation {
     condition     = can(regex("private-only|public-and-private", var.key_protect_allowed_network))
-    error_message = "The key_protect_allowed_network value must be 'private-only' or 'public-and-private'."
+    error_message = "The 'key_protect_allowed_network' value must be set to either 'private-only' or 'public-and-private'."
   }
 }
 
 variable "existing_kms_instance_crn" {
   type        = string
-  description = "The CRN of an existing Key Protect or Hyper Protect Crypto Services instance. Required if 'create_key_protect_instance' is false."
+  description = "The CRN of an existing instance. Required if 'create_key_protect_instance' is false."
   default     = null
 
   validation {
     condition     = !(var.create_key_protect_instance && var.existing_kms_instance_crn != null)
-    error_message = "'create_key_protect_instance' cannot be true when passing a value for 'existing_kms_instance_crn'"
+    error_message = "If you provide a value for 'existing_kms_instance_crn', then 'create_key_protect_instance' cannot be set to 'true'."
   }
 
   validation {
     condition     = var.create_key_protect_instance || var.existing_kms_instance_crn != null
-    error_message = "A value must be provided for 'existing_kms_instance_crn' when 'create_key_protect_instance' is false"
+    error_message = "If 'create_key_protect_instance' is false, then a value must be provided for 'existing_kms_instance_crn'."
   }
 }
 
@@ -125,14 +125,14 @@ variable "keys" {
       })), [])
     }))
   }))
-  description = "A list of objects which contain the key ring name, a flag indicating if this key ring already exists, and a flag to enable force deletion of the key ring. In addition, this object contains a list of keys with all of the information on the keys to be created in that key ring."
+  description = "A list of objects that contains the key ring name, a flag indicating if this key ring already exists, and a flag to enable force deletion of the key ring. In addition, this object contains a list of keys with all of the information on the keys that will be created in that key ring."
   sensitive   = true
   default     = []
 }
 
 variable "key_ring_endpoint_type" {
   type        = string
-  description = "The type of endpoint to be used for creating key rings. Accepts 'public' or 'private'"
+  description = "The type of endpoint that you want to use to create key rings in your instance. Supported values are 'public' or 'private'."
   default     = "public"
   validation {
     condition     = can(regex("^(public|private)$", var.key_ring_endpoint_type))
@@ -142,7 +142,7 @@ variable "key_ring_endpoint_type" {
 
 variable "key_endpoint_type" {
   type        = string
-  description = "The type of endpoint to be used for creating keys. Accepts 'public' or 'private'"
+  description = "The type of endpoint that you want to use to create keys in your instance. Supported values are 'public' or 'private'."
   default     = "public"
   validation {
     condition     = can(regex("^(public|private)$", var.key_endpoint_type))
@@ -152,13 +152,13 @@ variable "key_endpoint_type" {
 
 variable "resource_tags" {
   type        = list(string)
-  description = "Optional list of tags to be added to the Key Protect instance. Only used if 'create_key_protect_instance' is true."
+  description = "An optional list of tags to be added to the instance. Not required if 'create_key_protect_instance' is set to false."
   default     = []
 }
 
 variable "access_tags" {
   type        = list(string)
-  description = "A list of access tags to apply to the Key Protect instance created by the module. Only used if 'create_key_protect_instance' is true."
+  description = "A list of access tags that you want to apply to the instance. Not required if 'create_key_protect_instance' is set to false."
   default     = []
 }
 
