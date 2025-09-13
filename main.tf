@@ -63,7 +63,7 @@ locals {
 
 module "kms_key_rings" {
   source        = "terraform-ibm-modules/kms-key-ring/ibm"
-  version       = "v2.6.0"
+  version       = "v2.6.1"
   for_each      = { for obj in nonsensitive(local.key_rings) : obj.key_ring_name => obj }
   instance_id   = local.kms_guid
   endpoint_type = var.key_ring_endpoint_type
@@ -100,7 +100,7 @@ locals {
 # Create Key Rings and Keys
 module "kms_keys" {
   source                   = "terraform-ibm-modules/kms-key/ibm"
-  version                  = "v1.4.1"
+  version                  = "v1.4.2"
   for_each                 = { for obj in nonsensitive(local.key_ring_key_list) : "${obj.key_ring_name}.${obj.key_name}" => obj }
   endpoint_type            = var.key_endpoint_type
   kms_instance_id          = local.kms_guid
@@ -121,7 +121,7 @@ moved {
 # Create Keys in existing Key Rings
 module "existing_key_ring_keys" {
   source                   = "terraform-ibm-modules/kms-key/ibm"
-  version                  = "v1.4.1"
+  version                  = "v1.4.2"
   for_each                 = { for obj in nonsensitive(local.existing_key_ring_key_list) : "existing-key-ring.${obj.key_name}" => obj }
   kms_instance_id          = local.kms_guid
   endpoint_type            = var.key_endpoint_type
