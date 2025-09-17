@@ -93,6 +93,7 @@ func TestRunUpgradeSecurityEnforcedDA(t *testing.T) {
 	t.Parallel()
 
 	options := setupSchematicOptions(t, "kms-se-da-upg", securityEnforcedDADir)
+	options.TarIncludePatterns = append(options.TarIncludePatterns, fmt.Sprintf("%s/*.tf", fullyConfigurableDADir))
 	options.TarIncludePatterns = append(options.TarIncludePatterns, fmt.Sprintf("%s/*.tf", securityEnforcedDADir))
 	err := options.RunSchematicUpgradeTest()
 	if !options.UpgradeTestSkipped {
