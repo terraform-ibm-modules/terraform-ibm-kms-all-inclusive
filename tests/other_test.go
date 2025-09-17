@@ -2,6 +2,7 @@
 package test
 
 import (
+	"math/rand"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -19,6 +20,7 @@ func TestRunBasicExample(t *testing.T) {
 		TerraformVars: map[string]interface{}{
 			"access_tags": permanentResources["accessTags"],
 		},
+		Region: validRegions[rand.Intn(len(validRegions))],
 	})
 	output, err := options.RunTestConsistency()
 	assert.Nil(t, err, "This should not have errored")
@@ -32,6 +34,7 @@ func TestRunExistingResourcesExample(t *testing.T) {
 		Testing:      t,
 		TerraformDir: "examples/existing-resources",
 		Prefix:       "kp-all-inc-exist",
+		Region:       validRegions[rand.Intn(len(validRegions))],
 	})
 
 	terraformVars := map[string]interface{}{
