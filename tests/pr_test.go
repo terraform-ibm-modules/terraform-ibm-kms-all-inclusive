@@ -4,26 +4,42 @@ package test
 import (
 	"fmt"
 	"log"
+	"math/rand"
 	"os"
 	"testing"
 
 	"github.com/IBM/go-sdk-core/v5/core"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/cloudinfo"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/common"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testaddons"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testschematic"
 )
 
-// Use existing resource group for tests
+/*
+Global variables
+*/
 const resourceGroup = "geretain-test-key-protect-all-inclusive"
+const terraformVersion = "terraform_v1.10" // This should match the version in the ibm_catalog.json
 const fullyConfigurableDADir = "solutions/fully-configurable"
 const securityEnforcedDADir = "solutions/security-enforced"
 const advancedExampleTerraformDir = "examples/advanced"
-
-// Define a struct with fields that match the structure of the YAML data
 const yamlLocation = "../common-dev-assets/common-go-assets/common-permanent-resources.yaml"
 
+var tags = []string{"test-schematic", "kms-all-inc"}
+var validRegions = []string{
+	"au-syd",
+	"br-sao",
+	"ca-tor",
+	"eu-de",
+	"eu-gb",
+	"eu-es",
+	"jp-osa",
+	"jp-tok",
+	"us-south",
+	"us-east",
+}
 var permanentResources map[string]interface{}
 
 func TestMain(m *testing.M) {
@@ -39,13 +55,16 @@ func TestMain(m *testing.M) {
 
 func setupSchematicOptions(t *testing.T, prefix string, dir string) *testschematic.TestSchematicOptions {
 	options := testschematic.TestSchematicOptionsDefault(&testschematic.TestSchematicOptions{
-		Testing:                t,
-		TarIncludePatterns:     []string{"*.tf", fmt.Sprintf("%s/*.tf", dir)},
-		TemplateFolder:         dir,
-		Prefix:                 prefix,
-		Tags:                   []string{"test-schematic"},
-		DeleteWorkspaceOnFail:  false,
-		WaitJobCompleteMinutes: 60,
+		Testing:                    t,
+		TarIncludePatterns:         []string{"*.tf", fmt.Sprintf("%s/*.tf", dir)},
+		TemplateFolder:             dir,
+		Prefix:                     prefix,
+		Tags:                       tags,
+		DeleteWorkspaceOnFail:      false,
+		WaitJobCompleteMinutes:     60,
+		Region:                     validRegions[rand.Intn(len(validRegions))],
+		TerraformVersion:           terraformVersion,
+		CheckApplyResultForUpgrade: true,
 	})
 
 	options.TerraformVars = []testschematic.TestSchematicTerraformVar{
@@ -77,13 +96,20 @@ func TestRunSecurityEnforcedDA(t *testing.T) {
 
 	options := setupSchematicOptions(t, "kms-se", securityEnforcedDADir)
 	options.TarIncludePatterns = append(options.TarIncludePatterns, fmt.Sprintf("%s/*.tf", fullyConfigurableDADir))
-	additionalOptions := []testschematic.TestSchematicTerraformVar{
-		{Name: "existing_kms_instance_crn", Value: permanentResources["hpcs_south_crn"], DataType: "string"},
-	}
-	options.TerraformVars = append(options.TerraformVars, additionalOptions...)
-
 	err := options.RunSchematicTest()
 	assert.NoError(t, err, "Schematic Test had an unexpected error")
+}
+
+func TestRunUpgradeSecurityEnforcedDA(t *testing.T) {
+	t.Parallel()
+
+	options := setupSchematicOptions(t, "kms-se-da-upg", securityEnforcedDADir)
+	options.TarIncludePatterns = append(options.TarIncludePatterns, fmt.Sprintf("%s/*.tf", fullyConfigurableDADir))
+	options.TarIncludePatterns = append(options.TarIncludePatterns, fmt.Sprintf("%s/*.tf", securityEnforcedDADir))
+	err := options.RunSchematicUpgradeTest()
+	if !options.UpgradeTestSkipped {
+		assert.NoError(t, err, "Schematic Test had an unexpected error")
+	}
 }
 
 func TestRunAdvancedExample(t *testing.T) {
@@ -102,68 +128,61 @@ func TestRunAdvancedExample(t *testing.T) {
 	assert.Nil(t, err, "This should not have errored")
 }
 
-// TestRunAddonTests runs addon tests in parallel using a matrix approach
-// No cost for the KMS instance and its quick to run, so we can run these in parallel and fully deploy each time
-// This can be used as an example of how to run multiple addon tests in parallel
-func TestRunAddonTests(t *testing.T) {
-	testCases := []testaddons.AddonTestCase{
-		{
-			Name:   "KMS-Default-Configuration",
-			Prefix: "kmsaddon",
-		},
-		{
-			Name:   "KMS-With-Resource-Group-Only",
-			Prefix: "kadrgonl",
-			Dependencies: []cloudinfo.AddonConfig{
-				{
-					OfferingName:   "deploy-arch-ibm-account-infra-base",
-					OfferingFlavor: "resource-group-only",
-					Enabled:        core.BoolPtr(true),
-				},
-			},
-			SkipInfrastructureDeployment: true, // Skip infrastructure deployment for this test case
-		},
-		{
-			Name:   "KMS-With-Resource-Group-And-Account-Settings",
-			Prefix: "krgwaccs",
-			Dependencies: []cloudinfo.AddonConfig{
-				{
-					OfferingName:   "deploy-arch-ibm-account-infra-base",
-					OfferingFlavor: "resource-groups-with-account-settings",
-					Enabled:        core.BoolPtr(true),
-				},
-			},
-			SkipInfrastructureDeployment: true, // Skip infrastructure deployment for this test case
-		},
-	}
-	// Define common options that apply to all test cases
-	baseOptions := testaddons.TestAddonsOptionsDefault(&testaddons.TestAddonOptions{
-		Testing:              t,
-		Prefix:               "kms-matrix", // Test cases will override with their own prefixes
-		ResourceGroup:        resourceGroup,
-		SkipLocalChangeCheck: true, // Skip local change check for addon tests
+// Test deployment with all "on-by-default" dependant DAs
+func TestAddonDefaultConfiguration(t *testing.T) {
+	t.Parallel()
+
+	options := testaddons.TestAddonsOptionsDefault(&testaddons.TestAddonOptions{
+		Testing:       t,
+		Prefix:        "kms-addon",
+		ResourceGroup: resourceGroup,
+		QuietMode:     true, // Suppress logs except on failure
 	})
 
-	matrix := testaddons.AddonTestMatrix{
-		TestCases:   testCases,
-		BaseOptions: baseOptions,
-		BaseSetupFunc: func(baseOptions *testaddons.TestAddonOptions, testCase testaddons.AddonTestCase) *testaddons.TestAddonOptions {
-			// The framework automatically handles prefix assignment from testCase.Prefix
-			// You can add any custom logic here if needed
-			return baseOptions
+	options.AddonConfig = cloudinfo.NewAddonConfigTerraform(
+		options.Prefix,
+		"deploy-arch-ibm-kms",
+		"fully-configurable",
+		map[string]interface{}{
+			"prefix": options.Prefix,
+			"region": validRegions[rand.Intn(len(validRegions))],
 		},
-		AddonConfigFunc: func(options *testaddons.TestAddonOptions, testCase testaddons.AddonTestCase) cloudinfo.AddonConfig {
-			return cloudinfo.NewAddonConfigTerraform(
-				options.Prefix,
-				"deploy-arch-ibm-kms",
-				"fully-configurable",
-				map[string]interface{}{
-					"prefix": options.Prefix,
-					"region": "us-south",
-				},
-			)
+	)
+
+	err := options.RunAddonTest()
+	require.NoError(t, err)
+}
+
+// Test DA with Account Config DA enabled and using existing KMS instance
+func TestAddonWithAccountConfig(t *testing.T) {
+	t.Parallel()
+
+	options := testaddons.TestAddonsOptionsDefault(&testaddons.TestAddonOptions{
+		Testing:       t,
+		Prefix:        "icm-addon",
+		ResourceGroup: resourceGroup,
+		QuietMode:     true, // Suppress logs except on failure
+	})
+
+	options.AddonConfig = cloudinfo.NewAddonConfigTerraform(
+		options.Prefix,
+		"deploy-arch-ibm-kms",
+		"fully-configurable",
+		map[string]interface{}{
+			"prefix":                    options.Prefix,
+			"existing_kms_instance_crn": permanentResources["hpcs_south_crn"],
+		},
+	)
+
+	// Enable Account Config DA
+	options.AddonConfig.Dependencies = []cloudinfo.AddonConfig{
+		{
+			OfferingName:   "deploy-arch-ibm-account-infra-base",
+			OfferingFlavor: "resource-groups-with-account-settings",
+			Enabled:        core.BoolPtr(true), // explicitly enable this dependency
 		},
 	}
 
-	baseOptions.RunAddonTestMatrix(matrix)
+	err := options.RunAddonTest()
+	require.NoError(t, err)
 }
