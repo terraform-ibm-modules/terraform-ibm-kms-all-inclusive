@@ -68,13 +68,6 @@
             },
             {
               "role_crns": [
-                "crn:v1:bluemix:public:iam::::role:Administrator"
-              ],
-              "service_name": "All Identity and Access enabled services",
-              "notes": "[Optional] Required to create new resource groups with account settings when enabling the Account Configuration integration."
-            },
-            {
-              "role_crns": [
                 "crn:v1:bluemix:public:iam::::serviceRole:Manager",
                 "crn:v1:bluemix:public:iam::::role:Editor"
               ],
@@ -91,10 +84,10 @@
             },
             {
               "role_crns": [
-                "crn:v1:bluemix:public:iam::::role:Administrator"
+                "crn:v1:bluemix:public:iam::::role:Viewer"
               ],
-              "service_name": "iam-identity",
-              "notes": "[Optional] Required if Cloud automation for account configuration is enabled."
+              "service_name": "Resource group only",
+              "notes": "Viewer access is required in the resource group you want to provision in."
             }
           ],
           "configuration": [
@@ -345,20 +338,6 @@
           "iam_permissions": [
             {
               "role_crns": [
-                "crn:v1:bluemix:public:iam::::role:Administrator"
-              ],
-              "service_name": "All Account Management services",
-              "notes": "Administrator access is required for resource group creation and deletion."
-            },
-            {
-              "role_crns": [
-                "crn:v1:bluemix:public:iam::::role:Administrator"
-              ],
-              "service_name": "All Identity and Access enabled services",
-              "notes": "[Optional] Required if creating Context Based Restrictions."
-            },
-            {
-              "role_crns": [
                 "crn:v1:bluemix:public:iam::::serviceRole:Manager",
                 "crn:v1:bluemix:public:iam::::role:Editor"
               ],
@@ -375,10 +354,10 @@
             },
             {
               "role_crns": [
-                "crn:v1:bluemix:public:iam::::role:Administrator"
+                "crn:v1:bluemix:public:iam::::role:Viewer"
               ],
-              "service_name": "iam-identity",
-              "notes": "[Optional] Required if Cloud automation for Account Configuration is enabled."
+              "service_name": "Resource group only",
+              "notes": "Viewer access is required in the resource group you want to provision in."
             }
           ],
           "configuration": [
