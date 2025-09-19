@@ -17,7 +17,7 @@ locals {
   existing_kms_guid                = length(local.parsed_existing_kms_instance_crn) > 0 ? local.parsed_existing_kms_instance_crn[7] : null
   kp_endpoint_type                 = var.key_protect_allowed_network == "private-only" ? "private" : "public"
   kms_endpoint_type                = var.existing_kms_instance_crn != null ? var.kms_endpoint_type : local.kp_endpoint_type
-  prefix                           = var.prefix != null ? (var.prefix != "" ? var.prefix : null) : null
+  prefix                           = var.prefix != null ? trimspace(var.prefix) != "" ? "${var.prefix}-" : "" : ""
 }
 
 module "kms" {
@@ -26,7 +26,7 @@ module "kms" {
   region                            = var.region
   create_key_protect_instance       = local.existing_kms_guid != null ? false : true
   existing_kms_instance_crn         = var.existing_kms_instance_crn
-  key_protect_instance_name         = try("${local.prefix}-${var.key_protect_instance_name}", var.key_protect_instance_name)
+  key_protect_instance_name         = "${local.prefix}${var.key_protect_instance_name}"
   key_protect_plan                  = var.key_protect_plan
   rotation_enabled                  = true
   rotation_interval_month           = var.rotation_interval_month

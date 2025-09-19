@@ -80,10 +80,21 @@ func setupSchematicOptions(t *testing.T, prefix string, dir string) *testschemat
 	return options
 }
 
+func TestRunUpgradeFullyConfigurableDA(t *testing.T) {
+	t.Parallel()
+
+	options := setupSchematicOptions(t, "kms-fc-up", fullyConfigurableDADir)
+
+	err := options.RunSchematicUpgradeTest()
+	if !options.UpgradeTestSkipped {
+		assert.NoError(t, err, "Schematic Test had an unexpected error")
+	}
+}
+
 func TestRunSecurityEnforcedDA(t *testing.T) {
 	t.Parallel()
 
-	options := setupSchematicOptions(t, "kms-se-da", securityEnforcedDADir)
+	options := setupSchematicOptions(t, "kms-se", securityEnforcedDADir)
 	options.TarIncludePatterns = append(options.TarIncludePatterns, fmt.Sprintf("%s/*.tf", fullyConfigurableDADir))
 	err := options.RunSchematicTest()
 	assert.NoError(t, err, "Schematic Test had an unexpected error")
@@ -92,7 +103,7 @@ func TestRunSecurityEnforcedDA(t *testing.T) {
 func TestRunUpgradeSecurityEnforcedDA(t *testing.T) {
 	t.Parallel()
 
-	options := setupSchematicOptions(t, "kms-se-da-upg", securityEnforcedDADir)
+	options := setupSchematicOptions(t, "k-se-up", securityEnforcedDADir)
 	options.TarIncludePatterns = append(options.TarIncludePatterns, fmt.Sprintf("%s/*.tf", fullyConfigurableDADir))
 	options.TarIncludePatterns = append(options.TarIncludePatterns, fmt.Sprintf("%s/*.tf", securityEnforcedDADir))
 	err := options.RunSchematicUpgradeTest()
