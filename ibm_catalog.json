@@ -71,7 +71,7 @@
                 "crn:v1:bluemix:public:iam::::role:Administrator"
               ],
               "service_name": "All Identity and Access enabled services",
-              "notes": "[Optional] Required to deploy Cloud automation for account configuration, which creates foundational IBM Cloud account resources, like IAM settings, trusted profiles, access groups, context-based restrictions and resource group with account settings."
+              "notes": "[Optional] Required to create new resource groups with account settings when enabling the Account Configuration integration."
             },
             {
               "role_crns": [
