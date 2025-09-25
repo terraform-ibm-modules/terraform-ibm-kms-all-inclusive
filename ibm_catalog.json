@@ -23,7 +23,7 @@
         "solution"
       ],
       "short_description": "Provisions and configures IBM Cloud Key Protect and creates key rings and keys.",
-      "long_description": "With [IBM Key Protect](https://cloud.ibm.com/docs/key-protect), you can centrally manage encryptions keys to secure sensitive data across IBM Cloud services. Create key rings to logically group your encryption keys, which helps you manage and control access to them. Then, create keys to enable secure data encryption, key rotation, and lifecycle management in accordance with your organization's security and compliance requirements. \n\nℹ️ This deployable architecture is a part of a larger collection that IBM provides. Each deployable architecture focuses on a single IBM Cloud service. You can use these deployable architectures on their own to automate deployments by following an [IaC approach](https://cloud.ibm.com/docs/secure-enterprise?topic=secure-enterprise-understanding-projects), or you can [combine them together](https://cloud.ibm.com/docs/secure-enterprise?topic=secure-enterprise-config-stack) to deploy a more complex end-to-end solution architecture.",
+      "long_description": "With [IBM Key Protect](https://cloud.ibm.com/docs/key-protect), you can centrally manage encryptions keys to secure sensitive data across IBM Cloud services. Create key rings to logically group your encryption keys, which helps you manage and control access to them. Then, create keys to enable secure data encryption, key rotation, and lifecycle management in accordance with your organization's security and compliance requirements. <br/><br/>ℹ️ This Terraform-based automation is part of a broader suite of IBM-maintained Infrastructure as Code (IaC) assets, each following the naming pattern \"Cloud automation for *servicename*\" and focusing on single IBM Cloud service. These single-service deployable architectures can be used on their own to streamline and automate service deployments through an [IaC approach](https://cloud.ibm.com/docs/secure-enterprise?topic=secure-enterprise-understanding-projects), or assembled together into a broader [automated IaC stack](https://cloud.ibm.com/docs/secure-enterprise?topic=secure-enterprise-config-stack) to automate the deployment of an end-to-end solution architecture.",
       "offering_docs_url": "https://github.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive/blob/main/solutions/fully-configurable/README.md",
       "offering_icon_url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive/main/images/key_protect_icon.svg",
       "provider_name": "IBM",
@@ -64,14 +64,14 @@
                 "crn:v1:bluemix:public:iam::::role:Administrator"
               ],
               "service_name": "All Account Management services",
-              "notes": "[Optional] Required to deploy Cloud automation for account configuration, which creates foundational IBM Cloud account resources, like IAM settings, trusted profiles, access groups, and resource groups."
+              "notes": "[Optional] Required to create new resource groups when enabling the Account Configuration integration."
             },
             {
               "role_crns": [
                 "crn:v1:bluemix:public:iam::::role:Administrator"
               ],
               "service_name": "All Identity and Access enabled services",
-              "notes": "[Optional] Required to deploy Cloud automation for account configuration, which creates foundational IBM Cloud account resources, like IAM settings, trusted profiles, access groups, and resource groups."
+              "notes": "[Optional] Required to create new resource groups with account settings when enabling the Account Configuration integration."
             },
             {
               "role_crns": [
@@ -94,7 +94,7 @@
                 "crn:v1:bluemix:public:iam::::role:Viewer"
               ],
               "service_name": "Resource group only",
-              "notes": "Required to create an instance of Key Protect."
+              "notes": "Viewer access is required in the resource group you want to provision in."
             }
           ],
           "configuration": [
@@ -295,7 +295,7 @@
           "dependencies": [
             {
               "name": "deploy-arch-ibm-account-infra-base",
-              "description": "Cloud automation for account configuration organizes your IBM Cloud account with a ready-made set of resource groups by default. And, when you enable the \"with Account Settings\" option, it also applies baseline security and governance settings.",
+              "description": "Organize your IBM Cloud account with preconfigured resource groups. If not selected, the default resource group is used. Optionally, expand to apply recommended security controls via \"with Account Settings\" variation.",
               "catalog_id": "7a4d68b4-cf8b-40cd-a3d1-f49aff526eb3",
               "flavors": [
                 "resource-group-only",
@@ -371,7 +371,7 @@
                 "crn:v1:bluemix:public:iam::::role:Viewer"
               ],
               "service_name": "Resource group only",
-              "notes": "Required to create an instance of Key Protect."
+              "notes": "Viewer access is required in the resource group you want to provision in."
             }
           ],
           "configuration": [
