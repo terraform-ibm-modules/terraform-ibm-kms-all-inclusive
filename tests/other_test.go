@@ -9,6 +9,20 @@ import (
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testhelper"
 )
 
+var validRegionsBasicTest = []string{
+	"au-syd",
+	"br-sao",
+	"ca-tor",
+	"eu-de",
+	"eu-gb",
+	"eu-es",
+	"jp-osa",
+	"jp-tok",
+	"us-south",
+	"us-east",
+	"eu-fr2",
+}
+
 func TestRunBasicExample(t *testing.T) {
 	t.Parallel()
 
@@ -20,7 +34,7 @@ func TestRunBasicExample(t *testing.T) {
 		TerraformVars: map[string]interface{}{
 			"access_tags": permanentResources["accessTags"],
 		},
-		Region: validRegions[rand.Intn(len(validRegions))],
+		Region: validRegionsBasicTest[rand.Intn(len(validRegions))],
 	})
 	output, err := options.RunTestConsistency()
 	assert.Nil(t, err, "This should not have errored")
