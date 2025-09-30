@@ -9,6 +9,20 @@ import (
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testhelper"
 )
 
+var validRegionsWeeklyTest = []string{
+	"au-syd",
+	"br-sao",
+	"ca-tor",
+	"eu-de",
+	"eu-gb",
+	"eu-es",
+	"jp-osa",
+	"jp-tok",
+	"us-south",
+	"us-east",
+	"eu-fr2",
+}
+
 func TestRunBasicExample(t *testing.T) {
 	t.Parallel()
 
@@ -20,7 +34,7 @@ func TestRunBasicExample(t *testing.T) {
 		TerraformVars: map[string]interface{}{
 			"access_tags": permanentResources["accessTags"],
 		},
-		Region: validRegions[rand.Intn(len(validRegions))],
+		Region: validRegionsWeeklyTest[rand.Intn(len(validRegionsWeeklyTest))],
 	})
 	output, err := options.RunTestConsistency()
 	assert.Nil(t, err, "This should not have errored")
@@ -34,7 +48,7 @@ func TestRunExistingResourcesExample(t *testing.T) {
 		Testing:      t,
 		TerraformDir: "examples/existing-resources",
 		Prefix:       "kp-all-inc-exist",
-		Region:       validRegions[rand.Intn(len(validRegions))],
+		Region:       validRegionsWeeklyTest[rand.Intn(len(validRegionsWeeklyTest))],
 	})
 
 	terraformVars := map[string]interface{}{
