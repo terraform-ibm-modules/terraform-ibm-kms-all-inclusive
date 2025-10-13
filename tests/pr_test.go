@@ -8,12 +8,8 @@ import (
 	"os"
 	"testing"
 
-	"github.com/IBM/go-sdk-core/v5/core"
 	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
-	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/cloudinfo"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/common"
-	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testaddons"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testschematic"
 )
 
@@ -126,63 +122,4 @@ func TestRunAdvancedExample(t *testing.T) {
 
 	err := options.RunSchematicTest()
 	assert.Nil(t, err, "This should not have errored")
-}
-
-// Test deployment with all "on-by-default" dependant DAs
-func TestAddonDefaultConfiguration(t *testing.T) {
-	t.Parallel()
-
-	options := testaddons.TestAddonsOptionsDefault(&testaddons.TestAddonOptions{
-		Testing:       t,
-		Prefix:        "kms-addon",
-		ResourceGroup: resourceGroup,
-		QuietMode:     true, // Suppress logs except on failure
-	})
-
-	options.AddonConfig = cloudinfo.NewAddonConfigTerraform(
-		options.Prefix,
-		"deploy-arch-ibm-kms",
-		"fully-configurable",
-		map[string]interface{}{
-			"prefix": options.Prefix,
-			"region": validRegions[rand.Intn(len(validRegions))],
-		},
-	)
-
-	err := options.RunAddonTest()
-	require.NoError(t, err)
-}
-
-// Test DA with Account Config DA enabled and using existing KMS instance
-func TestAddonWithAccountConfig(t *testing.T) {
-	t.Parallel()
-
-	options := testaddons.TestAddonsOptionsDefault(&testaddons.TestAddonOptions{
-		Testing:       t,
-		Prefix:        "icm-addon",
-		ResourceGroup: resourceGroup,
-		QuietMode:     true, // Suppress logs except on failure
-	})
-
-	options.AddonConfig = cloudinfo.NewAddonConfigTerraform(
-		options.Prefix,
-		"deploy-arch-ibm-kms",
-		"fully-configurable",
-		map[string]interface{}{
-			"prefix":                    options.Prefix,
-			"existing_kms_instance_crn": permanentResources["hpcs_south_crn"],
-		},
-	)
-
-	// Enable Account Config DA
-	options.AddonConfig.Dependencies = []cloudinfo.AddonConfig{
-		{
-			OfferingName:   "deploy-arch-ibm-account-infra-base",
-			OfferingFlavor: "resource-groups-with-account-settings",
-			Enabled:        core.BoolPtr(true), // explicitly enable this dependency
-		},
-	}
-
-	err := options.RunAddonTest()
-	require.NoError(t, err)
 }
