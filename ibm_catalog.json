@@ -301,7 +301,7 @@
               {
                 "diagram": {
                   "caption": "Cloud automation for Key Protect - Fully configurable",
-                  "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive/main/reference-architecture/deployable-architecture-key-protect.svg",
+                  "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive/main/reference-architectures/deployable-architecture-key-protect.svg",
                   "type": "image/svg+xml"
                 },
                 "description": "This architecture creates an IBM Cloud Key Protect instance to securely manage encryption keys. It creates key rings to logically organize keys, and generates or imports keys with options for rotation policies. It also configures context-based restrictions to enforce security and compliance."
@@ -567,7 +567,7 @@
               {
                 "diagram": {
                   "caption": "Cloud automation for Key Protect - Security-enforced",
-                  "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive/main/reference-architecture/deployable-architecture-key-protect.svg",
+                  "url": "https://raw.githubusercontent.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive/main/reference-architectures/deployable-architecture-key-protect.svg",
                   "type": "image/svg+xml"
                 },
                 "description": "This architecture creates an IBM Cloud Key Protect instance to securely manage encryption keys and allows only private networks. It creates key rings with private endpoints to logically organize keys, and generates or imports keys with options for rotation policies. It also configures context-based restrictions to enforce security and compliance."
