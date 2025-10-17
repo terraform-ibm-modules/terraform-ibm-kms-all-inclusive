@@ -140,6 +140,10 @@
             {
               "key": "prefix",
               "required": true,
+              "default_value": "dev",
+              "random_string": {
+                "length": 4
+              },
               "value_constraints": [
                 {
                   "type": "regex",
@@ -190,9 +194,7 @@
                 "config_constraints": {
                   "identifier": "rg_name"
                 }
-              },
-              "default_value": "Default",
-              "description": "The name of an existing resource group to provision the resources."
+              }
             },
             {
               "key": "key_protect_instance_name"
@@ -400,6 +402,9 @@
             {
               "key": "prefix",
               "required": true,
+              "random_string": {
+                "length": 4
+              },
               "value_constraints": [
                 {
                   "type": "regex",
@@ -432,9 +437,7 @@
                 "config_constraints": {
                   "identifier": "rg_name"
                 }
-              },
-              "default_value": "Default",
-              "description": "The name of an existing resource group to provision the resources."
+              }
             },
             {
               "key": "key_protect_instance_name"
