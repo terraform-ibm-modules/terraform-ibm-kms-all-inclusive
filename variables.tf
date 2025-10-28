@@ -192,4 +192,8 @@ variable "cbr_rules" {
     condition     = var.existing_kms_instance_crn == null ? true : length(regexall(".*hscrypto.*", var.existing_kms_instance_crn)) > 0 ? length(var.cbr_rules) == 0 : true
     error_message = "When passing a Hyper Protect Crypto Services (HPCS) instance as a value for `existing_kms_instance_crn` you cannot provide `cbr_rules`. Context-based restrictions are not supported by HPCS instances. For more information, go to [services that integrate with context-based restrictions](https://cloud.ibm.com/docs/account?topic=account-context-restrictions-whatis#cbr-adopters)."
   }
+  validation {
+    condition     = length(var.cbr_rules) <= 1
+    error_message = "Only one CBR rule is allowed."
+  }
 }
