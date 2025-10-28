@@ -182,7 +182,7 @@ variable "cbr_rules" {
       }))
     })))
   }))
-  description = "(Optional, list) List of context-based restriction rules to create"
+  description = "The context-based restrictions rule to create. Only one rule is allowed."
   default     = []
   # Validation happens in the rule module
   # NOTE: Context-based restriction rules applies to Key Protect instances only and is not supported by Hyper Protect Crypto Services (HPCS) instances
