@@ -74,7 +74,7 @@ output "next_steps_text" {
 }
 
 output "next_step_primary_label" {
-  value       = "Go to key protect instance"
+  value       = "Keys Management"
   description = "Primary label"
 }
 
@@ -84,7 +84,7 @@ output "next_step_primary_url" {
 }
 
 output "next_step_secondary_label" {
-  value       = "key protect Documentation"
+  value       = "Creating new keys"
   description = "Secondary label"
 }
 
