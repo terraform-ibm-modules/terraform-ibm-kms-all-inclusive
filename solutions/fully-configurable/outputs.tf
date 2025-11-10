@@ -79,7 +79,7 @@ output "next_step_primary_label" {
 }
 
 output "next_step_primary_url" {
-  value       = "https://cloud.ibm.com/keyprotect/${urlencode(module.kms.key_protect_crn)}"
+  value       = "https://cloud.ibm.com/keyprotect/$(module.kms.key_protect_crn)}"
   description = "Primary URL"
 }
 
