@@ -69,12 +69,12 @@ output "kms_public_endpoint" {
 ##############################################################################
 
 output "next_steps_text" {
-  value       = "Your key protect instance is created."
+  value       = "Your key Protect instance is created."
   description = "Next steps text"
 }
 
 output "next_step_primary_label" {
-  value       = "Keys Management"
+  value       = "Go to Key Protect"
   description = "Primary label"
 }
 
@@ -84,7 +84,7 @@ output "next_step_primary_url" {
 }
 
 output "next_step_secondary_label" {
-  value       = "Creating new keys"
+  value       = "Learn more about Key Protect"
   description = "Secondary label"
 }
 
