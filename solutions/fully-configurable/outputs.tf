@@ -83,16 +83,6 @@ output "next_step_primary_url" {
   description = "Primary URL"
 }
 
-output "next_step_primary_label_raw" {
-  value       = "Go to Key Protect"
-  description = "Primary label"
-}
-
-output "next_step_primary_url_raw" {
-  value       = "https://cloud.ibm.com/keyprotect/${var.existing_kms_instance_crn}?paneId=manage"
-  description = "Primary URL with raw"
-}
-
 output "next_step_secondary_label" {
   value       = "Learn more about Key Protect"
   description = "Secondary label"
