@@ -69,7 +69,7 @@ output "kms_public_endpoint" {
 ##############################################################################
 
 output "next_steps_text" {
-  value       = "Your key Protect instance is created, Now you can use your Key Protect instance to create and manage your encryption keys."
+  value       = "Your Key Protect instance is created, now you can use to create and manage your encryption keys."
   description = "Next steps text"
 }
 
