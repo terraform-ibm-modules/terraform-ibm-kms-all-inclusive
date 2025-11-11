@@ -77,7 +77,7 @@ output "next_step_primary_label" {
 }
 
 output "next_step_primary_url" {
-  value       = module.security_enforced.next_step_primary_url 
+  value       = module.security_enforced.next_step_primary_url
   description = "Primary URL"
 }
 
@@ -87,7 +87,7 @@ output "next_step_secondary_label" {
 }
 
 output "next_step_secondary_url" {
-  value       =  module.security_enforced.next_step_secondary_url
+  value       = module.security_enforced.next_step_secondary_url
   description = "Secondary URL"
 }
 
