@@ -61,3 +61,36 @@ output "kms_public_endpoint" {
   description = "Key Management Service instance public endpoint URL."
   value       = module.kms.kms_public_endpoint
 }
+
+##############################################################################
+
+##############################################################################
+# KEY PROTECT Next Steps URLs outputs
+##############################################################################
+
+output "next_steps_text" {
+  value       = "Your Key Protect instance is created, now you can use to create and manage your encryption keys."
+  description = "Next steps text"
+}
+
+output "next_step_primary_label" {
+  value       = "Go to Key Protect"
+  description = "Primary label"
+}
+
+output "next_step_primary_url" {
+  value       = "https://cloud.ibm.com/keyprotect/${urlencode(module.kms.key_protect_crn)}?paneId=manage"
+  description = "Primary URL"
+}
+
+output "next_step_secondary_label" {
+  value       = "Learn more about Key Protect"
+  description = "Secondary label"
+}
+
+output "next_step_secondary_url" {
+  value       = "https://cloud.ibm.com/docs/key-protect?topic=key-protect-getting-started-tutorial"
+  description = "Secondary URL"
+}
+
+##############################################################################
