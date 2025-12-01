@@ -4,7 +4,6 @@ package test
 import (
 	"fmt"
 	"log"
-	"math/rand"
 	"os"
 	"testing"
 
@@ -58,7 +57,7 @@ func setupSchematicOptions(t *testing.T, prefix string, dir string) *testschemat
 		Tags:                       tags,
 		DeleteWorkspaceOnFail:      false,
 		WaitJobCompleteMinutes:     60,
-		Region:                     validRegions[rand.Intn(len(validRegions))],
+		Region:                     validRegions[common.CryptoIntn(len(validRegions))],
 		TerraformVersion:           terraformVersion,
 		CheckApplyResultForUpgrade: true,
 	})

@@ -2,10 +2,10 @@
 package test
 
 import (
-	"math/rand"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/common"
 	"github.com/terraform-ibm-modules/ibmcloud-terratest-wrapper/testhelper"
 )
 
@@ -34,7 +34,7 @@ func TestRunBasicExample(t *testing.T) {
 		TerraformVars: map[string]interface{}{
 			"access_tags": permanentResources["accessTags"],
 		},
-		Region: validRegionsWeeklyTest[rand.Intn(len(validRegionsWeeklyTest))],
+		Region: validRegionsWeeklyTest[common.CryptoIntn(len(validRegions))],
 	})
 	output, err := options.RunTestConsistency()
 	assert.Nil(t, err, "This should not have errored")
@@ -48,7 +48,7 @@ func TestRunExistingResourcesExample(t *testing.T) {
 		Testing:      t,
 		TerraformDir: "examples/existing-resources",
 		Prefix:       "kp-all-inc-exist",
-		Region:       validRegionsWeeklyTest[rand.Intn(len(validRegionsWeeklyTest))],
+		Region:       validRegionsWeeklyTest[common.CryptoIntn(len(validRegions))],
 	})
 
 	terraformVars := map[string]interface{}{
