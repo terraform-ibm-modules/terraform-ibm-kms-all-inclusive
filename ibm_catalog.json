@@ -87,6 +87,10 @@
               "required": true,
               "options": [
                 {
+                  "displayname": "BNPP_EU",
+                  "value": "eu-fr2"
+                },
+                {
                   "displayname": "Dallas (us-south)",
                   "value": "us-south"
                 },
