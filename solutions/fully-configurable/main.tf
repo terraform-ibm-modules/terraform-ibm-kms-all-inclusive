@@ -18,6 +18,7 @@ locals {
   kp_endpoint_type                 = var.key_protect_allowed_network == "private-only" ? "private" : "public"
   kms_endpoint_type                = var.existing_kms_instance_crn != null ? var.kms_endpoint_type : local.kp_endpoint_type
   prefix                           = var.prefix != null ? trimspace(var.prefix) != "" ? "${var.prefix}-" : "" : ""
+  kms_crn                          = var.existing_kms_instance_crn == null ? module.kms.key_protect_crn : var.existing_kms_instance_crn
 }
 
 module "kms" {
