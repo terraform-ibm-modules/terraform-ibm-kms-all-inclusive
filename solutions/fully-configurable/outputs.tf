@@ -28,7 +28,7 @@ output "key_protect_id" {
 }
 
 output "kms_instance_crn" {
-  value       = var.existing_kms_instance_crn == null ? module.kms.key_protect_crn : var.existing_kms_instance_crn
+  value       = local.kms_crn
   description = "The CRN of the Hyper Protect Crypto Service instance or Key Protect instance"
 }
 
@@ -79,7 +79,7 @@ output "next_step_primary_label" {
 }
 
 output "next_step_primary_url" {
-  value       = "https://cloud.ibm.com/keyprotect/${urlencode(module.kms.key_protect_crn)}?paneId=manage"
+  value       = "https://cloud.ibm.com/keyprotect/${urlencode(local.kms_crn)}?paneId=manage"
   description = "Primary URL"
 }
 
