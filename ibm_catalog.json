@@ -83,56 +83,6 @@
               "key": "ibmcloud_api_key"
             },
             {
-              "key": "region",
-              "required": true,
-              "options": [
-                {
-                  "displayname": "Dallas (us-south)",
-                  "value": "us-south"
-                },
-                {
-                  "displayname": "Frankfurt (eu-de)",
-                  "value": "eu-de"
-                },
-                {
-                  "displayname": "London (eu-gb)",
-                  "value": "eu-gb"
-                },
-                {
-                  "displayname": "Madrid (eu-es)",
-                  "value": "eu-es"
-                },
-                {
-                  "displayname": "Osaka (jp-osa)",
-                  "value": "jp-osa"
-                },
-                {
-                  "displayname": "Sao Paulo (br-sao)",
-                  "value": "br-sao"
-                },
-                {
-                  "displayname": "Sydney (au-syd)",
-                  "value": "au-syd"
-                },
-                {
-                  "displayname": "Tokyo (jp-tok)",
-                  "value": "jp-tok"
-                },
-                {
-                  "displayname": "Montreal (ca-mon)",
-                  "value": "ca-mon"
-                },
-                {
-                  "displayname": "Toronto (ca-tor)",
-                  "value": "ca-tor"
-                },
-                {
-                  "displayname": "Washington (us-east)",
-                  "value": "us-east"
-                }
-              ]
-            },
-            {
               "key": "prefix",
               "required": true,
               "default_value": "dev",
@@ -148,15 +98,30 @@
               ]
             },
             {
+              "key": "region",
+              "required": true,
+              "custom_config": {
+                "type": "region",
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "filterString": "service:kms",
+                  "showKinds": [
+                    "region"
+                  ]
+                }
+              }
+            },
+            {
               "key": "key_protect_plan",
               "required": true,
               "options": [
                 {
-                  "displayname": "Tiered Pricing",
+                  "displayname": "Standard",
                   "value": "tiered-pricing"
                 },
                 {
-                  "displayname": "Cross Region Resiliency",
+                  "displayname": "Cross-region Resiliency",
                   "value": "cross-region-resiliency"
                 }
               ]
@@ -347,56 +312,6 @@
               "key": "ibmcloud_api_key"
             },
             {
-              "key": "region",
-              "required": true,
-              "options": [
-                {
-                  "displayname": "Dallas (us-south)",
-                  "value": "us-south"
-                },
-                {
-                  "displayname": "Frankfurt (eu-de)",
-                  "value": "eu-de"
-                },
-                {
-                  "displayname": "London (eu-gb)",
-                  "value": "eu-gb"
-                },
-                {
-                  "displayname": "Madrid (eu-es)",
-                  "value": "eu-es"
-                },
-                {
-                  "displayname": "Osaka (jp-osa)",
-                  "value": "jp-osa"
-                },
-                {
-                  "displayname": "Sao Paulo (br-sao)",
-                  "value": "br-sao"
-                },
-                {
-                  "displayname": "Sydney (au-syd)",
-                  "value": "au-syd"
-                },
-                {
-                  "displayname": "Tokyo (jp-tok)",
-                  "value": "jp-tok"
-                },
-                {
-                  "displayname": "Montreal (ca-mon)",
-                  "value": "ca-mon"
-                },
-                {
-                  "displayname": "Toronto (ca-tor)",
-                  "value": "ca-tor"
-                },
-                {
-                  "displayname": "Washington (us-east)",
-                  "value": "us-east"
-                }
-              ]
-            },
-            {
               "key": "prefix",
               "required": true,
               "random_string": {
@@ -411,15 +326,30 @@
               ]
             },
             {
+              "key": "region",
+              "required": true,
+              "custom_config": {
+                "type": "region",
+                "grouping": "deployment",
+                "original_grouping": "deployment",
+                "config_constraints": {
+                  "filterString": "service:kms",
+                  "showKinds": [
+                    "region"
+                  ]
+                }
+              }
+            },
+            {
               "key": "key_protect_plan",
               "required": true,
               "options": [
                 {
-                  "displayname": "Tiered Pricing",
+                  "displayname": "Standard",
                   "value": "tiered-pricing"
                 },
                 {
-                  "displayname": "Cross Region Resiliency",
+                  "displayname": "Cross-region Resiliency",
                   "value": "cross-region-resiliency"
                 }
               ]
