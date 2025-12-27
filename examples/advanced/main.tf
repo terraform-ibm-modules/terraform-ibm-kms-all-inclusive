@@ -24,7 +24,7 @@ data "ibm_iam_account_settings" "iam_account_settings" {
 # A network zone with Service reference to schematics
 module "cbr_zone" {
   source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-zone-module"
-  version          = "1.35.1"
+  version          = "1.35.2"
   name             = "${var.prefix}-network-zone"
   zone_description = "CBR Network zone for schematics"
   account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
@@ -79,7 +79,7 @@ module "secrets_manager_cert" {
   # no outputs from the private cert engine to reference in this module call
   depends_on             = [module.secrets_manager_private_cert_engine]
   source                 = "terraform-ibm-modules/secrets-manager-private-cert/ibm"
-  version                = "1.10.7"
+  version                = "1.10.8"
   secrets_manager_guid   = module.sm_crn.service_instance
   secrets_manager_region = module.sm_crn.region
   cert_name              = "${var.prefix}-kmip-cert"
