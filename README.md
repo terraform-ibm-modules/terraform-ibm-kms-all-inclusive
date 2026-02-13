@@ -22,6 +22,9 @@ This module combines the following key management service (KMS) modules to creat
     * <a href="./examples/advanced">Advanced private only instance with CBRs</a> <a href="https://cloud.ibm.com/schematics/workspaces/create?workspace_name=kms-all-inclusive-advanced-example&repository=https://github.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive/tree/main/examples/advanced"><img src="https://img.shields.io/badge/Deploy%20with IBM%20Cloud%20Schematics-0f62fe?logo=ibm&logoColor=white&labelColor=0f62fe" alt="Deploy with IBM Cloud Schematics" style="height: 16px; vertical-align: text-bottom; margin-left: 5px;"></a>
     * <a href="./examples/basic">Basic example</a> <a href="https://cloud.ibm.com/schematics/workspaces/create?workspace_name=kms-all-inclusive-basic-example&repository=https://github.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive/tree/main/examples/basic"><img src="https://img.shields.io/badge/Deploy%20with IBM%20Cloud%20Schematics-0f62fe?logo=ibm&logoColor=white&labelColor=0f62fe" alt="Deploy with IBM Cloud Schematics" style="height: 16px; vertical-align: text-bottom; margin-left: 5px;"></a>
     * <a href="./examples/existing-resources">Existing KMS example</a> <a href="https://cloud.ibm.com/schematics/workspaces/create?workspace_name=kms-all-inclusive-existing-resources-example&repository=https://github.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive/tree/main/examples/existing-resources"><img src="https://img.shields.io/badge/Deploy%20with IBM%20Cloud%20Schematics-0f62fe?logo=ibm&logoColor=white&labelColor=0f62fe" alt="Deploy with IBM Cloud Schematics" style="height: 16px; vertical-align: text-bottom; margin-left: 5px;"></a>
+* [Deployable Architectures](./solutions)
+    * <a href="./solutions/fully-configurable">Cloud automation for Key Protect (Fully configurable)</a>
+    * <a href="./solutions/security-enforced">Cloud automation for Key Protect (Security enforced)</a>
 * [Contributing](#contributing)
 <!-- END OVERVIEW HOOK -->
 
@@ -145,10 +148,10 @@ For more info, see [Understanding user roles and resources](https://cloud.ibm.co
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_existing_key_ring_keys"></a> [existing\_key\_ring\_keys](#module\_existing\_key\_ring\_keys) | terraform-ibm-modules/kms-key/ibm | v1.4.25 |
-| <a name="module_key_protect"></a> [key\_protect](#module\_key\_protect) | terraform-ibm-modules/key-protect/ibm | 2.10.54 |
-| <a name="module_kms_key_rings"></a> [kms\_key\_rings](#module\_kms\_key\_rings) | terraform-ibm-modules/kms-key-ring/ibm | v2.6.28 |
-| <a name="module_kms_keys"></a> [kms\_keys](#module\_kms\_keys) | terraform-ibm-modules/kms-key/ibm | v1.4.25 |
+| <a name="module_existing_key_ring_keys"></a> [existing\_key\_ring\_keys](#module\_existing\_key\_ring\_keys) | terraform-ibm-modules/kms-key/ibm | v1.4.26 |
+| <a name="module_key_protect"></a> [key\_protect](#module\_key\_protect) | terraform-ibm-modules/key-protect/ibm | 2.10.55 |
+| <a name="module_kms_key_rings"></a> [kms\_key\_rings](#module\_kms\_key\_rings) | terraform-ibm-modules/kms-key-ring/ibm | v2.6.29 |
+| <a name="module_kms_keys"></a> [kms\_keys](#module\_kms\_keys) | terraform-ibm-modules/kms-key/ibm | v1.4.26 |
 
 ### Resources
 
