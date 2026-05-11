@@ -152,7 +152,7 @@ variable "key_endpoint_type" {
 
 variable "resource_tags" {
   type        = list(string)
-  description = "Add user resource tags to the Key Protect instance to organize, track, and manage costs. [Learn more](https://cloud.ibm.com/docs/account?topic=account-tag&interface=ui#tag-types)."
+  description = "Add user resource tags to the Key Protect instance to organize, track, and manage costs. [Learn more](https://cloud.ibm.com/docs/account?topic=account-tag&interface=ui#tag-types). Only used if 'create_key_protect_instance' is set to `true`"
   default     = []
   validation {
     condition     = alltrue([for tag in var.resource_tags : can(regex("^[A-Za-z0-9 _\\-.:]{1,128}$", tag))])
@@ -162,7 +162,7 @@ variable "resource_tags" {
 
 variable "access_tags" {
   type        = list(string)
-  description = "Add access management tags to the Key Protect instance to control access. [Learn more](https://cloud.ibm.com/docs/account?topic=account-tag&interface=ui#create-access-console)."
+  description = "Add access management tags to the Key Protect instance to control access. [Learn more](https://cloud.ibm.com/docs/account?topic=account-tag&interface=ui#create-access-console). Only used if 'create_key_protect_instance' is set to `true`"
   default     = []
 
   validation {
