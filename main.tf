@@ -18,6 +18,12 @@ locals {
 # Key Protect Instance
 ##############################################################################
 
+# Check whether access tags are valid and exist in the account
+data "ibm_iam_access_tag" "access_tags" {
+  for_each = length(var.access_tags) != 0 ? toset(var.access_tags) : [] # Force dependency on data source validation to ensure access_tags exist and are valid before use.
+  name     = each.value
+}
+
 data "ibm_resource_instance" "existing_kms_instance" {
   count      = var.create_key_protect_instance ? 0 : 1
   identifier = local.existing_kms_instance_guid
@@ -30,6 +36,7 @@ locals {
 
 module "key_protect" {
   count                             = var.create_key_protect_instance ? 1 : 0
+  depends_on                        = [data.ibm_iam_access_tag.access_tags]
   source                            = "terraform-ibm-modules/key-protect/ibm"
   version                           = "2.11.2"
   key_protect_name                  = var.key_protect_instance_name
