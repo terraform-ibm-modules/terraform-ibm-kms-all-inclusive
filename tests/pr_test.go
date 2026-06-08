@@ -101,7 +101,6 @@ func TestRunUpgradeFullyConfigurableWithPrivateEndpointsDA(t *testing.T) {
 	t.Parallel()
 
 	options := setupSchematicOptions(t, "kms-fc-up", fullyConfigurableDADir)
-	// Add security settings to match the removed security-enforced variation
 	options.TerraformVars = append(options.TerraformVars,
 		testschematic.TestSchematicTerraformVar{Name: "key_protect_allowed_network", Value: "private-only", DataType: "string"},
 		testschematic.TestSchematicTerraformVar{Name: "kms_endpoint_type", Value: "private", DataType: "string"},
