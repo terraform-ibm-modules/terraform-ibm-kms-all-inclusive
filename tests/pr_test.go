@@ -18,7 +18,6 @@ Global variables
 const resourceGroup = "geretain-test-key-protect-all-inclusive"
 const terraformVersion = "terraform_v1.12.2" // This should match the version in the ibm_catalog.json
 const fullyConfigurableDADir = "solutions/fully-configurable"
-const securityEnforcedDADir = "solutions/security-enforced"
 const advancedExampleTerraformDir = "examples/advanced"
 const yamlLocation = "../common-dev-assets/common-go-assets/common-permanent-resources.yaml"
 
@@ -86,21 +85,26 @@ func TestRunUpgradeFullyConfigurableDA(t *testing.T) {
 	}
 }
 
-func TestRunSecurityEnforcedDA(t *testing.T) {
+func TestRunFullyConfigurableWithPrivateEndpointsDA(t *testing.T) {
 	t.Parallel()
 
-	options := setupSchematicOptions(t, "kms-se", securityEnforcedDADir)
-	options.TarIncludePatterns = append(options.TarIncludePatterns, fmt.Sprintf("%s/*.tf", fullyConfigurableDADir))
+	options := setupSchematicOptions(t, "kms-fc-prv", fullyConfigurableDADir)
+	options.TerraformVars = append(options.TerraformVars,
+		testschematic.TestSchematicTerraformVar{Name: "key_protect_allowed_network", Value: "private-only", DataType: "string"},
+		testschematic.TestSchematicTerraformVar{Name: "kms_endpoint_type", Value: "private", DataType: "string"},
+	)
 	err := options.RunSchematicTest()
 	assert.NoError(t, err, "Schematic Test had an unexpected error")
 }
 
-func TestRunUpgradeSecurityEnforcedDA(t *testing.T) {
+func TestRunUpgradeFullyConfigurableWithPrivateEndpointsDA(t *testing.T) {
 	t.Parallel()
 
-	options := setupSchematicOptions(t, "k-se-up", securityEnforcedDADir)
-	options.TarIncludePatterns = append(options.TarIncludePatterns, fmt.Sprintf("%s/*.tf", fullyConfigurableDADir))
-	options.TarIncludePatterns = append(options.TarIncludePatterns, fmt.Sprintf("%s/*.tf", securityEnforcedDADir))
+	options := setupSchematicOptions(t, "kms-fc-up", fullyConfigurableDADir)
+	options.TerraformVars = append(options.TerraformVars,
+		testschematic.TestSchematicTerraformVar{Name: "key_protect_allowed_network", Value: "private-only", DataType: "string"},
+		testschematic.TestSchematicTerraformVar{Name: "kms_endpoint_type", Value: "private", DataType: "string"},
+	)
 	err := options.RunSchematicUpgradeTest()
 	if !options.UpgradeTestSkipped {
 		assert.NoError(t, err, "Schematic Test had an unexpected error")
