@@ -44,7 +44,7 @@ module "key_protect" {
   allowed_network                   = var.key_protect_allowed_network
   resource_group_id                 = var.resource_group_id
   plan                              = var.key_protect_plan
-  tags                              = var.resource_tags
+  resource_tags                     = var.resource_tags
   access_tags                       = var.access_tags
   rotation_enabled                  = var.rotation_enabled
   rotation_interval_month           = var.rotation_interval_month
