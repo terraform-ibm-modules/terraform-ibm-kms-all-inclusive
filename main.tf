@@ -38,13 +38,13 @@ module "key_protect" {
   count                             = var.create_key_protect_instance ? 1 : 0
   depends_on                        = [data.ibm_iam_access_tag.access_tags]
   source                            = "terraform-ibm-modules/key-protect/ibm"
-  version                           = "2.11.2"
+  version                           = "2.13.5"
   key_protect_name                  = var.key_protect_instance_name
   region                            = var.region
   allowed_network                   = var.key_protect_allowed_network
   resource_group_id                 = var.resource_group_id
   plan                              = var.key_protect_plan
-  tags                              = var.resource_tags
+  resource_tags                     = var.resource_tags
   access_tags                       = var.access_tags
   rotation_enabled                  = var.rotation_enabled
   rotation_interval_month           = var.rotation_interval_month
