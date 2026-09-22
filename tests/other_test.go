@@ -52,7 +52,7 @@ func TestRunExistingResourcesExample(t *testing.T) {
 	})
 
 	terraformVars := map[string]interface{}{
-		"existing_kms_instance_crn": permanentResources["hpcs_south_crn"],
+		"existing_kms_instance_crn": permanentResources["kp_dedicated_us_south_crn"],
 	}
 	options.TerraformVars = terraformVars
 
