@@ -91,7 +91,7 @@ variable "key_protect_allowed_network" {
 
 variable "existing_kms_instance_crn" {
   type        = string
-  description = "The CRN of an existing Key Protect or Hyper Protect Crypto Services instance. Required if 'create_key_protect_instance' is set to `false`."
+  description = "The CRN of an existing Key Protect instance. Required if 'create_key_protect_instance' is set to `false`."
   default     = null
 
   validation {
@@ -196,13 +196,7 @@ variable "cbr_rules" {
   description = "The context-based restrictions rule to create. Only one rule is allowed."
   default     = []
   # Validation happens in the rule module
-  # NOTE: Context-based restriction rules applies to Key Protect instances only and is not supported by Hyper Protect Crypto Services (HPCS) instances
 
-  validation {
-    # condition     = (length(regexall(".*hs-crypto.*", var.existing_kms_instance_crn)) > 0 && length(var.cbr_rules) == 0) || (length(regexall(".*kms.*", var.existing_kms_instance_crn)) > 0) || (var.existing_kms_instance_crn == null)
-    condition     = var.existing_kms_instance_crn == null ? true : length(regexall(".*hscrypto.*", var.existing_kms_instance_crn)) > 0 ? length(var.cbr_rules) == 0 : true
-    error_message = "When passing a Hyper Protect Crypto Services (HPCS) instance as a value for `existing_kms_instance_crn` you cannot provide `cbr_rules`. Context-based restrictions are not supported by HPCS instances. For more information, go to [services that integrate with context-based restrictions](https://cloud.ibm.com/docs/account?topic=account-context-restrictions-whatis#cbr-adopters)."
-  }
   validation {
     condition     = length(var.cbr_rules) <= 1
     error_message = "Only one CBR rule is allowed."

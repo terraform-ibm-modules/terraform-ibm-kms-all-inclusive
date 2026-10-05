@@ -65,13 +65,13 @@ variable "prefix" {
 variable "key_protect_instance_name" {
   type        = string
   default     = "key-protect"
-  description = "The name to give the Key Protect instance that will be provisioned by this solution. Only used if not supplying an existing Key Protect or Hyper Protect Crypto Services instance. If a prefix input variable is specified, the prefix is added to the name in the `<prefix>-<instance_name>` format."
+  description = "The name to give the Key Protect instance that will be provisioned by this solution. Only used if not supplying an existing Key Protect instance. If a prefix input variable is specified, the prefix is added to the name in the `<prefix>-<instance_name>` format."
 }
 
 variable "key_protect_plan" {
   type        = string
   default     = "tiered-pricing"
-  description = "The service plan of the Key Protect instance that will be provisioned by this solution. Only used if not supplying an existing Key Protect or Hyper Protect Crypto Services instance."
+  description = "The service plan of the Key Protect instance that will be provisioned by this solution. Only used if not supplying an existing Key Protect instance."
 
   validation {
     condition     = contains(["tiered-pricing", "cross-region-resiliency"], var.key_protect_plan)
@@ -86,7 +86,7 @@ variable "key_protect_plan" {
 
 variable "key_protect_allowed_network" {
   type        = string
-  description = "The type of the allowed network to be set for the Key Protect instance. Possible values: `private-only`, `public-and-private`. Applies only if an existing Key Protect or Hyper Protect Crypto Services instance is not specified."
+  description = "The type of the allowed network to be set for the Key Protect instance. Possible values: `private-only`, `public-and-private`. Applies only if an existing Key Protect instance is not specified."
   default     = "private-only"
   validation {
     condition     = can(regex("private-only|public-and-private", var.key_protect_allowed_network))
@@ -96,13 +96,13 @@ variable "key_protect_allowed_network" {
 
 variable "key_protect_resource_tags" {
   type        = list(string)
-  description = "Optional list of tags to be added to the Key Protect instance. Only used if not supplying an existing Key Protect or Hyper Protect Crypto Services instance."
+  description = "Optional list of tags to be added to the Key Protect instance. Only used if not supplying an existing Key Protect instance."
   default     = []
 }
 
 variable "key_protect_access_tags" {
   type        = list(string)
-  description = "Optional list of access tags to apply to the Key Protect instance. Only used if not supplying an existing Key Protect or Hyper Protect Crypto Services instance."
+  description = "Optional list of access tags to apply to the Key Protect instance. Only used if not supplying an existing Key Protect instance."
   default     = []
 }
 
@@ -119,12 +119,12 @@ variable "rotation_interval_month" {
 variable "existing_kms_instance_crn" {
   type        = string
   default     = null
-  description = "The CRN of the existing Key Protect or Hyper Protect Crypto Services instance. If not supplied, a new instance will be created."
+  description = "The CRN of the existing Key Protect instance. If not supplied, a new instance will be created."
 }
 
 variable "kms_endpoint_type" {
   type        = string
-  description = "The type of endpoint to use for creating keys and key rings in the existing Hyper Protect Crypto Services or Key Protect instance. Possible values: `public`, `private`. Applies only if an existing Hyper Protect Crypto Services or Key Protect instance is specified."
+  description = "The type of endpoint to use for creating keys and key rings in the existing Key Protect instance. Possible values: `public`, `private`. Applies only if an existing Key Protect instance is specified."
   default     = "private"
   # validation is performed in root module
 }
@@ -180,5 +180,4 @@ variable "key_protect_instance_cbr_rules" {
   }))
   description = "List of Context-Based Restriction rules to create for Key Protect instance. [Learn more](https://github.com/terraform-ibm-modules/terraform-ibm-kms-all-inclusive/blob/main/solutions/fully-configurable/DA-cbr_rules.md)."
   default     = []
-  # NOTE: Context-based restrictions rule applies to Key Protect instances and is not supported for HPCS instances
 }
