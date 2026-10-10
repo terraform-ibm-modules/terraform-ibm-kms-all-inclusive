@@ -34,7 +34,7 @@
         },
         {
           "title": "Key rings and keys",
-          "description": "Create key rings and keys for data encryption. Both Key Protect and Hyper Protect Crypto Services (HPCS) are supported."
+          "description": "Create key rings and keys for data encryption using Key Protect."
         },
         {
           "title": "Context-based restrictions",
@@ -63,14 +63,6 @@
               ],
               "service_name": "kms",
               "notes": "Required to create a Key Protect instance or configure key rings and keys within an existing Key Protect instance."
-            },
-            {
-              "role_crns": [
-                "crn:v1:bluemix:public:iam::::serviceRole:Manager",
-                "crn:v1:bluemix:public:iam::::role:Editor"
-              ],
-              "service_name": "hs-crypto",
-              "notes": "[Optional] Required to create key rings and keys for an existing Hyper Protect Crypto Services (HPCS) instance."
             },
             {
               "role_crns": [
@@ -167,7 +159,7 @@
                 {
                   "type": "regex",
                   "description": "The value provided for 'existing_kms_instance_crn' is not valid.",
-                  "value": "^__NULL__$|^crn:(.*:){3}(kms|hs-crypto):(.*:){2}[0-9a-fA-F]{8}(?:-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}::$"
+                  "value": "^__NULL__$|^crn:(.*:){3}kms:(.*:){2}[0-9a-fA-F]{8}(?:-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}::$"
                 }
               ]
             },

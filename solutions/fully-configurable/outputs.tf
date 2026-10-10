@@ -29,7 +29,7 @@ output "key_protect_id" {
 
 output "kms_instance_crn" {
   value       = local.kms_crn
-  description = "The CRN of the Hyper Protect Crypto Service instance or Key Protect instance"
+  description = "The CRN of the Key Protect instance"
 }
 
 output "key_protect_name" {
