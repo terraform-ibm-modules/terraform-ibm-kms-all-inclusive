@@ -157,14 +157,14 @@ For more info, see [Understanding user roles and resources](https://cloud.ibm.co
 ### Requirements
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.0 |
 | <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.88.0, < 3.0.0 |
 
 ### Modules
 
 | Name | Source | Version |
-|------|--------|---------|
+| ---- | ------ | ------- |
 | <a name="module_existing_key_ring_keys"></a> [existing\_key\_ring\_keys](#module\_existing\_key\_ring\_keys) | terraform-ibm-modules/kms-key/ibm | v1.5.0 |
 | <a name="module_key_protect"></a> [key\_protect](#module\_key\_protect) | terraform-ibm-modules/key-protect/ibm | 2.13.7 |
 | <a name="module_kms_key_rings"></a> [kms\_key\_rings](#module\_kms\_key\_rings) | terraform-ibm-modules/kms-key-ring/ibm | v2.7.0 |
@@ -173,14 +173,14 @@ For more info, see [Understanding user roles and resources](https://cloud.ibm.co
 ### Resources
 
 | Name | Type |
-|------|------|
+| ---- | ---- |
 | [ibm_iam_access_tag.access_tags](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/data-sources/iam_access_tag) | data source |
 | [ibm_resource_instance.existing_kms_instance](https://registry.terraform.io/providers/IBM-Cloud/ibm/latest/docs/data-sources/resource_instance) | data source |
 
 ### Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
+| ---- | ----------- | ---- | ------- | :------: |
 | <a name="input_access_tags"></a> [access\_tags](#input\_access\_tags) | Add access management tags to the Key Protect instance to control access. [Learn more](https://cloud.ibm.com/docs/account?topic=account-tag&interface=ui#create-access-console). Only used if 'create\_key\_protect\_instance' is set to `true` | `list(string)` | `[]` | no |
 | <a name="input_cbr_rules"></a> [cbr\_rules](#input\_cbr\_rules) | The context-based restrictions rule to create. Only one rule is allowed. | <pre>list(object({<br/>    description = string<br/>    account_id  = string<br/>    rule_contexts = list(object({<br/>      attributes = optional(list(object({<br/>        name  = string<br/>        value = string<br/>    }))) }))<br/>    enforcement_mode = string<br/>    operations = optional(list(object({<br/>      api_types = list(object({<br/>        api_type_id = string<br/>      }))<br/>    })))<br/>  }))</pre> | `[]` | no |
 | <a name="input_create_key_protect_instance"></a> [create\_key\_protect\_instance](#input\_create\_key\_protect\_instance) | A flag to control whether a Key Protect instance is created. The default is `true`. | `bool` | `true` | no |
@@ -204,7 +204,7 @@ For more info, see [Understanding user roles and resources](https://cloud.ibm.co
 ### Outputs
 
 | Name | Description |
-|------|-------------|
+| ---- | ----------- |
 | <a name="output_cbr_rule_ids"></a> [cbr\_rule\_ids](#output\_cbr\_rule\_ids) | Context-based restriction rule IDs to restrict access to the Key Protect instance |
 | <a name="output_key_protect_crn"></a> [key\_protect\_crn](#output\_key\_protect\_crn) | Key Protect service instance CRN when an instance is created, otherwise the value is `null`. |
 | <a name="output_key_protect_id"></a> [key\_protect\_id](#output\_key\_protect\_id) | Key Protect service instance ID when an instance is created, otherwise the value is `null`. |
