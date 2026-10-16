@@ -24,7 +24,7 @@ data "ibm_iam_account_settings" "iam_account_settings" {
 # A network zone with Service reference to schematics
 module "cbr_zone" {
   source           = "terraform-ibm-modules/cbr/ibm//modules/cbr-zone-module"
-  version          = "1.36.9"
+  version          = "1.37.1"
   name             = "${var.prefix}-network-zone"
   zone_description = "CBR Network zone for schematics"
   account_id       = data.ibm_iam_account_settings.iam_account_settings.account_id
@@ -44,7 +44,7 @@ module "cbr_zone" {
 module "secrets_manager" {
   count                = var.existing_secrets_manager_crn == null ? 1 : 0
   source               = "terraform-ibm-modules/secrets-manager/ibm"
-  version              = "3.0.1"
+  version              = "3.0.2"
   secrets_manager_name = "${var.prefix}-secrets-manager"
   sm_service_plan      = "trial"
   resource_group_id    = module.resource_group.resource_group_id
